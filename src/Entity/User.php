@@ -9,7 +9,7 @@ use ZfcRbac\Identity\IdentityInterface;
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
- * @ORM\Entity(repositoryClass="SecurityModule\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="ZfMetal\Security\Repository\UserRepository")
  */
 class User implements IdentityInterface
 {
@@ -66,7 +66,7 @@ class User implements IdentityInterface
     private $updatedAt;
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\ManyToMany(targetEntity="SecurityModule\Entity\Role")
+     * @ORM\ManyToMany(targetEntity="ZfMetal\Security\Entity\Role")
      */
     private $roles;
     function setUpdatedAt(\DateTime $updatedAt) {

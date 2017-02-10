@@ -11,7 +11,7 @@ return [
         'role_provider' => [
             'ZfcRbac\Role\ObjectRepositoryRoleProvider' => [
                 'object_manager' => 'doctrine.entitymanager.orm_default',
-                'class_name' => 'SecurityModule\Entity\Role',
+                'class_name' => 'ZfMetal\Security\Entity\Role',
                 'role_name_property' => 'name'
             ]
         ],

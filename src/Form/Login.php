@@ -1,6 +1,6 @@
 <?php
 
-namespace SecurityModule\Form;
+namespace ZfMetal\Security\Form;
 
 use Zend\Form\Form;
 
