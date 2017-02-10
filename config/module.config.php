@@ -9,7 +9,7 @@ namespace ZfMetal\Security;
 
 //use Zend\ServiceManager\Factory\InvokableFactory;
 
-return [
+$config =  [
     'doctrine' => include 'doctrine.config.php',
     'router' => include 'router.config.php',
     'controllers' => include 'controller.config.php',
@@ -25,3 +25,6 @@ return [
         ]
     ],
 ];
+
+return array_merge($config,include 'zfc_rbac.global.php');
+

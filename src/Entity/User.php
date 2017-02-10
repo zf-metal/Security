@@ -1,18 +1,18 @@
 <?php
 
 namespace ZfMetal\Security\Entity;
-
 //use Zend\Form\Annotation;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use ZfcRbac\Identity\IdentityInterface;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="ZfMetal\Security\Repository\UserRepository")
  */
-class User {
-
+class User implements IdentityInterface
+{
     /**
      * @var integer
      * @ORM\Column(type="integer") 
@@ -64,17 +64,20 @@ class User {
      * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
-
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\ManyToMany(targetEntity="ZfMetal\Security\Entity\Role")
      */
     private $roles;
+    function setUpdatedAt(\DateTime $updatedAt) {
+        $this->updatedAt = $updatedAt;
+    }
 
+        
     public function __construct() {
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
+    
     function getId() {
         return $this->id;
     }
@@ -99,17 +102,12 @@ class User {
         return $this->img;
     }
 
-    /**
-     * @return \DateTime
-     */
     function getCreateAt() {
-        return $this->createAt;
+        return $this->createdAt;
     }
 
-    /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
-     */
     function getRoles() {
+        #var_dump($this->roles->toArray());die;
         return $this->roles;
     }
 
@@ -137,12 +135,12 @@ class User {
         $this->img = $img;
     }
 
-    function setCreateAt(\DateTime $createAt) {
-        $this->createAt = $createAt;
+    function setCreatedAt(\DateTime $createAt) {
+        $this->createdAt = $createAt;
     }
 
     function setRoles(\Doctrine\Common\Collections\ArrayCollection $roles) {
         $this->roles = $roles;
     }
 
-}
+ }
