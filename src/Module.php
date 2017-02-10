@@ -1,6 +1,7 @@
 <?php
 
 namespace ZfMetal\Security;
+use Zend\EventManager\EventInterface;
 
 class Module {
 
