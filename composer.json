@@ -26,6 +26,7 @@
     "require": {
         "php": ">=5.6",
         "zendframework/zend-mvc": "^3.0.4",
+        "zendframework/zend-crypt": "^3.2",
         "zendframework/zend-mvc-plugin-flashmessenger": "^1.0.0",
         "zendframework/zend-mail": "^2.7.1",
         "doctrine/doctrine-orm-module": "^1.0",
