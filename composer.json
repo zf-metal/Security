@@ -29,6 +29,7 @@
         "zendframework/zend-crypt": "^3.2",
         "zendframework/zend-mvc-plugin-flashmessenger": "^1.0.0",
         "zendframework/zend-mail": "^2.7.1",
+        "zendframework/zend-i18n": "^2.7",
         "doctrine/doctrine-orm-module": "^1.0",
         "zf-commons/zfc-rbac": "dev-master",
         "cdi/cdidatagrid": "3.2.7",
