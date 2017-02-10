@@ -11,10 +11,6 @@ class Module {
         return include __DIR__ . '/../config/module.config.php';
     }
 
-    public function getServiceConfig() {
-        return include __DIR__ . '/../config/services.config.php';
-    }
-
     public function onBootstrap(EventInterface $e) {
         $eventManager = $e->getApplication()->getEventManager();
         $redirectStrategy = $e->getApplication()->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy');
