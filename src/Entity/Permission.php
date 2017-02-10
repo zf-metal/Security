@@ -1,7 +1,7 @@
 <?php
 
 namespace ZfMetal\Security\Entity;
-
+//use Zend\Form\Annotation;
 use Doctrine\ORM\Mapping as ORM;
 use ZfcRbac\Permission\PermissionInterface;
 

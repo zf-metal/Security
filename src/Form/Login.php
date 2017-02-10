@@ -1,22 +1,24 @@
 <?php
 
-namespace ZfMetal\Security\Form;
+namespace SecurityModule\Form;
 
 use Zend\Form\Form;
 
 class Login extends \Zend\Form\Form {
 
-    public function __construct() {       
+    public function __construct() {
         parent::__construct('login');
         $this->setAttribute('method', 'post');
-        $this->setAttribute('class', "form-horizontal");
-        $this->setAttribute('role', "form");       
+        $this->setAttribute('class', "form");
+        $this->setAttribute('role', "form");
 
         $this->add(array(
             'name' => '_username',
             'attributes' => array(
                 'type' => 'text',
-                'placeholder' => 'Username'
+                'placeholder' => 'Username',
+                'class' => 'form-control input-lg',
+                'required' => 'required'
             ),
             'options' => array(
                 'label' => 'Username',
@@ -26,29 +28,27 @@ class Login extends \Zend\Form\Form {
             'name' => '_password',
             'attributes' => array(
                 'type' => 'password',
-                'placeholder' => 'Password'
+                'placeholder' => 'Password',
+                'class' => 'form-control input-lg',
+                'required' => 'required'
             ),
             'options' => array(
                 'label' => 'Password',
             )
         ));
 
-        
-          $this->add(array(
+
+        $this->add(array(
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
-            
             'attributes' => array(
                 'value' => "submit",
-                'class' => 'btn btn-lg btn-primary',
+                'class' => 'btn btn-lg btn-primary btn-block signup-btn',
             ),
-                  'options' => array(
+            'options' => array(
                 'label' => 'Submit',
             )
         ));
     }
-
-
-
 
 }
