@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfMetal\Security;
+namespace ZfMetal\Security\Options;
 
 use Zend\Stdlib\AbstractOptions;
 
