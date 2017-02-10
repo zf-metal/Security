@@ -3,7 +3,6 @@
 namespace ZfMetal\Security;
 
 return [
-    'services' => [
         'factories' => [
             Adapter\Doctrine::class => Factory\Adapter\DoctrineAdapterFactory::class,
             'zf-metal-security.authservice' => Factory\Services\AuthServiceFactory::class,
@@ -12,6 +11,5 @@ return [
         'aliases' => [
             \Zend\Authentication\AuthenticationService::class => 'zf-metal-security.authservice',
         ]
-    ]
 ];
 
