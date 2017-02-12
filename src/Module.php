@@ -17,7 +17,8 @@ class Module {
 
     public function onBootstrap(EventInterface $e) {
         $eventManager = $e->getApplication()->getEventManager();
-        $redirectStrategy = $e->getApplication()->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy');
+//        $redirectStrategy = $e->getApplication()->getServiceManager()->get('ZfcRbac\View\Strategy\RedirectStrategy');
+        $redirectStrategy = $e->getApplication()->getServiceManager()->get('ZfMetal\Security\Stragety\SessionRedirectStrategy');
 
         $redirectStrategy->attach($eventManager);
     }

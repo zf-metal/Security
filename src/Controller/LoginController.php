@@ -31,7 +31,7 @@ class LoginController extends AbstractActionController {
     }
 
     public function loginAction() {
-
+        
         if ($this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
@@ -54,6 +54,9 @@ class LoginController extends AbstractActionController {
                 }
 
                 if ($result->getCode() == 1) {
+                    if($this->sessionManager()->has('redirect')){
+                        $this->redirect()->toRoute($this->sessionManager()->getFlash('redirect'));
+                    }
                     $this->redirect()->toRoute('home');
                 }
             }
@@ -66,7 +69,7 @@ class LoginController extends AbstractActionController {
 
     public function logoutAction() {
         $this->authService->clearIdentity();
-        $this->redirect()->toRoute('login');
+        $this->redirect()->toRoute('home');
     }
 
 }
