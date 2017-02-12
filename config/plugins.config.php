@@ -1,9 +1,14 @@
 <?php
 
+namespace ZfMetal\Security;
+
 return [
     'controller_plugins' => [
-        'invokables' => [
-            'bcrypt' => 'ZfMetal\Security\Controller\Plugin\Bcrypt',
+        'factories' => [
+            \ZfMetal\Security\Controller\Plugin\BcryptEncoder::class => InvokableFactory::class,
+        ],
+        'aliases' => [
+            'bcrypt' => \ZfMetal\Security\Controller\Plugin\BcryptEncoder::class,
         ]
     ]
 ];

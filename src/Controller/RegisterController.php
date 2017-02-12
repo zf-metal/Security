@@ -65,6 +65,7 @@ class RegisterController extends AbstractActionController {
 
             if ($form->isValid()) {
                 $user = $form->getData();
+                $user->setPassword($this->bcrypt()->encode($user->getPassword()));
                 $this->userRepository->saveUser($user);
                 $this->redirect()->toRoute('home') . $user->getId();
             } else {
