@@ -8,9 +8,10 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 class RecoverControllerFactory implements FactoryInterface {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        
+        $em = $container->get('doctrine.entitymanager.orm_default');
+        $userRepository = $em->getRepository('ZfMetal\Security\Entity\User');
             
-        return new \ZfMetal\Security\Controller\RecoverController();
+        return new \ZfMetal\Security\Controller\RecoverController($userRepository);
     }
 
 }

@@ -9,7 +9,7 @@ class BcryptEncoder extends AbstractPlugin{
     
     /**
      *
-     * @var Zend\Crypt\Password\Bcrypt 
+     * @var \Zend\Crypt\Password\Bcrypt
      */
     private $bcrypt;
     function getBcrypt() {
