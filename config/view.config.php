@@ -9,8 +9,8 @@ return [
         ],
         'view_helpers' => [
             'factories' => [
-                
-            ]
+                #'isAuthenticated' => Factory\Helper\View\IsAuthenticatedFactory::class,
+            ],
         ]
     ],
 ];

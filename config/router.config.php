@@ -44,6 +44,16 @@ return [
                                 'action' => 'register'
                             ]
                         ]
+                    ],
+                    'recover' => [
+                        'type' => Literal::class,
+                        'options' => [
+                            'route' => '/recover',
+                            'defaults' => [
+                                'controller' => Controller\RecoverController::class,
+                                'action' => 'recover'
+                            ]
+                        ]
                     ]
                 ]
             ]

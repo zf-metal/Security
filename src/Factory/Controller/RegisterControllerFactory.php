@@ -12,9 +12,8 @@ class RegisterControllerFactory implements FactoryInterface {
         $userRepository = $em->getRepository('ZfMetal\Security\Entity\User');
 
         $moduleConfig = $container->get('zf-metal-security.options');
-
             
-        return new \ZfMetal\Security\Controller\RegisterController($moduleConfig, $userRepository);
+        return new \ZfMetal\Security\Controller\RegisterController($em, $moduleConfig, $userRepository);
     }
 
 }

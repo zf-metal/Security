@@ -22,4 +22,7 @@ class Module {
         $redirectStrategy->attach($eventManager);
     }
 
+    public function getViewHelperConfig() {
+        return include __DIR__ . '/../config/viewhelper.config.php';
+    }
 }

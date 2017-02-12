@@ -16,4 +16,10 @@ class UserRepository extends EntityRepository {
                 ->getOneOrNullResult();
            
     }
+    
+    public function saveUser(\ZfMetal\Security\Entity\User $user){
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+        return $user;
+    }
 }
