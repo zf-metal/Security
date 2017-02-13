@@ -11,7 +11,7 @@ class RecoveryControllerFactory implements FactoryInterface {
         $em = $container->get('doctrine.entitymanager.orm_default');
         $userRepository = $em->getRepository('ZfMetal\Security\Entity\User');
             
-        return new \ZfMetal\Security\Controller\RecoverController($userRepository);
+        return new \ZfMetal\Security\Controller\RecoveryController($userRepository);
     }
 
 }
