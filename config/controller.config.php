@@ -8,6 +8,8 @@ return [
             Controller\LoginController::class => Factory\Controller\LoginControllerFactory::class,
             Controller\RegisterController::class => Factory\Controller\RegisterControllerFactory::class,
             Controller\RecoveryController::class => Factory\Controller\RecoveryControllerFactory::class 
+            Controller\AdminUserController::class => Factory\Controller\AdminUserControllerFactory::class
+       
         ]
     ]
 ];
