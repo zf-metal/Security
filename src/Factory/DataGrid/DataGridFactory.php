@@ -1,19 +1,25 @@
 <?php
 
-namespace ZfMetal\Security\Factory\Services;
+namespace ZfMetal\Security\Factory\DataGrid;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\Authentication\Storage\Session;
 
-class AuthServiceFactory implements FactoryInterface {
+class DataGridFactory implements FactoryInterface {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $storage = new Session('ZfMetal\Security');
-        $adapter = $container->get(\ZfMetal\Security\Adapter\Doctrine::class);
-        
-        $authServices = new \Zend\Authentication\AuthenticationService($storage, $adapter);
-        return $authServices;
+
+        //INSTANCE
+        $dataGrid = new \ZfMetal\Security\DataGrid\DataGrid();
+
+        //PARAMS
+        $application = $container->get('application');
+        $params = $application->getMvcevent()->getRequest()->getQuery();
+        $dataGrid->setParams($params);
+
+        //RETURN
+        return $dataGrid;
     }
 
 }
