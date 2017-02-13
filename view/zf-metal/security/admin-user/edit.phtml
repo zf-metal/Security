@@ -1,0 +1,58 @@
+<a class="btn btn-default" href="/admin/users">Admin Users</a>
+<div class="clearfix"></div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <?php echo $this->form()->openTag($form) ?>
+        <legend>EDICION</legend>
+        <!--<h4>Por favor completa el siguiente formulario.</h4>-->
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <?php $element = $form->get('name'); ?>
+                    <label> <?php echo $element->getOption('label'); ?> </label>
+                    <?php echo $this->formElement($element); ?>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div class="form-group">
+                    <?php $element = $form->get('username'); ?>
+                    <label> <?php echo $element->getOption('label'); ?> </label>
+                    <?php echo $this->formElement($element); ?>
+                </div>
+            </div>
+        </div>
+
+
+        <legend>Roles:</legend>
+        <div class="row">
+
+
+
+            <div class="col-xs-12 col-md-12 ">
+                <div class="form-group multi-check">
+                    <?php $element = $form->get('roles'); ?>
+
+                    <?php echo $this->formElement($element); ?>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-md-12 radio">
+                <?php echo $this->formElement($form->get('submit')); ?>
+            </div>
+        </div>
+        <?php echo $this->form()->closeTag($form); ?>
+
+    </div>
+
+</div>
+
+
+<style>
+    .multi-check label{
+        padding: 10px ! important;
+        margin: 5px ! important;
+    }
+
+</style>

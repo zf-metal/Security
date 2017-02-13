@@ -1,6 +1,7 @@
 <?php
 
 namespace ZfMetal\Security\Entity;
+
 //use Zend\Form\Annotation;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -11,8 +12,8 @@ use ZfcRbac\Identity\IdentityInterface;
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="ZfMetal\Security\Repository\UserRepository")
  */
-class User implements IdentityInterface
-{
+class User implements IdentityInterface {
+
     /**
      * @var integer
      * @ORM\Column(type="integer") 
@@ -64,20 +65,47 @@ class User implements IdentityInterface
      * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
+
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection
      * @ORM\ManyToMany(targetEntity="ZfMetal\Security\Entity\Role")
      */
     private $roles;
+
     function setUpdatedAt(\DateTime $updatedAt) {
         $this->updatedAt = $updatedAt;
     }
 
-        
     public function __construct() {
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
+
+    public function addRoles(\Doctrine\Common\Collections\ArrayCollection $roles) {
+        foreach ($roles as $role) {
+            $this->addRole($role);
+        }
+    }
+
+    public function removeRoles(\Doctrine\Common\Collections\ArrayCollection $roles) {
+        foreach ($roles as $role) {
+            $this->removeRole($role);
+        }
+    }
+
+    public function addRole(\ZfMetal\Security\Entity\Role $role) {
+        if ($this->roles->contains($role)) {
+            return;
+        }
+        $this->roles[] = $role;
+    }
+
+    public function removeRole(\ZfMetal\Security\Entity\Role $role) {
+        if (!$this->roles->contains($role)) {
+            return;
+        }
+        $this->roles->removeElement($role);
+    }
+
     function getId() {
         return $this->id;
     }
@@ -143,4 +171,4 @@ class User implements IdentityInterface
         $this->roles = $roles;
     }
 
- }
+}

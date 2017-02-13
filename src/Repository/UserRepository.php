@@ -22,4 +22,10 @@ class UserRepository extends EntityRepository {
         $this->getEntityManager()->flush();
         return $user;
     }
+    
+     public function removeUser(\ZfMetal\Security\Entity\User $user){
+        $this->getEntityManager()->remove($user);
+        $this->getEntityManager()->flush();
+        return $user;
+    }
 }
