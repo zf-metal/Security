@@ -19,7 +19,14 @@ class RegisterController extends AbstractActionController {
      */
     protected $userRepository;
 
-    function __construct(\ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+    /**
+     * 
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
+    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+        $this->em = $em;
         $this->moduleOptions = $moduleOptions;
         $this->userRepository = $userRepository;
     }
@@ -32,24 +39,33 @@ class RegisterController extends AbstractActionController {
         $this->userRepository = $userRepository;
     }
 
+    function getEm() {
+        return $this->em;
+    }
+
+    function setEm(\Doctrine\ORM\EntityManager $em) {
+        $this->em = $em;
+    }
+
     public function registerAction() {
         if (!$this->moduleOptions->getPublicRegister()) {
             $this->redirect()->toRoute('home');
         }
-        
+
         $user = new \ZfMetal\Security\Entity\User();
-        
+
         $form = new \ZfMetal\Security\Form\Register();
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($user);
-        
+
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
-                $user = $this->prepareUser($form->getData());
+                $user = $form->getData();
+                $user->setPassword($this->bcrypt()->encode($user->getPassword()));
                 $this->userRepository->saveUser($user);
                 $this->redirect()->toRoute('home') . $user->getId();
             } else {

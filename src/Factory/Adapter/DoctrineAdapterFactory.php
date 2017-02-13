@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace ZfMetal\Security\Factory\Adapter;
 
@@ -8,9 +8,9 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 class DoctrineAdapterFactory implements FactoryInterface
 {
-	public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
-	{
-                $em = $container->get('doctrine.entitymanager.orm_default');
-		return new \ZfMetal\Security\Adapter\Doctrine($em);
-	}
+    public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
+    {
+        $em = $container->get('doctrine.entitymanager.orm_default');
+        return new \ZfMetal\Security\Adapter\Doctrine($em);
+    }
 }

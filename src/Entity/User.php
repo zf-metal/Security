@@ -47,20 +47,20 @@ class User implements IdentityInterface
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=128, unique=true, nullable=false)
+     * @ORM\Column(type="string", length=128, unique=false, nullable=true)
      */
     private $img;
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="datetime", length=128, unique=false, nullable=false)
+     * @ORM\Column(type="datetime", length=128, unique=false, nullable=true)
      * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
     /**
      * @var \DateTime
-     * @ORM\Column(type="datetime", length=128, unique=false, nullable=false)
+     * @ORM\Column(type="datetime", length=128, unique=false, nullable=true)
      * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;

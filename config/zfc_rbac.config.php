@@ -5,7 +5,7 @@ return [
         'guest_role' => 'guest',
         'guards' => [
             'ZfcRbac\Guard\RouteGuard' => [
-                'admin*' => ['admin']
+                'user*' => ['admin']
             ]
         ],
         'role_provider' => [
@@ -19,7 +19,7 @@ return [
             'redirect_when_connected' => true,
             'redirect_to_route_connected' => 'home',
             'redirect_to_route_disconnected' => 'login',
-            'append_previous_uri' => false,
+            'append_previous_uri' => true,
             'previous_uri_query_key' => 'redirect'
         ],
     ]

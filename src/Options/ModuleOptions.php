@@ -22,6 +22,26 @@ class ModuleOptions extends AbstractOptions
      */
     protected $passwordRecovery = true;
 
+    /**
+     * @var int
+     */
+    protected $bcryptCost = 12;
+
+    /**
+     * @return int
+     */
+    public function getBcryptCost()
+    {
+        return $this->bcryptCost;
+    }
+
+    /**
+     * @param int $bcryptCost
+     */
+    public function setBcryptCost($bcryptCost)
+    {
+        $this->bcryptCost = $bcryptCost;
+    }
 
     /**
      * Constructor

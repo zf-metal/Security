@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 
 class UserRepository extends EntityRepository {
 
-    public function getAuthenticateByEmailOrUsername($username, $password) {
+    public function getAuthenticateByEmailOrUsername($username) {
    
         return $this->getEntityManager()
                 ->createQueryBuilder()->select('u')->from('ZfMetal\Security\Entity\User', 'u')
@@ -15,5 +15,11 @@ class UserRepository extends EntityRepository {
                 ->getQuery()
                 ->getOneOrNullResult();
            
+    }
+    
+    public function saveUser(\ZfMetal\Security\Entity\User $user){
+        $this->getEntityManager()->persist($user);
+        $this->getEntityManager()->flush();
+        return $user;
     }
 }
