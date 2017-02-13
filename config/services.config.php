@@ -5,6 +5,7 @@ namespace ZfMetal\Security;
 use Gedmo\Tree\Strategy;
 
 return [
+    'service_manager' => [
         'factories' => [
             Adapter\Doctrine::class => Factory\Adapter\DoctrineAdapterFactory::class,
             'zf-metal-security.authservice' => Factory\Services\AuthServiceFactory::class,
@@ -14,5 +15,6 @@ return [
         'aliases' => [
             \Zend\Authentication\AuthenticationService::class => 'zf-metal-security.authservice',
         ]
+    ]
 ];
 
