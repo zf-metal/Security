@@ -7,7 +7,7 @@ return [
         'factories' => [
             Controller\LoginController::class => Factory\Controller\LoginControllerFactory::class,
             Controller\RegisterController::class => Factory\Controller\RegisterControllerFactory::class,
-            Controller\RecoverController::class => Factory\Controller\RecoverControllerFactory::class 
+            Controller\RecoveryController::class => Factory\Controller\RecoveryControllerFactory::class 
         ]
     ]
 ];

@@ -45,13 +45,13 @@ return [
                             ]
                         ]
                     ],
-                    'recover' => [
+                    'recovery' => [
                         'type' => Literal::class,
                         'options' => [
-                            'route' => '/recover',
+                            'route' => '/recovery',
                             'defaults' => [
-                                'controller' => Controller\RecoverController::class,
-                                'action' => 'recover'
+                                'controller' => Controller\RecoveryController::class,
+                                'action' => 'recovery'
                             ]
                         ]
                     ]

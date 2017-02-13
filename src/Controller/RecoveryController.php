@@ -6,7 +6,7 @@ use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 use Zend\Mail;
 
-class RecoverController extends AbstractActionController {
+class RecoveryController extends AbstractActionController {
 
     /**
      * @var \ZfMetal\Security\Repository\UserRepository
