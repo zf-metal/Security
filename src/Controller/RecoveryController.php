@@ -38,7 +38,7 @@ class RecoveryController extends AbstractActionController {
         $this->userRepository = $userRepository;
     }
 
-    public function recoverAction() {
+    public function recoveryAction() {
 
         $form = new \ZfMetal\Security\Form\Recover();
 
