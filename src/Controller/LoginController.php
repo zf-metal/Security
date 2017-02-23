@@ -4,6 +4,7 @@ namespace ZfMetal\Security\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use ZfMetal\Security\Options\ModuleOptions;
 
 class LoginController extends AbstractActionController {
 
@@ -12,6 +13,30 @@ class LoginController extends AbstractActionController {
      * @var \Zend\Authentication\AuthenticationService
      */
     private $authService;
+
+    /**
+     * @var ModuleOptions
+     */
+    private $options;
+
+    /**
+     * @return ModuleOptions
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * LoginController constructor.
+     * @param \Zend\Authentication\AuthenticationService $authService
+     * @param ModuleOptions $options
+     */
+    public function __construct(\Zend\Authentication\AuthenticationService $authService, ModuleOptions $options)
+    {
+        $this->authService = $authService;
+        $this->options = $options;
+    }
 
     /**
      * getAuthService
@@ -26,9 +51,7 @@ class LoginController extends AbstractActionController {
         $this->authService = $authService;
     }
 
-    function __construct(\Zend\Authentication\AuthenticationService $authService) {
-        $this->authService = $authService;
-    }
+
 
     public function loginAction() {
         
@@ -54,9 +77,13 @@ class LoginController extends AbstractActionController {
                 }
 
                 if ($result->getCode() == 1) {
-                    if($this->sessionManager()->has('redirect')){
-                        $this->redirect()->toRoute($this->sessionManager()->getFlash('redirect'));
+                    if($this->getOptions()->getRedirectStrategy()->getAppendPreviousUri()){
+                        $uri = $this->getOptions()->getRedirectStrategy()->getPreviousUriQueryKey();
+                        if($this->sessionManager()->has($uri)){
+                            $this->redirect()->toUrl($this->sessionManager()->getFlash($uri));
+                        }
                     }
+
                     $this->redirect()->toRoute('home');
                 }
             }
