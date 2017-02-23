@@ -36,8 +36,7 @@ class AdminRoleController extends AbstractActionController {
      * @param \ZfMetal\Security\Options\ModuleOptions $moduleOptions
      * @param \ZfMetal\Security\Repository\RoleRepository $roleRepository
      */
-    public function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\DataGrid\DataGrid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\RoleRepository $roleRepository)
-    {
+    public function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\DataGrid\DataGrid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\RoleRepository $roleRepository) {
         $this->em = $em;
         $this->dataGrid = $dataGrid;
         $this->moduleOptions = $moduleOptions;
@@ -47,69 +46,60 @@ class AdminRoleController extends AbstractActionController {
     /**
      * @return \Doctrine\ORM\EntityManager
      */
-    public function getEm()
-    {
+    public function getEm() {
         return $this->em;
     }
 
     /**
      * @param \Doctrine\ORM\EntityManager $em
      */
-    public function setEm($em)
-    {
+    public function setEm($em) {
         $this->em = $em;
     }
 
     /**
      * @return \ZfMetal\Security\DataGrid\DataGrid
      */
-    public function getDataGrid()
-    {
+    public function getDataGrid() {
         return $this->dataGrid;
     }
 
     /**
      * @param \ZfMetal\Security\DataGrid\DataGrid $dataGrid
      */
-    public function setDataGrid($dataGrid)
-    {
+    public function setDataGrid($dataGrid) {
         $this->dataGrid = $dataGrid;
     }
 
     /**
      * @return \ZfMetal\Security\Options\ModuleOptions
      */
-    public function getModuleOptions()
-    {
+    public function getModuleOptions() {
         return $this->moduleOptions;
     }
 
     /**
      * @param \ZfMetal\Security\Options\ModuleOptions $moduleOptions
      */
-    public function setModuleOptions($moduleOptions)
-    {
+    public function setModuleOptions($moduleOptions) {
         $this->moduleOptions = $moduleOptions;
     }
 
     /**
      * @return \ZfMetal\Security\Repository\RoleRepository
      */
-    public function getRoleRepository()
-    {
+    public function getRoleRepository() {
         return $this->roleRepository;
     }
 
     /**
      * @param \ZfMetal\Security\Repository\RoleRepository $roleRepository
      */
-    public function setRoleRepository($roleRepository)
-    {
+    public function setRoleRepository($roleRepository) {
         $this->roleRepository = $roleRepository;
     }
 
-    public function abmAction()
-    {
+    public function abmAction() {
         $params = $this->getRequest()->getQuery();
         $this->dataGrid->prepare();
 
@@ -159,18 +149,24 @@ class AdminRoleController extends AbstractActionController {
         }
 
 
-        $form = new \ZfMetal\Security\Form\EditRole($this->getEm());
+        $form = new \ZfMetal\Security\Form\EditRole($this->getEm(), $id);
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($role);
-
+        $form->getInputFilter()->get('children')->setRequired(false);
+        $form->getInputFilter()->get('permissions')->setRequired(false);
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
-                $role = $form->getData();
-                $this->userRepository->saveRole($role);
+                if ($this->getRequest()->getPost('children') === null) {
+                    $role->setChildren(null); // set null to remove all associations with this client
+                }
+                if ($this->getRequest()->getPost('permissions') === null) {
+                    $role->setPermissions(null); // set null to remove all associations with this client
+                } 
+                $this->roleRepository->saveRole($role);
                 $this->redirect()->toRoute('zf-metal.admin/roles/view', array('id' => $role->getId()));
             } else {
                 $errors = $form->getMessages();
@@ -179,4 +175,5 @@ class AdminRoleController extends AbstractActionController {
 
         return ["form" => $form];
     }
+
 }

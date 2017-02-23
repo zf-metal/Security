@@ -6,7 +6,7 @@ use Zend\Form\Form;
 
 class EditRole extends \Zend\Form\Form {
 
-    public function __construct(\Doctrine\ORM\EntityManager $em) {
+    public function __construct(\Doctrine\ORM\EntityManager $em, $id) {
         parent::__construct('role');
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', "form");
@@ -28,13 +28,20 @@ class EditRole extends \Zend\Form\Form {
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'children',
-             'attributes' => array(
+            'attributes' => array(
                 'class' => 'form-control'
             ),
             'options' => [
                 'object_manager' => $em,
                 'target_class' => 'ZfMetal\Security\Entity\Role',
                 'property' => 'name',
+                'is_method' => true,
+                'find_method' => [
+                    'name' => 'getDistinctRoles',
+                    'params' => [
+                        'id' => $id,
+                    ],
+                ],
             ],
         ]);
 
