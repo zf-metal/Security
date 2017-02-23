@@ -108,11 +108,75 @@ class AdminRoleController extends AbstractActionController {
         $this->roleRepository = $roleRepository;
     }
 
-    public function indexAction()
+    public function abmAction()
     {
         $params = $this->getRequest()->getQuery();
         $this->dataGrid->prepare();
 
         return ["dataGrid" => $this->dataGrid];
+    }
+
+    public function viewAction() {
+        $id = $this->params("id");
+
+        $role = $this->roleRepository->find($id);
+
+        return ["role" => $role];
+    }
+
+    public function createAction() {
+        $role = new \ZfMetal\Security\Entity\Role();
+
+        $form = new \ZfMetal\Security\Form\CreateRole($this->getEm());
+        $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
+        $form->bind($role);
+
+        $errors = '';
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+
+            if ($form->isValid()) {
+                $role = $form->getData();
+                $this->roleRepository->saveRole($role);
+                $this->redirect()->toRoute('zf-metal.admin/roles/view', array('id' => $role->getId()));
+            } else {
+                $errors = $form->getMessages();
+            }
+        }
+
+        return ["form" => $form];
+    }
+
+    public function editAction() {
+
+        $id = $this->params("id");
+
+        $role = $this->roleRepository->find($id);
+
+        if (!$role) {
+            throw new Exception("Role not found");
+        }
+
+
+        $form = new \ZfMetal\Security\Form\EditRole($this->getEm());
+        $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
+        $form->bind($role);
+
+        $errors = '';
+
+        if ($this->getRequest()->isPost()) {
+            $form->setData($this->getRequest()->getPost());
+
+            if ($form->isValid()) {
+                $role = $form->getData();
+                $this->userRepository->saveRole($role);
+                $this->redirect()->toRoute('zf-metal.admin/roles/view', array('id' => $role->getId()));
+            } else {
+                $errors = $form->getMessages();
+            }
+        }
+
+        return ["form" => $form];
     }
 }

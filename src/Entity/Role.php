@@ -11,6 +11,7 @@ use ZfcRbac\Permission\PermissionInterface;
 /**
  * @ORM\Entity
  * @ORM\Table(name="roles")
+ * @ORM\Entity(repositoryClass="ZfMetal\Security\Repository\RoleRepository")
  */
 class Role implements HierarchicalRoleInterface
 {
@@ -43,6 +44,14 @@ class Role implements HierarchicalRoleInterface
      * @ORM\ManyToMany(targetEntity="Permission", indexBy="name", fetch="EAGER")
      */
     protected $permissions;
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection|PermissionInterface[]
+     */
+    public function getPermissions()
+    {
+        return $this->permissions;
+    }
 
     /**
      * Init the Doctrine collection
@@ -95,7 +104,7 @@ class Role implements HierarchicalRoleInterface
     /**
      * {@inheritDoc}
      */
-    public function addPermission($permission)
+    public function addPermission(HierarchicalRoleInterface $permission)
     {
         if (is_string($permission)) {
             $permission = new Permission($permission);
@@ -111,7 +120,7 @@ class Role implements HierarchicalRoleInterface
     {
         // This can be a performance problem if your role has a lot of permissions. Please refer
         // to the cookbook to an elegant way to solve this issue
-        #var_dump($this->permissions[(string) $permission]);die;
+
         return isset($this->permissions[(string) $permission]);
     }
 

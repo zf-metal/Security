@@ -1,0 +1,33 @@
+<?php echo $this->flashMessenger()->render('error', array('alert', 'alert-danger', 'alert-dismissible')); ?>
+<?php echo $this->flashMessenger()->render('success', array('alert', 'alert-success', 'alert-dismissible')); ?>
+
+<table class="table table-bordered table-condensed">
+    <thead>
+    <th><a class="btn btn-primary btn-sm" href="/admin/roles/create"><?php echo $this->translate('Agregar'); ?></a></th>
+    <th>ID</th>
+    <th>NAME</th>
+    </thead>
+
+    <tbody>
+    <?php foreach ($this->dataGrid->getCurrentItems() as $item): ?>
+        <tr>
+            <td>
+                <a class="btn btn-success btn-sm fa fa-edit" href="/admin/roles/edit/<?php echo $item->getId(); ?>"></a>
+                <a class="btn btn-warning btn-sm fa fa-list" href="/admin/roles/view/<?php echo $item->getId(); ?>"></a>
+
+                <a class="btn btn-danger btn-sm fa fa-trash" href="/admin/roles/del/<?php echo $item->getId(); ?>"></a>
+
+            </td>
+            <td><?php echo $item->getId(); ?></td>
+            <td><?php echo $item->getName(); ?></td>
+
+        </tr>
+    <?php endforeach; ?>
+    </tbody>
+</table>
+
+
+<?php
+echo $this->paginationControl($this->dataGrid->getPaginator(), 'Sliding', 'zf-metal/security/data-grid/paginator',
+    array("queryParams" => $this->dataGrid->getParamsArray(), 'route' => 'zf-metal.admin/users'));
+?>

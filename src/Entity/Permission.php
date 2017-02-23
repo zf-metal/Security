@@ -28,6 +28,14 @@ class Permission implements PermissionInterface
     protected $name;
 
     /**
+     * @return null|string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
      * Constructor
      */
     public function __construct($name)
