@@ -51,6 +51,16 @@ class ModuleOptions extends AbstractOptions
     protected $redirectStrategy;
 
     /**
+     * @var boolean
+     */
+    protected $userStateDefault;
+
+    /**
+     * @var boolean
+     */
+    protected $emailConfirmationRequire;
+
+    /**
      * Constructor
      */
     public function __construct($options = null)
@@ -97,6 +107,22 @@ class ModuleOptions extends AbstractOptions
         }
 
         return $this->redirectStrategy;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUserStateDefault()
+    {
+        return $this->userStateDefault;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmailConfirmationRequire()
+    {
+        return $this->emailConfirmationRequire;
     }
 
 

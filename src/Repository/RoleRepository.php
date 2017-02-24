@@ -17,4 +17,13 @@ class RoleRepository extends EntityRepository {
         $this->getEntityManager()->flush();
         return $role;
     }
+    
+    public function getDistinctRoles($id = null){
+        return $this->getEntityManager()
+                ->createQueryBuilder()->select('u')->from('ZfMetal\Security\Entity\Role', 'u')
+                ->where('u.id != :id')
+                ->setParameter("id", $id)
+                ->getQuery()
+                ->getResult();        
+    }
 }

@@ -64,10 +64,19 @@ class RegisterController extends AbstractActionController {
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
-                $user = $form->getData();
                 $user->setPassword($this->bcrypt()->encode($user->getPassword()));
-                $this->userRepository->saveUser($user);
-                $this->redirect()->toRoute('home') . $user->getId();
+
+                if($this->moduleOptions->isEmailConfirmationRequire()){
+                    $user->setActive(false);
+                    $this->userRepository->saveUser($user);
+
+                    $this->notifyUser($user);
+                }else{
+                    $user->setActive($this->moduleOptions->getUserStateDefault());
+                    $this->userRepository->saveUser($user);
+                }
+
+                $this->redirect()->toRoute('zf-metal.user/login');
             } else {
                 $errors = $form->getMessages();
             }
@@ -79,4 +88,7 @@ class RegisterController extends AbstractActionController {
         ]);
     }
 
+    public function nofityUser(\ZfMetal\Security\Entity\User $user){
+        $token = $this->stringGenerator()->geterate();
+    }
 }

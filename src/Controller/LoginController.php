@@ -74,10 +74,6 @@ class LoginController extends AbstractActionController
 
                 $result = $this->getAuthService()->authenticate();
 
-                foreach ($result->getMessages() as $mensaje) {
-                    echo $mensaje . PHP_EOL;
-                }
-
                 if ($result->getCode() == 1) {
                     if ($this->getOptions()->getRedirectStrategy()->getAppendPreviousUri()) {
                         $uri = $this->getOptions()->getRedirectStrategy()->getPreviousUriQueryKey();
@@ -89,6 +85,10 @@ class LoginController extends AbstractActionController
                     }
 
                     return $this->redirect()->toRoute('home');
+                }
+
+                foreach ($result->getMessages() as $mensaje) {
+                    $this->flashMessenger()->addErrorMessage($mensaje);
                 }
             }
         }

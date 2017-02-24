@@ -23,6 +23,12 @@ class User implements IdentityInterface {
     private $id;
 
     /**
+     * @var boolean
+     * @ORM\Column(type="integer")
+     */
+    private $active;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=50, unique=false, nullable=false, name="name")
      */
@@ -170,5 +176,22 @@ class User implements IdentityInterface {
     function setRoles(\Doctrine\Common\Collections\ArrayCollection $roles) {
         $this->roles = $roles;
     }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+    }
+
 
 }
