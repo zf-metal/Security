@@ -5,8 +5,7 @@ namespace ZfMetal\Security\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class RegisterController extends AbstractActionController
-{
+class RegisterController extends AbstractActionController {
 
     /**
      *
@@ -26,35 +25,29 @@ class RegisterController extends AbstractActionController
      */
     protected $em;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository)
-    {
+    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
         $this->em = $em;
         $this->moduleOptions = $moduleOptions;
         $this->userRepository = $userRepository;
     }
 
-    function setModuleOptions(\ZfMetal\Security\Options\ModuleOptions $moduleOptions)
-    {
+    function setModuleOptions(\ZfMetal\Security\Options\ModuleOptions $moduleOptions) {
         $this->moduleOptions = $moduleOptions;
     }
 
-    function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository)
-    {
+    function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository) {
         $this->userRepository = $userRepository;
     }
 
-    function getEm()
-    {
+    function getEm() {
         return $this->em;
     }
 
-    function setEm(\Doctrine\ORM\EntityManager $em)
-    {
+    function setEm(\Doctrine\ORM\EntityManager $em) {
         $this->em = $em;
     }
 
-    public function registerAction()
-    {
+    public function registerAction() {
         if (!$this->moduleOptions->getPublicRegister()) {
             $this->redirect()->toRoute('home');
         }
@@ -103,19 +96,27 @@ class RegisterController extends AbstractActionController
         ]);
     }
 
-    public function nofityUser(\ZfMetal\Security\Entity\User $user)
-    {
+    public function nofityUser(\ZfMetal\Security\Entity\User $user) {
         $token = $this->stringGenerator()->geterate();
         $link = ('/user/register/validator/' . $user->getId() . '/' . $token);
 
+        $this->mailManager()->setTemplate('zf-metal/mail/validate', ["user" => $user, "link" => $link]);
+        $this->mailManager()->setFrom('noreply@sondeos.com.ar');
+        $this->mailManager()->addTo($user->getEmail(), $user->getName());
+        $this->mailManager()->setSubject('Validar Usuario - SYSTU');
 
+        if ($this->mailManager()->send()) {
+            $this->flashMessenger()->addSuccessMessage('Envio de mail exitoso.');
+        } else {
+            $this->flashMessenger()->addErrorMessage('Falla al enviar mail.');
+            $this->logger()->info("Falla al enviar mail al resetear password.");
+        }
     }
 
-    public function validateAction()
-    {
-        echo var_dump($this->params('id'),$this->params("token")).PHP_EOL;
-        echo ('/user/register/validator/' . $this->params('id'). '/' . $this->params('token'));
+    public function validateAction() {
+        echo var_dump($this->params('id'), $this->params("token")) . PHP_EOL;
+        echo ('/user/register/validator/' . $this->params('id') . '/' . $this->params('token'));
         die;
     }
-}
 
+}
