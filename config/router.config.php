@@ -176,6 +176,22 @@ return [
                                 'controller' => Controller\RegisterController::class,
                                 'action' => 'register'
                             ]
+                        ],
+                        'child_routes' => [
+                            'validate' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/validate/:id/:token',
+                                    'defaults' => [
+                                        'controller' => Controller\RegisterController::class,
+                                        'action' => 'validate'
+                                    ],
+                                    'constraints' => [
+                                        'id' => '[0-9]+',
+                                        'token' => '[a-zA-Z0-9_-]+',
+                                    ]
+                                ]
+                            ]
                         ]
                     ],
                     'recovery' => [

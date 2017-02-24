@@ -40,7 +40,7 @@ class AdminUserController extends AbstractActionController {
         return $this->dataGrid;
     }
 
-    function setDataGrid(ZfMetal\Security\DataGrid\DataGrid $dataGrid) {
+    function setDataGrid(\ZfMetal\Security\DataGrid\DataGrid $dataGrid) {
         $this->dataGrid = $dataGrid;
     }
 
@@ -56,7 +56,7 @@ class AdminUserController extends AbstractActionController {
         return $this->userRepository;
     }
 
-    function setEm(Doctrine\ORM\EntityManager $em) {
+    function setEm(\Doctrine\ORM\EntityManager $em) {
         $this->em = $em;
     }
 
