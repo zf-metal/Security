@@ -5,7 +5,8 @@ namespace ZfMetal\Security\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class RegisterController extends AbstractActionController {
+class RegisterController extends AbstractActionController
+{
 
     /**
      *
@@ -20,34 +21,40 @@ class RegisterController extends AbstractActionController {
     protected $userRepository;
 
     /**
-     * 
+     *
      * @var \Doctrine\ORM\EntityManager
      */
     protected $em;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository)
+    {
         $this->em = $em;
         $this->moduleOptions = $moduleOptions;
         $this->userRepository = $userRepository;
     }
 
-    function setModuleOptions(\ZfMetal\Security\Options\ModuleOptions $moduleOptions) {
+    function setModuleOptions(\ZfMetal\Security\Options\ModuleOptions $moduleOptions)
+    {
         $this->moduleOptions = $moduleOptions;
     }
 
-    function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository) {
+    function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository)
+    {
         $this->userRepository = $userRepository;
     }
 
-    function getEm() {
+    function getEm()
+    {
         return $this->em;
     }
 
-    function setEm(\Doctrine\ORM\EntityManager $em) {
+    function setEm(\Doctrine\ORM\EntityManager $em)
+    {
         $this->em = $em;
     }
 
-    public function registerAction() {
+    public function registerAction()
+    {
         if (!$this->moduleOptions->getPublicRegister()) {
             $this->redirect()->toRoute('home');
         }
@@ -64,10 +71,27 @@ class RegisterController extends AbstractActionController {
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
-                $user = $form->getData();
                 $user->setPassword($this->bcrypt()->encode($user->getPassword()));
-                $this->userRepository->saveUser($user);
-                $this->redirect()->toRoute('home') . $user->getId();
+
+                $message = '';
+                if ($this->moduleOptions->isEmailConfirmationRequire()) {
+                    $user->setActive(false);
+                    $this->userRepository->saveUser($user);
+
+                    $result = $this->notifyUser($user);
+                    if ($result) {
+                        $message = 'El usuario fue creado correctamente. Verifique su casilla de Email.';
+                    }
+                } else {
+                    $user->setActive($this->moduleOptions->getUserStateDefault());
+                    $this->userRepository->saveUser($user);
+                    $message = 'El usuario fue creado correctamente. ';
+                    if (!$this->moduleOptions->getUserStateDefault()) {
+                        $message .= 'Pronto habilitaremos su acceso.';
+                    }
+                }
+                $this->flashMessage()->addSuccess($message);
+                $this->redirect()->toRoute('zf-metal.user/login');
             } else {
                 $errors = $form->getMessages();
             }
@@ -79,4 +103,19 @@ class RegisterController extends AbstractActionController {
         ]);
     }
 
+    public function nofityUser(\ZfMetal\Security\Entity\User $user)
+    {
+        $token = $this->stringGenerator()->geterate();
+        $link = ('/user/register/validator/' . $user->getId() . '/' . $token);
+
+
+    }
+
+    public function validateAction()
+    {
+        echo var_dump($this->params('id'),$this->params("token")).PHP_EOL;
+        echo ('/user/register/validator/' . $this->params('id'). '/' . $this->params('token'));
+        die;
+    }
 }
+

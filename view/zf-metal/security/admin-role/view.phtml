@@ -1,0 +1,57 @@
+<a class="btn btn-default" href="/admin/roles">Admin Roles</a>
+<div class="clearfix"></div>
+
+<div class="row">
+
+    <div class="col-lg-4 col-lg-offset-4 col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 col-xs-12">
+        <table class="table table-striped table-right">
+            <tr>
+                <th class="text-right">Id:</th>
+                <td class="text-left"><?php echo $this->role->getId(); ?></td>
+            </tr>
+
+            <tr>
+                <th class="text-right">Nombre:</th>
+                <td class="text-left"><?php echo $this->role->getName(); ?></td>
+            </tr>
+
+
+            <tr>
+                <th class="text-right">Children:</th>
+                <td class="text-left">
+                    <ul>
+                        <?php foreach ($this->role->getChildren() as $r): ?>
+                            <li><?php echo $r->getName(); ?></li>
+
+                        <?php endforeach; ?>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th class="text-right">Permissions:</th>
+                <td class="text-left">
+                    <ul>
+                        <?php foreach ($this->role->getPermissions() as $permission): ?>
+                            <li><?php echo $this->role->getName() . ': ' . $permission->getName(); ?></li>
+
+                        <?php endforeach; ?>
+                        <?php foreach ($this->role->getChildren() as $r): ?>
+                            <?php foreach ($r->getPermissions() as $permission): ?>
+                                <li><?php echo $r->getName() . ': ' . $permission->getName(); ?></li>
+
+                            <?php endforeach; ?>
+
+                        <?php endforeach; ?>
+                    </ul>
+                </td>
+            </tr>
+
+        </table>
+    </div>
+    <div class="col-lg-4">
+
+    </div>
+
+</div>
+
+

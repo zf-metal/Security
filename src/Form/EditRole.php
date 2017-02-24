@@ -4,10 +4,10 @@ namespace ZfMetal\Security\Form;
 
 use Zend\Form\Form;
 
-class EditUser extends \Zend\Form\Form {
+class EditRole extends \Zend\Form\Form {
 
-    public function __construct(\Doctrine\ORM\EntityManager $em) {
-        parent::__construct('user');
+    public function __construct(\Doctrine\ORM\EntityManager $em, $id) {
+        parent::__construct('role');
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', "form");
         $this->setAttribute('role', "form");
@@ -25,28 +25,35 @@ class EditUser extends \Zend\Form\Form {
             )
         ));
 
-        $this->add(array(
-            'name' => 'username',
-            'attributes' => array(
-                'type' => 'text',
-                'placeholder' => 'Username',
-                'class' => 'form-control input-lg',
-                'required' => 'required'
-            ),
-            'options' => array(
-                'label' => 'Username'
-            )
-        ));
-
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
-            'name' => 'roles',
-             'attributes' => array(
+            'name' => 'children',
+            'attributes' => array(
                 'class' => 'form-control'
             ),
             'options' => [
                 'object_manager' => $em,
                 'target_class' => 'ZfMetal\Security\Entity\Role',
+                'property' => 'name',
+                'is_method' => true,
+                'find_method' => [
+                    'name' => 'getDistinctRoles',
+                    'params' => [
+                        'id' => $id,
+                    ],
+                ],
+            ],
+        ]);
+
+        $this->add([
+            'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
+            'name' => 'permissions',
+            'attributes' => array(
+                'class' => 'form-control'
+            ),
+            'options' => [
+                'object_manager' => $em,
+                'target_class' => 'ZfMetal\Security\Entity\Permission',
                 'property' => 'name',
             ],
         ]);

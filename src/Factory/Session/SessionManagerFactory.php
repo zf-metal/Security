@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfMetal\Security\Factory\Controller\Plugin;
+namespace ZfMetal\Security\Factory\Session;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -8,8 +8,9 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 class SessionManagerFactory implements FactoryInterface {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
-        $sessionContainer = $container->get('zf-metal-security.session.manager');
-        return new \ZfMetal\Security\Controller\Plugin\SessionManager($sessionContainer);
+        $sessionContainter = new \ZfMetal\Security\Session\StorageSession('zfmetalsecurity');
+
+        return $sessionContainter;
     }
 
 }

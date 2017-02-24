@@ -3,20 +3,20 @@
 namespace ZfMetal\Security\Options;
 
 use Zend\Stdlib\AbstractOptions;
-
+use ZfcRbac\Options\RedirectStrategyOptions;
 /**
  */
 class ModuleOptions extends AbstractOptions
 {
     /**
-     * Enable Public Register 
+     * Enable Public Register
      *
      * @var boolean
      */
     protected $publicRegister = true;
-    
-     /**
-     * Enable Password Recovery 
+
+    /**
+     * Enable Password Recovery
      *
      * @var boolean
      */
@@ -44,6 +44,23 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
+     * Options for the redirect strategy
+     *
+     * @var \ZfcRbac\Options\RedirectStrategyOptions
+     */
+    protected $redirectStrategy;
+
+    /**
+     * @var boolean
+     */
+    protected $userStateDefault;
+
+    /**
+     * @var boolean
+     */
+    protected $emailConfirmationRequire;
+
+    /**
      * Constructor
      */
     public function __construct($options = null)
@@ -51,27 +68,62 @@ class ModuleOptions extends AbstractOptions
         $this->__strictMode__ = false;
         parent::__construct($options);
     }
-    
-  
-    function getPublicRegister() {
+
+
+    function getPublicRegister()
+    {
         return $this->publicRegister;
     }
 
-    function setPublicRegister($publicRegister) {
+    function setPublicRegister($publicRegister)
+    {
         $this->publicRegister = $publicRegister;
     }
 
-    function getPasswordRecovery() {
+    function getPasswordRecovery()
+    {
         return $this->passwordRecovery;
     }
 
-    function setPasswordRecovery($passwordRecovery) {
+    function setPasswordRecovery($passwordRecovery)
+    {
         $this->passwordRecovery = $passwordRecovery;
     }
 
+    public function setRedirectStrategy(array $redirectStrategy)
+    {
+        $this->redirectStrategy = new RedirectStrategyOptions($redirectStrategy);
+    }
+
+    /**
+     * Get the redirect strategy options
+     *
+     * @return \ZfcRbac\Options\RedirectStrategyOptions
+     */
+    public function getRedirectStrategy()
+    {
+        if (null === $this->redirectStrategy) {
+            $this->redirectStrategy = new RedirectStrategyOptions();
+        }
+
+        return $this->redirectStrategy;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getUserStateDefault()
+    {
+        return $this->userStateDefault;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmailConfirmationRequire()
+    {
+        return $this->emailConfirmationRequire;
+    }
 
 
-
-
-   
 }

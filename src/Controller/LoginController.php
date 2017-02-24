@@ -4,8 +4,10 @@ namespace ZfMetal\Security\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use ZfMetal\Security\Options\ModuleOptions;
 
-class LoginController extends AbstractActionController {
+class LoginController extends AbstractActionController
+{
 
     /**
      *
@@ -14,24 +16,47 @@ class LoginController extends AbstractActionController {
     private $authService;
 
     /**
+     * @var ModuleOptions
+     */
+    private $options;
+
+    /**
+     * @return ModuleOptions
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+
+    /**
+     * LoginController constructor.
+     * @param \Zend\Authentication\AuthenticationService $authService
+     * @param ModuleOptions $options
+     */
+    public function __construct(\Zend\Authentication\AuthenticationService $authService, ModuleOptions $options)
+    {
+        $this->authService = $authService;
+        $this->options = $options;
+    }
+
+    /**
      * getAuthService
      * @return \Zend\Authentication\AuthenticationService
      */
-    function getAuthService() {
+    function getAuthService()
+    {
         return $this->authService;
     }
 
-    function setAuthService(\Zend\Authentication\AuthenticationService
-    $authService) {
+    function setAuthService(\Zend\Authentication\AuthenticationService $authService)
+    {
         $this->authService = $authService;
     }
 
-    function __construct(\Zend\Authentication\AuthenticationService $authService) {
-        $this->authService = $authService;
-    }
 
-    public function loginAction() {
-        
+    public function loginAction()
+    {
+
         if ($this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
@@ -49,15 +74,21 @@ class LoginController extends AbstractActionController {
 
                 $result = $this->getAuthService()->authenticate();
 
-                foreach ($result->getMessages() as $mensaje) {
-                    echo $mensaje . PHP_EOL;
+                if ($result->getCode() == 1) {
+                    if ($this->getOptions()->getRedirectStrategy()->getAppendPreviousUri()) {
+                        $uri = $this->getOptions()->getRedirectStrategy()->getPreviousUriQueryKey();
+                        if ($this->sessionManager()->has($uri)) {
+                            #return $this->redirect()->toUrl($this->sessionManager()->getFlash($uri));
+                            $route = $this->sessionManager()->getFlash($uri);
+                            return $this->redirect()->toRoute($route);
+                        }
+                    }
+
+                    return $this->redirect()->toRoute('home');
                 }
 
-                if ($result->getCode() == 1) {
-                    if($this->sessionManager()->has('redirect')){
-                        $this->redirect()->toRoute($this->sessionManager()->getFlash('redirect'));
-                    }
-                    $this->redirect()->toRoute('home');
+                foreach ($result->getMessages() as $mensaje) {
+                    $this->flashMessenger()->addErrorMessage($mensaje);
                 }
             }
         }
@@ -67,7 +98,8 @@ class LoginController extends AbstractActionController {
         ]);
     }
 
-    public function logoutAction() {
+    public function logoutAction()
+    {
         $this->authService->clearIdentity();
         $this->redirect()->toRoute('home');
     }

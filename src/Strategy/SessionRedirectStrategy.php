@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfMetal\Security\Stragety;
+namespace ZfMetal\Security\Strategy;
 
 use Zend\Authentication\AuthenticationServiceInterface;
 use Zend\Http\Response as HttpResponse;
@@ -8,6 +8,7 @@ use Zend\Mvc\MvcEvent;
 use ZfcRbac\Exception\UnauthorizedExceptionInterface;
 use ZfcRbac\Options\RedirectStrategyOptions;
 use ZfcRbac\View\Strategy\AbstractStrategy;
+use ZfMetal\Security\Session\StorageSession;
 
 /**
  * This strategy redirects to another route when a user is unauthorized
@@ -28,15 +29,29 @@ class SessionRedirectStrategy extends AbstractStrategy
     protected $authenticationService;
 
     /**
-     * Constructor
-     *
-     * @param RedirectStrategyOptions        $options
-     * @param AuthenticationServiceInterface $authenticationService
+     * @var StorageSession
      */
-    public function __construct(RedirectStrategyOptions $options, AuthenticationServiceInterface $authenticationService)
+    protected $sessionManager;
+
+    /**
+     * @return StorageSession
+     */
+    public function getSessionManager()
     {
-        $this->options               = $options;
+        return $this->sessionManager;
+    }
+
+    /**
+     * SessionRedirectStrategy constructor.
+     * @param RedirectStrategyOptions $options
+     * @param AuthenticationServiceInterface $authenticationService
+     * @param StorageSession $sessionManager
+     */
+    public function __construct(RedirectStrategyOptions $options, AuthenticationServiceInterface $authenticationService, StorageSession $sessionManager)
+    {
+        $this->options = $options;
         $this->authenticationService = $authenticationService;
+        $this->sessionManager = $sessionManager;
     }
 
     /**
@@ -70,9 +85,9 @@ class SessionRedirectStrategy extends AbstractStrategy
 
         if ($this->options->getAppendPreviousUri()) {
             $redirectKey = $this->options->getPreviousUriQueryKey();
-            $previousUri = $event->getRequest()->getUriString();
-
-            $this->sessionManager()->set($redirectKey,$previousUri);
+            #$previousUri = $event->getRequest()->getUriString();
+            $previousUri = $event->getRouteMatch()->getMatchedRouteName();
+            $this->getSessionManager()->write($redirectKey,$previousUri);
         }
 
         $response = $event->getResponse() ?: new HttpResponse();

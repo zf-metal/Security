@@ -75,7 +75,7 @@ return [
                                     ]
                                 ],
                             ],
-                             'reset-password-auto' => [
+                            'reset-password-auto' => [
                                 'type' => Segment::class,
                                 'options' => [
                                     'route' => '/reset-password-auto/:id',
@@ -85,6 +85,59 @@ return [
                                     ]
                                 ],
                             ]
+                        ],
+                    ],
+                    'roles' => [
+                        'type' => Literal::class,
+                        'may_terminate' => true,
+                        'options' => [
+                            'route' => '/roles',
+                            'defaults' => [
+                                'controller' => Controller\AdminRoleController::class,
+                                'action' => 'abm'
+                            ]
+                        ],
+                        'child_routes' => [
+                            'add' => [
+                                'type' => Literal::class,
+                                'options' => [
+                                    'route' => '/create',
+                                    'defaults' => [
+                                        'controller' => Controller\AdminRoleController::class,
+                                        'action' => 'create'
+                                    ]
+                                ],
+                            ],
+                            'edit' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/edit/:id',
+                                    'defaults' => [
+                                        'controller' => Controller\AdminRoleController::class,
+                                        'action' => 'edit'
+                                    ]
+                                ],
+                            ],
+                            'del' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/del/:id',
+                                    'defaults' => [
+                                        'controller' => Controller\AdminRoleController::class,
+                                        'action' => 'del'
+                                    ]
+                                ],
+                            ],
+                            'view' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/view/:id',
+                                    'defaults' => [
+                                        'controller' => Controller\AdminRoleController::class,
+                                        'action' => 'view'
+                                    ]
+                                ],
+                            ],
                         ],
                     ],
                 ],
@@ -122,6 +175,22 @@ return [
                             'defaults' => [
                                 'controller' => Controller\RegisterController::class,
                                 'action' => 'register'
+                            ]
+                        ],
+                        'child_routes' => [
+                            'validate' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/validate/:id/:token',
+                                    'defaults' => [
+                                        'controller' => Controller\RegisterController::class,
+                                        'action' => 'validate'
+                                    ],
+                                    'constraints' => [
+                                        'id' => '[0-9]+',
+                                        'token' => '[a-zA-Z0-9_-]+',
+                                    ]
+                                ]
                             ]
                         ]
                     ],
