@@ -29,7 +29,7 @@ class Register extends \Zend\Form\Form {
         $this->add(array(
             'name' => 'email',
             'attributes' => array(
-                'type' => 'email',
+                'type' => 'mail',
                 'placeholder' => 'Email',
                 'class' => 'form-control input-lg',
                 'required' => 'required'
@@ -69,7 +69,7 @@ class Register extends \Zend\Form\Form {
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
-                'value' => "Submit",
+                'value' => "Register",
                 'class' => 'btn btn-lg btn-primary btn-block signup-btn',
             ),
             'options' => array(

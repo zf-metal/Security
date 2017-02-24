@@ -42,7 +42,7 @@ class Login extends \Zend\Form\Form {
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
-                'value' => "submit",
+                'value' => "Login",
                 'class' => 'btn btn-lg btn-primary btn-block signup-btn',
             ),
             'options' => array(

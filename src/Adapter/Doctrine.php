@@ -82,7 +82,7 @@ class Doctrine implements AdapterInterface {
                 $mensaje = ['Falla al autenticar, clave erronea'];
             }
         } else {
-            $mensaje = ['Falla al autenticar, usuario o email erroneos'];
+            $mensaje = ['Falla al autenticar, usuario o mail erroneos'];
         }
 
         return new \Zend\Authentication\Result($code, $identity, $mensaje);

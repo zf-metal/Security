@@ -1,3 +1,6 @@
+<?php echo $this->flashMessenger()->render('error', array('alert', 'alert-danger' ,'alert-dismissible')); ?>
+<?php echo $this->flashMessenger()->render('success', array('alert', 'alert-success' ,'alert-dismissible')); ?>
+
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <?php echo $this->form()->openTag($form) ?>
@@ -14,10 +17,10 @@
                 <?php if ($this->formElementErrors($this->element)) : ?>
                     <?php
                     echo $this->formElementErrors()
-                            ->setMessageOpenFormat('<span class="help-block">')
-                            ->setMessageSeparatorString('</span><span class="help-block">')
-                            ->setMessageCloseString('</span>')
-                            ->render($element);
+                        ->setMessageOpenFormat('<span class="help-block">')
+                        ->setMessageSeparatorString('</span><span class="help-block">')
+                        ->setMessageCloseString('</span>')
+                        ->render($element);
                     ?>
 
                            <?php endif; ?>
@@ -34,13 +37,12 @@
                 <?php if ($this->formElementErrors($this->element)) : ?>
                     <?php
                     echo $this->formElementErrors()
-                            ->setMessageOpenFormat('<span class="help-block">')
-                            ->setMessageSeparatorString('</span><span class="help-block">')
-                            ->setMessageCloseString('</span>')
-                            ->render($element);
+                        ->setMessageOpenFormat('<span class="help-block">')
+                        ->setMessageSeparatorString('</span><span class="help-block">')
+                        ->setMessageCloseString('</span>')
+                        ->render($element);
                     ?>
-
-                           <?php endif; ?>
+                     <?php endif; ?>
             </div>
             <div class="col-xs-12 col-md-12 radio">
                 <?php echo $this->formElement($form->get('submit')); ?>
@@ -48,7 +50,19 @@
         </div>
 
         <?php echo $this->form()->closeTag($form); ?>
-        <a href="<?php echo $this->basePath('/user/recovery');?>"> Recurperar Contraseña</a>
+        <?php if (1 == 1): ?>
+            <p class="col-xs-12 col-md-12 radio text-center"> or </p>
+            <a href="<?php echo $this->basePath('/user/register'); ?>">
+                <div class="col-xs-12 col-md-12 radio btn btn-success">
+                    Register
+                </div>
+            </a>
+        <?php endif ?>
+
+        <div class="col-xs-12 col-md-12 radio text-right">
+            <a href="<?php echo $this->basePath('/user/recovery'); ?>"> Password Recovery</a>
+        </div>
+
     </div>
 
 </div>
