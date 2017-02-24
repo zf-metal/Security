@@ -14,33 +14,36 @@ class RecoveryController extends AbstractActionController {
     private $userRepository;
 
     /**
+     * @var \ZfMetal\Security\Form\Recover
+     */
+    private $form;
+
+    /**
      * RecoverController constructor.
      * @param $userRepository
      */
-    public function __construct($userRepository)
-    {
+    public function __construct($userRepository, \ZfMetal\Security\Form\Recover $form) {
         $this->userRepository = $userRepository;
+        $this->form = $form;
     }
 
     /**
      * @return mixed
      */
-    public function getUserRepository()
-    {
+    public function getUserRepository() {
         return $this->userRepository;
     }
 
     /**
      * @param mixed $userRepository
      */
-    public function setUserRepository($userRepository)
-    {
+    public function setUserRepository($userRepository) {
         $this->userRepository = $userRepository;
     }
 
     public function recoveryAction() {
-
-        $form = new \ZfMetal\Security\Form\Recover();
+        /* @var $form \Zend\Form\Form */
+        $form = $this->form;
 
         $errors = '';
 
@@ -48,11 +51,15 @@ class RecoveryController extends AbstractActionController {
             $data = $this->getRequest()->getPost();
             $form->setData($data);
 
-            if ($form->isValid()) {
-                $user = $this->validateEmail($data['mail']);
-                $result = $this->updatePasswordUserAndNotify($user);
 
-                $this->redirect()->toRoute('home');
+            if ($form->isValid()) {
+                $user = $this->getUserRepository()->findOneByEmail($data['email']);
+                $result = $this->updatePasswordUserAndNotify($user);
+                if ($result) {
+                   return  $this->forward()->dispatch(\ZfMetal\Security\Controller\RecoveryController::class, array('action' => 'ok'));
+                } else {
+                   return  $this->forward()->dispatch(\ZfMetal\Security\Controller\RecoveryController::class, array('action' => 'error')); 
+                }
             } else {
                 $errors = $form->getMessages();
             }
@@ -64,41 +71,49 @@ class RecoveryController extends AbstractActionController {
         ]);
     }
 
-    public function validateEmail($email)
-    {
-        $user = $this->userRepository->getAuthenticateByEmailOrUsername($email);
-        if(!$user){
-            throw new \Exception('El mail no está registrado');
-        }
-        return $user;
+    public function okAction() {
+        return [];
     }
 
-    public function updatePasswordUserAndNotify(\ZfMetal\Security\Entity\User $user)
-    {
+    public function errorAction() {
+
+        return [];
+    }
+
+    public function updatePasswordUserAndNotify(\ZfMetal\Security\Entity\User $user) {
         $newPassword = $this->stringGenerator()->generate();
 
-        if(!$newPassword){
+        if (!$newPassword) {
+            $this->logger()->err("Falla al generar nueva clave");
             throw new \Exception('Falla al generar nueva clave');
         }
 
         $user->setPassword($this->bcrypt()->encode($newPassword));
-        $user = $this->userRepository->saveUser($user);
+        try {
+            $this->userRepository->saveUser($user);
+        } catch (Exception $ex) {
+            $this->logger()->err("Falla al intentar guardar en la DB cambio de password");
+        }
+
 
         $result = $this->notifyUser($user, $newPassword);
         return $result;
     }
 
-    public function notifyUser(\ZfMetal\Security\Entity\User $user, $newPassword)
-    {
-        $mail = new Mail\Message();
-        $mail->setBody('Your New Password is: '. $newPassword);
-        $mail->setFrom('sisty@sondeos.org', 'SYSTU');
-        $mail->addTo($user->getEmail(), $user->getName());
-        $mail->setSubject('Password Recovery');
+    public function notifyUser(\ZfMetal\Security\Entity\User $user, $newPassword) {
+        $this->mailManager()->setTemplate('zf-metal/security/mail/reset', ["user" => $user, "newPassowrd" => $newPassword]);
+        $this->mailManager()->setFrom('ci.sys.virtual@gmail.com');
+        $this->mailManager()->addTo($user->getEmail(), $user->getName());
+        $this->mailManager()->setSubject('Recuperar Password');
 
-        $transport = new Mail\Transport\Sendmail('noreply@example.com');
-        $result = $transport->send($mail);
-
-        return $result;
+        if ($this->mailManager()->send()) {
+            $this->flashMessenger()->addSuccessMessage('Envio de mail exitoso.');
+            return true;
+        } else {
+            $this->flashMessenger()->addErrorMessage('Falla al enviar mail.');
+            $this->logger()->info("Falla al enviar mail al resetear password.");
+            return false;
+        }
     }
+
 }

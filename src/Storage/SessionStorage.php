@@ -1,9 +1,10 @@
 <?php
 
-namespace ZfMetal\Security\Session;
+namespace ZfMetal\Security\Storage;
+
 use Zend\Session\Container as SessionContainer;
 
-class StorageSession implements SessionInterface
+class SessionStorage implements StorageInterface
 {
 
     /**

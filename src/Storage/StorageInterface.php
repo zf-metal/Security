@@ -1,8 +1,8 @@
 <?php
 
-namespace ZfMetal\Security\Session;
+namespace ZfMetal\Security\Storage;
 
-interface SessionInterface
+interface StorageInterface
 {
     public function isEmpty($name);
 

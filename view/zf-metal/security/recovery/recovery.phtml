@@ -4,11 +4,24 @@
         <legend>Recuperar Clave</legend>
         <!--<h4>Por favor completa el siguiente formulario.</h4>-->
         <div class="row">
-            
-            <div class="col-xs-12 col-md-12">
-                <?php $element = $form->get('mail'); ?>
-                <label> <?php echo $element->getOption('label'); ?> </label>
-                <?php echo $this->formElement($element); ?>
+            <?php $element = $form->get('email'); ?>
+            <div  class="form-group<?php if ($this->formElementErrors($element)) echo " has-error" ?>">
+
+                <div class="col-xs-12 col-md-12">
+
+                    <label> <?php echo $element->getOption('label'); ?> </label>
+                    <?php echo $this->formElement($element); ?>
+                    <?php if ($this->formElementErrors($element)) : ?>
+                        <?php
+                        echo $this->formElementErrors()
+                                ->setMessageOpenFormat('<span class="help-block">')
+                                ->setMessageSeparatorString('</span><span class="help-block">')
+                                ->setMessageCloseString('</span>')
+                                ->render($element);
+                        ?>
+
+                    <?php endif; ?>
+                </div>
             </div>
         </div>
         <div class="row">

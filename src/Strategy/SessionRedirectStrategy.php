@@ -8,7 +8,7 @@ use Zend\Mvc\MvcEvent;
 use ZfcRbac\Exception\UnauthorizedExceptionInterface;
 use ZfcRbac\Options\RedirectStrategyOptions;
 use ZfcRbac\View\Strategy\AbstractStrategy;
-use ZfMetal\Security\Session\StorageSession;
+use ZfMetal\Security\Storage\SessionStorage;
 
 /**
  * This strategy redirects to another route when a user is unauthorized
@@ -29,12 +29,12 @@ class SessionRedirectStrategy extends AbstractStrategy
     protected $authenticationService;
 
     /**
-     * @var StorageSession
+     * @var SessionStorage
      */
     protected $sessionManager;
 
     /**
-     * @return StorageSession
+     * @return SessionStorage
      */
     public function getSessionManager()
     {
@@ -47,7 +47,7 @@ class SessionRedirectStrategy extends AbstractStrategy
      * @param AuthenticationServiceInterface $authenticationService
      * @param StorageSession $sessionManager
      */
-    public function __construct(RedirectStrategyOptions $options, AuthenticationServiceInterface $authenticationService, StorageSession $sessionManager)
+    public function __construct(RedirectStrategyOptions $options, AuthenticationServiceInterface $authenticationService, SessionStorage $sessionManager)
     {
         $this->options = $options;
         $this->authenticationService = $authenticationService;

@@ -70,19 +70,28 @@ class Doctrine implements AdapterInterface {
 
         $identity = $this->getEm()->getRepository('ZfMetal\Security\Entity\User')
                 ->getAuthenticateByEmailOrUsername($this->identity, $this->credential);
+        
+        //Fuerzo la obtencion de Roles, para que se carguen en la sesion. (Windows)
+        $identity->getRoles()->getValues();
+//        foreach($identity->getRoles() as $role){
+//        }
+       
 
         $mensaje = array();
         $code = 0;
 
         if ($identity) {
-            if ($bcrypt->verify($this->credential, $identity->getPassword())) {
+            
+            if(!$identity->getActive()){
+                   $mensaje = ['Falla al autenticar, usuario inactivo'];
+            }else if ($bcrypt->verify($this->credential, $identity->getPassword())) {
                 $mensaje = ['Usuario logueado exitosamente'];
                 $code = 1;
             } else {
                 $mensaje = ['Falla al autenticar, clave erronea'];
             }
         } else {
-            $mensaje = ['Falla al autenticar, usuario o mail erroneos'];
+            $mensaje = ['Falla al autenticar, usuario o email erroneos'];
         }
 
         return new \Zend\Authentication\Result($code, $identity, $mensaje);
