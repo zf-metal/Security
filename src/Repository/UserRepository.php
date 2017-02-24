@@ -10,7 +10,6 @@ class UserRepository extends EntityRepository {
         return $this->getEntityManager()
                 ->createQueryBuilder()->select('u')->from('ZfMetal\Security\Entity\User', 'u')
                 ->where('u.email = :username or u.username = :username')
-                ->andWhere('u.active = 1')
                 ->setParameter("username", $username)
                 ->getQuery()
                 ->getOneOrNullResult();

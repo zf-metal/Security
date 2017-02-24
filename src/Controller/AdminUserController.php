@@ -196,7 +196,21 @@ class AdminUserController extends AbstractActionController {
             $this->flashMessenger()->addSuccessMessage('Password reset exitoso.');
             $this->flashMessenger()->addSuccessMessage('Usuario: ' . $user->getUsername() . " - Password: " . $newPassword);
 
-            //*** ENVIAR MAIL CUANDO ESTE EL MODULO DE MAIL
+            //*** ENVIAR MAIL 
+            $this->mailManager()->setTemplate('zf-metal/mail/reset', ["user" => $user, "newPassowrd" => $newPassword]);
+            $this->mailManager()->setFrom('ci.sys.virtual@gmail.com');
+            $this->mailManager()->addTo($user->getEmail(), $user->getName());
+            $this->mailManager()->setSubject('Recuperar Password');
+
+            if ($this->mailManager()->send()) {
+                $this->flashMessenger()->addSuccessMessage('Envio de mail exitoso.');
+            } else {
+                $this->flashMessenger()->addErrorMessage('Falla al enviar mail.');
+                $this->logger()->info("Falla al enviar mail al resetear password.");
+            }
+
+
+
 
             $this->redirect()->toRoute('zf-metal.admin/users');
         } catch (Exception $ex) {

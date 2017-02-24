@@ -12,6 +12,9 @@ return [
         'factories' => [
             'isAuthenticated' => Factory\Helper\View\IsAuthenticatedFactory::class,
         ],
+        'invokables' => [
+            'notyFlash' => Helper\View\NotyFlash::class,
+        ]
     ],
     'view_helper_config' => array(
         'flashmessenger' => array(

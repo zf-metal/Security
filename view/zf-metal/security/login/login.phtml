@@ -1,5 +1,6 @@
-<?php echo $this->flashMessenger()->render('error', array('alert', 'alert-danger' ,'alert-dismissible')); ?>
-<?php echo $this->flashMessenger()->render('success', array('alert', 'alert-success' ,'alert-dismissible')); ?>
+<?php
+$this->notyFlash(true);
+?>
 
 <div class="row">
     <div class="col-md-8 col-md-offset-2">

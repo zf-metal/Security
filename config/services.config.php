@@ -13,7 +13,7 @@ return [
             'zf-metal-security.options' => \ZfMetal\Security\Factory\Options\ModuleOptionsFactory::class,
             \ZfMetal\Security\Strategy\SessionRedirectStrategy::class => \ZfMetal\Security\Factory\Strategy\SessionRedirectStrategyFactory::class,
             \ZfMetal\Security\DataGrid\DataGrid::class => \ZfMetal\Security\Factory\DataGrid\DataGridFactory::class,
-            'zf-metal-security.session.manager' => \ZfMetal\Security\Factory\Session\SessionManagerFactory::class,
+            'zf-metal-security.session.manager' => \ZfMetal\Security\Factory\Storage\SessionManagerFactory::class,
         ],
         'aliases' => [
             \Zend\Authentication\AuthenticationService::class => 'zf-metal-security.authservice',
