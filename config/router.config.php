@@ -170,6 +170,7 @@ return [
                     ],
                     'register' => [
                         'type' => Literal::class,
+                        'may_terminate' => true,
                         'options' => [
                             'route' => '/register',
                             'defaults' => [

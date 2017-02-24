@@ -4,11 +4,11 @@ namespace ZfMetal\Security;
 
 return[
     'zf-metal-security.options' => [
-        'public-register' => true,
-        'email-confirmation-require' => true,
-        'user-state-default' => true,
-        'password-recovery' => true,
-        'bcrypt-cost'=> 12,
+        'public_register' => true,
+        'email_confirmation_require' => true,
+        'user_state_default' => true,
+        'password_recovery' => true,
+        'bcrypt_cost'=> 12,
 
 
         'redirect_strategy' => [

@@ -49,7 +49,7 @@ class RecoveryController extends AbstractActionController {
             $form->setData($data);
 
             if ($form->isValid()) {
-                $user = $this->validateEmail($data['email']);
+                $user = $this->validateEmail($data['mail']);
                 $result = $this->updatePasswordUserAndNotify($user);
 
                 $this->redirect()->toRoute('home');
@@ -68,7 +68,7 @@ class RecoveryController extends AbstractActionController {
     {
         $user = $this->userRepository->getAuthenticateByEmailOrUsername($email);
         if(!$user){
-            throw new \Exception('El email no está registrado');
+            throw new \Exception('El mail no está registrado');
         }
         return $user;
     }

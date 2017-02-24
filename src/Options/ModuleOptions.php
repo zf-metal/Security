@@ -27,21 +27,7 @@ class ModuleOptions extends AbstractOptions
      */
     protected $bcryptCost = 12;
 
-    /**
-     * @return int
-     */
-    public function getBcryptCost()
-    {
-        return $this->bcryptCost;
-    }
 
-    /**
-     * @param int $bcryptCost
-     */
-    public function setBcryptCost($bcryptCost)
-    {
-        $this->bcryptCost = $bcryptCost;
-    }
 
     /**
      * Options for the redirect strategy
@@ -118,11 +104,40 @@ class ModuleOptions extends AbstractOptions
     }
 
     /**
+     * @param bool $userStateDefault
+     */
+    public function setUserStateDefault($userStateDefault)
+    {
+        $this->userStateDefault = $userStateDefault;
+    }
+
+    /**
      * @return bool
      */
-    public function isEmailConfirmationRequire()
+    public function getEmailConfirmationRequire()
     {
         return $this->emailConfirmationRequire;
+    }
+
+    public function setEmailConfirmationRequire($emailConfirmationRequire)
+    {
+        $this->emailConfirmationRequire = $emailConfirmationRequire;
+    }
+
+    /**
+     * @return int
+     */
+    public function getBcryptCost()
+    {
+        return $this->bcryptCost;
+    }
+
+    /**
+     * @param int $bcryptCost
+     */
+    public function setBcryptCost($bcryptCost)
+    {
+        $this->bcryptCost = $bcryptCost;
     }
 
 

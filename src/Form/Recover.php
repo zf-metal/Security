@@ -14,9 +14,9 @@ class Recover extends \Zend\Form\Form {
 
         
         $this->add(array(
-            'name' => 'email',
+            'name' => 'mail',
             'attributes' => array(
-                'type' => 'email',
+                'type' => 'mail',
                 'placeholder' => 'Email',
                 'class' => 'form-control input-lg',
                 'required' => 'required'
