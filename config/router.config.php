@@ -140,6 +140,59 @@ return [
                             ],
                         ],
                     ],
+                    'groups' => [
+                        'type' => Literal::class,
+                        'may_terminate' => true,
+                        'options' => [
+                            'route' => '/groups',
+                            'defaults' => [
+                                'controller' => Controller\AdminGroupController::class,
+                                'action' => 'abm'
+                            ]
+                        ],
+                        'child_routes' => [
+                            'add' => [
+                                'type' => Literal::class,
+                                'options' => [
+                                    'route' => '/create',
+                                    'defaults' => [
+                                        'controller' => Controller\AdminGroupController::class,
+                                        'action' => 'create'
+                                    ]
+                                ],
+                            ],
+                            'edit' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/edit/:id',
+                                    'defaults' => [
+                                        'controller' => Controller\AdminGroupController::class,
+                                        'action' => 'edit'
+                                    ]
+                                ],
+                            ],
+                            'del' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/del/:id',
+                                    'defaults' => [
+                                        'controller' => Controller\AdminGroupController::class,
+                                        'action' => 'del'
+                                    ]
+                                ],
+                            ],
+                            'view' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/view/:id',
+                                    'defaults' => [
+                                        'controller' => Controller\AdminGroupController::class,
+                                        'action' => 'view'
+                                    ]
+                                ],
+                            ],
+                        ],
+                    ],
                 ],
             ],
             'zf-metal.user' => [

@@ -5,7 +5,7 @@ namespace ZfMetal\Security\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class AdminUserController extends AbstractActionController {
+class AdminGroupController extends AbstractActionController {
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -25,15 +25,15 @@ class AdminUserController extends AbstractActionController {
 
     /**
      *
-     * @var \ZfMetal\Security\Repository\UserRepository
+     * @var \ZfMetal\Security\Repository\GroupRepository
      */
-    protected $userRepository;
+    protected $groupRepository;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\DataGrid\DataGrid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\DataGrid\DataGrid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\GroupRepository $groupRepository) {
         $this->em = $em;
         $this->dataGrid = $dataGrid;
         $this->moduleOptions = $moduleOptions;
-        $this->userRepository = $userRepository;
+        $this->groupRepository = $groupRepository;
     }
 
     function getDataGrid() {
@@ -52,8 +52,8 @@ class AdminUserController extends AbstractActionController {
         return $this->moduleOptions;
     }
 
-    function getUserRepository() {
-        return $this->userRepository;
+    function getGroupRepository() {
+        return $this->groupRepository;
     }
 
     function setEm(\Doctrine\ORM\EntityManager $em) {
@@ -64,8 +64,8 @@ class AdminUserController extends AbstractActionController {
         $this->moduleOptions = $moduleOptions;
     }
 
-    function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository) {
-        $this->userRepository = $userRepository;
+    function setGroupRepository(\ZfMetal\Security\Repository\GroupRepository $groupRepository) {
+        $this->groupRepository = $groupRepository;
     }
 
     public function abmAction() {
@@ -79,21 +79,24 @@ class AdminUserController extends AbstractActionController {
     }
 
     public function createAction() {
-        $user = new \ZfMetal\Security\Entity\User();
+        $group = new \ZfMetal\Security\Entity\Group();
 
-        $form = new \ZfMetal\Security\Form\CreateUser($this->getEm());
+        $form = new \ZfMetal\Security\Form\CreateGroup($this->getEm());
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
-        $form->bind($user);
-
+        $form->bind($group);
+         $form->getInputFilter()->get('users')->setRequired(false);
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
-                $user->setPassword($this->bcrypt()->encode($user->getPassword()));
-                $this->userRepository->saveUser($user);
-                $this->redirect()->toRoute('zf-metal.admin/users/view', array('id' => $user->getId()));
+                if ($this->getRequest()->getPost('users') === null) {
+                    $group->setUsers(null);
+                }
+                $group = $form->getData();
+                $this->groupRepository->saveGroup($group);
+                $this->redirect()->toRoute('zf-metal.admin/groups/view', array('id' => $group->getId()));
             } else {
                 $errors = $form->getMessages();
             }
@@ -106,26 +109,28 @@ class AdminUserController extends AbstractActionController {
 
         $id = $this->params("id");
 
-        $user = $this->userRepository->find($id);
+        $group = $this->groupRepository->find($id);
 
-        if (!$user) {
-            throw new Exception("User not found");
+        if (!$group) {
+            throw new Exception("Group not found");
         }
 
 
-        $form = new \ZfMetal\Security\Form\EditUser($this->getEm());
+        $form = new \ZfMetal\Security\Form\EditGroup($this->getEm());
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
-        $form->bind($user);
-
+        $form->bind($group);
+        $form->getInputFilter()->get('users')->setRequired(false);
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
-                $user->setPassword($this->bcrypt()->encode($user->getPassword()));
-                $this->userRepository->saveUser($user);
-                $this->redirect()->toRoute('zf-metal.admin/users/view', array('id' => $user->getId()));
+                if ($this->getRequest()->getPost('users') === null) {
+                    $group->setUsers(null);
+                }
+                $this->groupRepository->saveGroup($group);
+                $this->redirect()->toRoute('zf-metal.admin/groups/view', array('id' => $group->getId()));
             } else {
                 $errors = $form->getMessages();
             }
@@ -136,30 +141,30 @@ class AdminUserController extends AbstractActionController {
 
     public function delAction() {
         $id = $this->params("id");
-        $user = $this->userRepository->find($id);
-        if (!$user) {
-            throw new Exception("User not Found");
+        $group = $this->groupRepository->find($id);
+        if (!$group) {
+            throw new Exception("Group not Found");
         }
-        $this->userRepository->removeUser($user);
-        $this->redirect()->toRoute('zf-metal.admin/users');
+        $this->groupRepository->removeGroup($group);
+        $this->redirect()->toRoute('zf-metal.admin/groups');
     }
 
     public function viewAction() {
         $id = $this->params("id");
 
-        $user = $this->userRepository->find($id);
+        $group = $this->groupRepository->find($id);
 
-        return ["user" => $user];
+        return ["group" => $group];
     }
 
     public function resetPasswordAction() {
         $id = $this->params("id");
 
-        $user = $this->userRepository->find($id);
+        $group = $this->groupRepository->find($id);
 
         $formManual = new \ZfMetal\Security\Form\ResetPasswordManual();
         $formAuto = new \ZfMetal\Security\Form\ResetPasswordAuto();
-        $formAuto->setAttribute("action", '/admin/users/reset-password-auto/' . $id);
+        $formAuto->setAttribute("action", '/admin/groups/reset-password-auto/' . $id);
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
@@ -167,19 +172,19 @@ class AdminUserController extends AbstractActionController {
             $formManual->setInputFilter($formManual->inputFilter());
             if ($formManual->isValid()) {
 
-                $user->setPassword($this->bcrypt()->encode($data['password']));
-                $this->userRepository->saveUser($user);
+                $group->setPassword($this->bcrypt()->encode($data['password']));
+                $this->groupRepository->saveGroup($group);
                 $this->flashMessenger()->addSuccessMessage('Password reset exitoso.');
-                $this->redirect()->toRoute('zf-metal.admin/users');
+                $this->redirect()->toRoute('zf-metal.admin/groups');
             }
         }
 
-        return ["formManual" => $formManual, "formAuto" => $formAuto, "user" => $user];
+        return ["formManual" => $formManual, "formAuto" => $formAuto, "group" => $group];
     }
 
     public function resetPasswordAutoAction() {
         $id = $this->params("id");
-        $user = $this->userRepository->find($id);
+        $group = $this->groupRepository->find($id);
 
         $newPassword = $this->stringGenerator()->generate();
 
@@ -187,17 +192,17 @@ class AdminUserController extends AbstractActionController {
             throw new \Exception('Falla al generar nueva clave');
         }
 
-        $user->setPassword($this->bcrypt()->encode($newPassword));
+        $group->setPassword($this->bcrypt()->encode($newPassword));
 
         try {
-            $this->userRepository->saveUser($user);
+            $this->groupRepository->saveGroup($group);
             $this->flashMessenger()->addSuccessMessage('Password reset exitoso.');
-            $this->flashMessenger()->addSuccessMessage('Usuario: ' . $user->getUsername() . " - Password: " . $newPassword);
+            $this->flashMessenger()->addSuccessMessage('Usuario: ' . $group->getGroupname() . " - Password: " . $newPassword);
 
             //*** ENVIAR MAIL 
-            $this->mailManager()->setTemplate('zf-metal/mail/reset', ["user" => $user, "newPassowrd" => $newPassword]);
+            $this->mailManager()->setTemplate('zf-metal/mail/reset', ["group" => $group, "newPassowrd" => $newPassword]);
             $this->mailManager()->setFrom('ci.sys.virtual@gmail.com');
-            $this->mailManager()->addTo($user->getEmail(), $user->getName());
+            $this->mailManager()->addTo($group->getEmail(), $group->getName());
             $this->mailManager()->setSubject('Recuperar Password');
 
             if ($this->mailManager()->send()) {
@@ -210,13 +215,13 @@ class AdminUserController extends AbstractActionController {
 
 
 
-            $this->redirect()->toRoute('zf-metal.admin/users');
+            $this->redirect()->toRoute('zf-metal.admin/groups');
         } catch (Exception $ex) {
             $this->flashMessenger()->addErrorMessage('Falla al intentar hacer reset password');
         }
 
 
-        return ["user" => $user];
+        return ["group" => $group];
     }
 
 }

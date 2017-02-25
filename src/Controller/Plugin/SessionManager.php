@@ -6,7 +6,7 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 class SessionManager extends AbstractPlugin
 {
     /**
-     * @var \ZfMetal\Security\Session\SessionInterface
+     * @var \ZfMetal\Security\Storage\StorageInterface
      */
     private $sessionContainer;
 
@@ -30,7 +30,7 @@ class SessionManager extends AbstractPlugin
      * SessionManager constructor.
      * @param StorageSession $sessionContainer
      */
-    public function __construct(\ZfMetal\Security\Session\SessionInterface $sessionContainer)
+    public function __construct(\ZfMetal\Security\Storage\StorageInterface $sessionContainer)
     {
         $this->sessionContainer = $sessionContainer;
     }

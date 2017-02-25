@@ -10,6 +10,7 @@ return [
             Controller\RecoveryController::class => Factory\Controller\RecoveryControllerFactory::class,
             Controller\AdminUserController::class => Factory\Controller\AdminUserControllerFactory::class,
             Controller\AdminRoleController::class => Factory\Controller\AdminRoleControllerFactory::class,
+             Controller\AdminGroupController::class => Factory\Controller\AdminGroupControllerFactory::class,
 
         ]
     ]
