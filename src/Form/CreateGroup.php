@@ -4,10 +4,10 @@ namespace ZfMetal\Security\Form;
 
 use Zend\Form\Form;
 
-class EditUser extends \Zend\Form\Form {
+class CreateGroup extends \Zend\Form\Form {
 
     public function __construct(\Doctrine\ORM\EntityManager $em) {
-        parent::__construct('user');
+        parent::__construct('role');
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', "form");
         $this->setAttribute('role', "form");
@@ -25,32 +25,20 @@ class EditUser extends \Zend\Form\Form {
             )
         ));
 
-        $this->add(array(
-            'name' => 'username',
-            'attributes' => array(
-                'type' => 'text',
-                'placeholder' => 'Username',
-                'class' => 'form-control input-lg',
-                'required' => 'required'
-            ),
-            'options' => array(
-                'label' => 'Username'
-            )
-        ));
-
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
-            'name' => 'roles',
-             'attributes' => array(
+            'name' => 'users',
+            'attributes' => array(
                 'class' => 'form-control'
             ),
             'options' => [
                 'object_manager' => $em,
-                'target_class' => 'ZfMetal\Security\Entity\Role',
+                'target_class' => 'ZfMetal\Security\Entity\User',
                 'property' => 'name',
             ],
         ]);
 
+       
         $this->add(array(
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
