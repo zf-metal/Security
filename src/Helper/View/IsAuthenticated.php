@@ -17,7 +17,7 @@ class IsAuthenticated extends AbstractHelper {
     }
 
     public function __invoke() {
-        return ($this->authorize->getIdentity()) ? true : false;
+        return ($this->authorize->hasIdentity()) ? $this->authorize->getIdentity() : false;
     }
 
 }
