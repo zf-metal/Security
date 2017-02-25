@@ -1,6 +1,6 @@
 <?php
 
-namespace ZfMetal\Security\Factory\Session;
+namespace ZfMetal\Security\Factory\Storage;
 
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;

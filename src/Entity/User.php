@@ -177,21 +177,22 @@ class User implements IdentityInterface {
         $this->roles = $roles;
     }
 
+    function getActive() {
+        return $this->active;
+    }
+
     /**
      * @return bool
      */
-    public function isActive()
-    {
+    public function isActive() {
         return $this->active;
     }
 
     /**
      * @param bool $active
      */
-    public function setActive($active)
-    {
+    public function setActive($active) {
         $this->active = $active;
     }
-
 
 }

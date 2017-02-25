@@ -71,18 +71,16 @@ class Doctrine implements AdapterInterface {
         $identity = $this->getEm()->getRepository('ZfMetal\Security\Entity\User')
                 ->getAuthenticateByEmailOrUsername($this->identity, $this->credential);
         
-        //Fuerzo la obtencion de Roles, para que se carguen en la sesion. (Windows)
+        //Forzamos la obtencion de Roles.
         $identity->getRoles()->getValues();
-//        foreach($identity->getRoles() as $role){
-//        }
-       
+
 
         $mensaje = array();
         $code = 0;
 
         if ($identity) {
             
-            if(!$identity->getActive()){
+            if(!$identity->isActive()){
                    $mensaje = ['Falla al autenticar, usuario inactivo'];
             }else if ($bcrypt->verify($this->credential, $identity->getPassword())) {
                 $mensaje = ['Usuario logueado exitosamente'];
