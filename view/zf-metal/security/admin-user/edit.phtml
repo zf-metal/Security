@@ -7,36 +7,36 @@
         <!--<h4>Por favor completa el siguiente formulario.</h4>-->
         <div class="row">
             <div class="col-xs-12 col-md-6">
-                <div class="form-group">
-                    <?php $element = $form->get('name'); ?>
-                    <label> <?php echo $element->getOption('label'); ?> </label>
-                    <?php echo $this->formElement($element); ?>
-                </div>
+                <?php echo $this->partial('zf-metal/security/forms/element/default', ['element' => $form->get('name')]); ?>
+
             </div>
             <div class="col-xs-12 col-md-6">
-                <div class="form-group">
-                    <?php $element = $form->get('username'); ?>
-                    <label> <?php echo $element->getOption('label'); ?> </label>
-                    <?php echo $this->formElement($element); ?>
-                </div>
+                <?php echo $this->partial('zf-metal/security/forms/element/default', ['element' => $form->get('username')]); ?>
+
             </div>
         </div>
 
+        <br>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <?php echo $this->partial('zf-metal/security/forms/element/checkbox-legend', ['element' => $form->get('active')]); ?>
+
+            </div>
+
+        </div>
 
         <legend>Roles:</legend>
         <div class="row">
 
-
-
             <div class="col-xs-12 col-md-12 ">
-                <div class="form-group multi-check">
-                    <?php $element = $form->get('roles'); ?>
+                <?php echo $this->partial('zf-metal/security/forms/element/multi-checkbox', ['element' => $form->get('roles')]); ?>
 
-                    <?php echo $this->formElement($element); ?>
-                </div>
             </div>
 
         </div>
+        
+        
         <div class="row">
             <div class="col-xs-12 col-md-12 radio">
                 <?php echo $this->formElement($form->get('submit')); ?>

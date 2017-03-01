@@ -120,6 +120,8 @@ class AdminRoleController extends AbstractActionController {
         $form = new \ZfMetal\Security\Form\CreateRole($this->getEm());
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($role);
+        $form->getInputFilter()->get('children')->setRequired(false);
+        $form->getInputFilter()->get('permissions')->setRequired(false);
 
         $errors = '';
 
@@ -128,7 +130,16 @@ class AdminRoleController extends AbstractActionController {
 
             if ($form->isValid()) {
                 $role = $form->getData();
-                $this->roleRepository->saveRole($role);
+
+
+                try {
+                    $this->roleRepository->saveRole($role);
+                    $this->flashMessenger()->addSuccessMessage('El Rol se creo correctamente');
+                } catch (Exception $ex) {
+                    $this->flashMessenger()->addErrorMessage('Error al crear el Rol');
+                }
+
+
                 $this->redirect()->toRoute('zf-metal.admin/roles/view', array('id' => $role->getId()));
             } else {
                 $errors = $form->getMessages();
@@ -165,8 +176,16 @@ class AdminRoleController extends AbstractActionController {
                 }
                 if ($this->getRequest()->getPost('permissions') === null) {
                     $role->setPermissions(null); // set null to remove all associations with this client
-                } 
-                $this->roleRepository->saveRole($role);
+                }
+
+
+                try {
+                    $this->roleRepository->saveRole($role);
+                    $this->flashMessenger()->addSuccessMessage('El Rol ' . $role->getName() . ' se edito correctamente');
+                } catch (Exception $ex) {
+                    $this->flashMessenger()->addErrorMessage('Error al editar el Rol');
+                }
+
                 $this->redirect()->toRoute('zf-metal.admin/roles/view', array('id' => $role->getId()));
             } else {
                 $errors = $form->getMessages();
@@ -174,6 +193,22 @@ class AdminRoleController extends AbstractActionController {
         }
 
         return ["form" => $form];
+    }
+
+    public function delAction() {
+        $id = $this->params("id");
+        $role = $this->roleRepository->find($id);
+        if (!$role) {
+            throw new Exception("Role not Found");
+        }
+        try {
+            $this->roleRepository->removeRole($role);
+            $this->flashMessenger()->addSuccessMessage('El Rol se elimino correctamente.');
+        } catch (Exception $ex) {
+            $this->flashMessenger()->addErrorMessage('Error al eliminar el Rol.');
+        }
+
+        $this->redirect()->toRoute('zf-metal.admin/roles');
     }
 
 }

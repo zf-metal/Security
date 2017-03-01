@@ -26,7 +26,7 @@ class CreateUser extends \Zend\Form\Form {
         ));
 
         $this->add(array(
-            'name' => 'mail',
+            'name' => 'email',
             'attributes' => array(
                 'type' => 'mail',
                 'placeholder' => 'Email',
@@ -61,6 +61,20 @@ class CreateUser extends \Zend\Form\Form {
             'options' => array(
                 'label' => 'Password',
                 'required' => 'required'
+            )
+        ));
+        
+        
+        $this->add(array(
+            'name' => 'active',
+            'type' => 'Zend\Form\Element\Checkbox',
+            'attributes' => array(
+                'type' => 'checkbox',
+                'placeholder' => 'Active',
+                'class' => 'form-control input-lg'
+            ),
+            'options' => array(
+                'label' => 'Active'
             )
         ));
 
