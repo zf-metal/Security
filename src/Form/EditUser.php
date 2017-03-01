@@ -37,6 +37,18 @@ class EditUser extends \Zend\Form\Form {
                 'label' => 'Username'
             )
         ));
+        
+            $this->add(array(
+            'name' => 'active',
+            'type' => 'Zend\Form\Element\Checkbox',
+            'attributes' => array(
+                'type' => 'checkbox',
+                'class' => 'form-control'
+            ),
+            'options' => array(
+                'label' => 'Active:'
+            )
+        ));
 
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',

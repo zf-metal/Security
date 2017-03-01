@@ -92,7 +92,12 @@ class AdminUserController extends AbstractActionController {
 
             if ($form->isValid()) {
                 $user->setPassword($this->bcrypt()->encode($user->getPassword()));
-                $this->userRepository->saveUser($user);
+                try {
+                    $this->userRepository->saveUser($user);
+                    $this->flashMessenger()->addSuccessMessage('El usuario se creo correctamente');
+                } catch (Exception $ex) {
+                    $this->flashMessenger()->addErrorMessage('Error al crear el usuario');
+                }
                 $this->redirect()->toRoute('zf-metal.admin/users/view', array('id' => $user->getId()));
             } else {
                 $errors = $form->getMessages();
@@ -124,6 +129,15 @@ class AdminUserController extends AbstractActionController {
 
             if ($form->isValid()) {
                 $user->setPassword($this->bcrypt()->encode($user->getPassword()));
+
+                try {
+                    $this->userRepository->saveUser($user);
+                    $this->flashMessenger()->addSuccessMessage('El usuario ' . $user->getUsername() . ' se edito correctamente');
+                } catch (Exception $ex) {
+                    $this->flashMessenger()->addErrorMessage('Error al editar el usuario ' . $user->getUsername());
+                }
+
+
                 $this->userRepository->saveUser($user);
                 $this->redirect()->toRoute('zf-metal.admin/users/view', array('id' => $user->getId()));
             } else {
@@ -140,7 +154,15 @@ class AdminUserController extends AbstractActionController {
         if (!$user) {
             throw new Exception("User not Found");
         }
-        $this->userRepository->removeUser($user);
+
+        try {
+            $this->userRepository->removeUser($user);
+            $this->flashMessenger()->addSuccessMessage('El Usuario se elimino correctamente.');
+        } catch (Exception $ex) {
+            $this->flashMessenger()->addErrorMessage('Error al eliminar el Usuario.');
+        }
+
+
         $this->redirect()->toRoute('zf-metal.admin/users');
     }
 

@@ -12,7 +12,7 @@ class RoleRepository extends EntityRepository {
         return $role;
     }
     
-     public function removeUser(\ZfMetal\Security\Entity\Role $role){
+     public function removeRole(\ZfMetal\Security\Entity\Role $role){
         $this->getEntityManager()->remove($role);
         $this->getEntityManager()->flush();
         return $role;
