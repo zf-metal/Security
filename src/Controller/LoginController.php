@@ -94,7 +94,8 @@ class LoginController extends AbstractActionController
         }
 
         return new ViewModel([
-            'form' => $form->prepare()
+            'form' => $form->prepare(),
+            'publicRegister' => $this->getOptions()->getPublicRegister()
         ]);
     }
 

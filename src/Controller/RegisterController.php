@@ -70,20 +70,27 @@ class RegisterController extends AbstractActionController {
                 if ($this->moduleOptions->getEmailConfirmationRequire()) {
                     $user->setActive(0);
                     $this->userRepository->saveUser($user);
-
-                    $result = $this->notifyUser($user);
-                    if ($result) {
-                        $message = 'El usuario fue creado correctamente. Verifique su casilla de Email.';
+                    $this->flashMessenger()->addSuccessMessage('El usuario fue creado correctamente. Requiere activación via email.');
+                       
+                    
+                    if($this->notifyUser($user)) {
+                        $this->flashMessenger()->addSuccessMessage('Envio de mail exitoso. Verifique su casilla de Email para activar el usuario.');
+                    }else{
+                        $this->flashMessenger()->addErrorMessage('Envio de mail fallido. Contacte al administrador.');
+      
                     }
+                    
+                    
                 } else {
                     $user->setActive($this->moduleOptions->getUserStateDefault());
                     $this->userRepository->saveUser($user);
-                    $message = 'El usuario fue creado correctamente. ';
+                    
+                    $this->flashMessenger()->addSuccessMessage('El usuario fue creado correctamente.');
+
                     if (!$this->moduleOptions->getUserStateDefault()) {
-                        $message .= 'Pronto habilitaremos su acceso.';
+                        $this->flashMessenger()->addWarningMessage('El usuario debe ser habilitado por un administrador.');
                     }
                 }
-                $this->flashMessenger()->addSuccessMessage($message);
                 $this->redirect()->toRoute('zf-metal.user/login');
             } else {
                 $errors = $form->getMessages();
@@ -117,10 +124,10 @@ class RegisterController extends AbstractActionController {
         $this->mailManager()->setSubject('Validar Usuario - SYSTU');
 
         if ($this->mailManager()->send()) {
-            $this->flashMessenger()->addSuccessMessage('Envio de mail exitoso.');
+            return true;
         } else {
-            $this->flashMessenger()->addErrorMessage('Falla al enviar mail.');
-            $this->logger()->info("Falla al enviar mail al resetear password.");
+            $this->logger()->err("Falla al enviar mail al usuario al notificar confirmación.");
+             return false;
         }
     }
 
