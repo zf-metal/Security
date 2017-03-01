@@ -71,7 +71,7 @@ class Group {
         return $this->name;
     }
 
-    public function hasUser() {
+    public function hasUser($user) {
         if ($this->users->contains($user)) {
             return true;
         }
