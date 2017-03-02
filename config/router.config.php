@@ -267,6 +267,22 @@ return [
                                 'controller' => Controller\ProfileController::class,
                                 'action' => 'profile'
                             ]
+                        ],
+                        'child_routes' => [
+                            'password-update' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/password-update',
+                                    'defaults' => [
+                                        'controller' => Controller\ProfileController::class,
+                                        'action' => 'reset-password'
+                                    ],
+                                    'constraints' => [
+                                        'id' => '[0-9]+',
+                                        'token' => '[a-zA-Z0-9_-]+',
+                                    ]
+                                ]
+                            ]
                         ]
                     ]
                 ]

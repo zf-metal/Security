@@ -1,3 +1,7 @@
+<?php
+$this->notyFlash(true);
+?>
+
 <div class="row">
     <div class="col-xs-12 col-md-12">
 
@@ -5,7 +9,7 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 text-center">
-                        <img src="http://api.randomuser.me/portraits/men/49.jpg" alt=""
+                        <img src="<?= $this->basePath('img/') . $user->getImg(); ?>" alt=""
                              class="center-block img-circle img-responsive">
                         <br>
 <!--                        <div>-->
@@ -15,7 +19,7 @@
 <!--                        </div>-->
                         <br>
                         <div>
-                            <a  class="btn btn-success btn-block"><span class="fa fa-gear"></span>
+                            <a href="<?= $this->url('zf-metal.user/profile/password-update'); ?>" class="btn btn-success btn-block"><span class="fa fa-gear"></span>
                                 Change Password
                             </a>
                         </div>

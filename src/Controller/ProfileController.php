@@ -15,40 +15,50 @@ class ProfileController extends AbstractActionController
     private $authService;
 
     /**
-     * @var ModuleOptions
+     * @var \ZfMetal\Security\Options\ModuleOptions
      */
     private $moduleOptions;
 
     /**
-     * getAuthService
+     * @var \ZfMetal\Security\Repository\UserRepository
+     */
+    private $userRepository;
+
+    /**
+     * ProfileController constructor.
+     * @param \Zend\Authentication\AuthenticationService $authService
+     * @param \ZfMetal\Security\Options\ModuleOptions $moduleOptions
+     * @param \ZfMetal\Security\Repository\UserRepository $userRepository
+     */
+    public function __construct(\Zend\Authentication\AuthenticationService $authService, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository)
+    {
+        $this->authService = $authService;
+        $this->moduleOptions = $moduleOptions;
+        $this->userRepository = $userRepository;
+    }
+
+    /**
      * @return \Zend\Authentication\AuthenticationService
      */
-    function getAuthService()
+    public function getAuthService()
     {
         return $this->authService;
     }
 
-    function setAuthService(\Zend\Authentication\AuthenticationService $authService)
-    {
-        $this->authService = $authService;
-    }
-
-    function __construct(\Zend\Authentication\AuthenticationService $authService)
-    {
-        $this->authService = $authService;
-    }
-
-    public function passwordAction()
-    {
-        $form = new \ZfMetal\Security\Form\ResetPasswordManual();
-    }
-
     /**
-     * @return ModuleOptions
+     * @return \ZfMetal\Security\Options\ModuleOptions
      */
     public function getModuleOptions()
     {
         return $this->moduleOptions;
+    }
+
+    /**
+     * @return \ZfMetal\Security\Repository\UserRepository
+     */
+    public function getUserRepository()
+    {
+        return $this->userRepository;
     }
 
     public function profileAction()
@@ -65,4 +75,28 @@ class ProfileController extends AbstractActionController
         ]);
     }
 
+    public function resetPasswordAction()
+    {
+        if (!$this->getAuthService()->hasIdentity()) {
+            return $this->redirect()->toRoute('home');
+        }
+        $user = $this->authService->getIdentity();
+
+        $formManual = new \ZfMetal\Security\Form\ResetPasswordManual();
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->getRequest()->getPost();
+            $formManual->setData($data);
+            $formManual->setInputFilter($formManual->inputFilter());
+            if ($formManual->isValid()) {
+                $user = $this->getUserRepository()->find($this->getAuthService()->getIdentity()->getId());
+                $user->setPassword($this->bcrypt()->encode($data['password']));
+                $this->userRepository->saveUser($user);
+                $this->flashMessenger()->addSuccessMessage('Password Update exitoso.');
+                $this->redirect()->toRoute('zf-metal.user/profile');
+            }
+        }
+
+        return new ViewModel(["formManual" => $formManual, "user" => $user]);
+    }
 }
