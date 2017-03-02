@@ -30,11 +30,10 @@ class Group {
     protected $name;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     *
-     * @ORM\ManyToMany(targetEntity="User")
+     * Many Groups have Many Users.
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="groups")
      */
-    protected $users = [];
+    private $users;
 
     /**
      * Init the Doctrine collection
