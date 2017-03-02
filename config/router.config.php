@@ -257,6 +257,17 @@ return [
                                 'action' => 'recovery'
                             ]
                         ]
+                    ],
+                    'profile' => [
+                        'type' => Literal::class,
+                        'may_terminate' => true,
+                        'options' => [
+                            'route' => '/profile',
+                            'defaults' => [
+                                'controller' => Controller\ProfileController::class,
+                                'action' => 'profile'
+                            ]
+                        ]
                     ]
                 ]
             ]

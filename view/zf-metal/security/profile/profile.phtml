@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-xs-12 col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-4 text-center">
+                        <img src="http://api.randomuser.me/portraits/men/49.jpg" alt=""
+                             class="center-block img-circle img-responsive">
+                        <br>
+<!--                        <div>-->
+<!--                            <a  class="btn btn-info btn-block"><span class="fa fa-gear"></span>-->
+<!--                                Update User data-->
+<!--                            </a>-->
+<!--                        </div>-->
+                        <br>
+                        <div>
+                            <a  class="btn btn-success btn-block"><span class="fa fa-gear"></span>
+                                Change Password
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-8">
+                        <h2><?= $user->getName(); ?></h2>
+                        <p><strong>Email: </strong> <?= $user->getEmail(); ?> </p>
+
+                        <p><strong>Groups: </strong>
+                            <?php foreach ($user->getGroups() as $group) : ?>
+                                <span class="label label-info tags"><?= $group->getName(); ?></span>
+                            <?php endforeach; ?>
+                        </p>
+
+                        <p><strong>Roles: </strong>
+                            <?php foreach ($user->getRoles() as $rol) : ?>
+                                <span class="label label-info tags"><?= $rol->getName(); ?></span>
+                            <?php endforeach; ?>
+                        </p>
+
+                        <p><strong>Permissions: </strong>
+                            <?php foreach ($user->getRoles() as $rol) : ?>
+                                <?php foreach ($rol->getPermissions() as $permission) : ?>
+
+                                    <span class="label label-info tags"><?= $rol->getName(). ' - '. $permission->getName(); ?></span>
+
+                                <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
