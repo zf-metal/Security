@@ -28,12 +28,6 @@ $this->notyFlash(true);
                         <h2><?= $user->getName(); ?></h2>
                         <p><strong>Email: </strong> <?= $user->getEmail(); ?> </p>
 
-                        <p><strong>Groups: </strong>
-                            <?php foreach ($user->getGroups() as $group) : ?>
-                                <span class="label label-info tags"><?= $group->getName(); ?></span>
-                            <?php endforeach; ?>
-                        </p>
-
                         <p><strong>Roles: </strong>
                             <?php foreach ($user->getRoles() as $rol) : ?>
                                 <span class="label label-info tags"><?= $rol->getName(); ?></span>

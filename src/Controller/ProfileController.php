@@ -66,10 +66,7 @@ class ProfileController extends AbstractActionController
         if (!$this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
-        $user = $this->getAuthService()->getIdentity();
-        foreach ($user->getGroups() as $group){
-            echo '<li>'. $group->getName(). '</li>';
-        }
+
         return new ViewModel([
             'user' => $this->getAuthService()->getIdentity()
         ]);
