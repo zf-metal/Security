@@ -8,6 +8,11 @@ use Zend\View\Model\ViewModel;
 class ProfileController extends AbstractActionController {
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
+    /**
      *
      * @var \Zend\Authentication\AuthenticationService
      */
@@ -23,36 +28,26 @@ class ProfileController extends AbstractActionController {
      */
     private $userRepository;
 
-    /**
-     * ProfileController constructor.
-     * @param \Zend\Authentication\AuthenticationService $authService
-     * @param \ZfMetal\Security\Options\ModuleOptions $moduleOptions
-     * @param \ZfMetal\Security\Repository\UserRepository $userRepository
-     */
-    public function __construct(\Zend\Authentication\AuthenticationService $authService, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+    function __construct(\Doctrine\ORM\EntityManager $em, \Zend\Authentication\AuthenticationService $authService, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+        $this->em = $em;
         $this->authService = $authService;
         $this->moduleOptions = $moduleOptions;
         $this->userRepository = $userRepository;
     }
 
-    /**
-     * @return \Zend\Authentication\AuthenticationService
-     */
-    public function getAuthService() {
+    function getEm() {
+        return $this->em;
+    }
+
+    function getAuthService() {
         return $this->authService;
     }
 
-    /**
-     * @return \ZfMetal\Security\Options\ModuleOptions
-     */
-    public function getModuleOptions() {
+    function getModuleOptions() {
         return $this->moduleOptions;
     }
 
-    /**
-     * @return \ZfMetal\Security\Repository\UserRepository
-     */
-    public function getUserRepository() {
+    function getUserRepository() {
         return $this->userRepository;
     }
 
@@ -61,29 +56,24 @@ class ProfileController extends AbstractActionController {
             return $this->redirect()->toRoute('home');
         }
         $formImg = new \ZfMetal\Security\Form\ImageProfile();
-       // $formImg->setInputFilter(new \ZfMetal\Security\Form\Filter\ImageProfileFilter());
-        $formImg->setInputFilter($formImg->inputFilter());
         if ($this->request->isPost()) {
-            var_dump($_FILES['picture']);
-            
+            $user = $this->userRepository->find($this->getAuthService()->getIdentity()->getId());
+
             $data = array_merge_recursive(
                     $this->getRequest()->getPost()->toArray(), $this->getRequest()->getFiles()->toArray()
             );
+
+            $formImg->setHydrator(new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($this->getEm()));
+            $formImg->bind($user);
             $formImg->setData($data);
 
             if ($formImg->isValid()) {
-                $user = $this->userRepository->find($this->getAuthService()->getIdentity()->getId());
-                $img = $formImg->get('picture');
-                var_dump($img->getValue());
-                $user->setImg($img->getValue()['name']);
-                $this->getAuthService()->getIdentity()->setImg($img->getValue()['name']);
-                
+     
                 $this->userRepository->saveUser($user);
-                
+                $this->getAuthService()->getIdentity()->setImg($user->getImg());
                 $this->flashMessenger()->addSuccessMessage('La imagen se actualizó correctamente.');
-            }else{
-                $this->flashMessenger()->addErrorMessage('No valida Imagen.');
-                foreach ($formImg->getMessages() as $message){
+            } else {
+                foreach ($formImg->getMessages() as $message) {
                     $this->flashMessenger()->addErrorMessage($message);
                 }
             }

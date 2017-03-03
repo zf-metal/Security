@@ -28,17 +28,8 @@ $this->notyFlash(true);
                         <?php echo $this->form()->openTag($formImg) ?>
 
                         <div class="btn-block">
-                            <?php echo $this->formElement($formImg->get('picture')); ?>
-                            <?php if ($this->formElementErrors($formImg->get('picture'))) : ?>
-                                <?php
-                                echo $this->formElementErrors()
-                                        ->setMessageOpenFormat('<span class="help-block">')
-                                        ->setMessageSeparatorString('</span><span class="help-block">')
-                                        ->setMessageCloseString('</span>')
-                                        ->render($formImg->get('picture'));
-                                ?>
-
-                            <?php endif; ?>
+                            <?php echo $this->formElement($formImg->get('img')); ?>
+         
                         </div>
                         <div class="btn-block">
                             <?php echo $this->formElement($formImg->get('submitbtn')); ?>
