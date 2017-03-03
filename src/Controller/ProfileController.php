@@ -5,8 +5,7 @@ namespace ZfMetal\Security\Controller;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
-class ProfileController extends AbstractActionController
-{
+class ProfileController extends AbstractActionController {
 
     /**
      *
@@ -30,8 +29,7 @@ class ProfileController extends AbstractActionController
      * @param \ZfMetal\Security\Options\ModuleOptions $moduleOptions
      * @param \ZfMetal\Security\Repository\UserRepository $userRepository
      */
-    public function __construct(\Zend\Authentication\AuthenticationService $authService, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository)
-    {
+    public function __construct(\Zend\Authentication\AuthenticationService $authService, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
         $this->authService = $authService;
         $this->moduleOptions = $moduleOptions;
         $this->userRepository = $userRepository;
@@ -40,40 +38,64 @@ class ProfileController extends AbstractActionController
     /**
      * @return \Zend\Authentication\AuthenticationService
      */
-    public function getAuthService()
-    {
+    public function getAuthService() {
         return $this->authService;
     }
 
     /**
      * @return \ZfMetal\Security\Options\ModuleOptions
      */
-    public function getModuleOptions()
-    {
+    public function getModuleOptions() {
         return $this->moduleOptions;
     }
 
     /**
      * @return \ZfMetal\Security\Repository\UserRepository
      */
-    public function getUserRepository()
-    {
+    public function getUserRepository() {
         return $this->userRepository;
     }
 
-    public function profileAction()
-    {
+    public function profileAction() {
         if (!$this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
+        $formImg = new \ZfMetal\Security\Form\ImageProfile();
+       // $formImg->setInputFilter(new \ZfMetal\Security\Form\Filter\ImageProfileFilter());
+        $formImg->setInputFilter($formImg->inputFilter());
+        if ($this->request->isPost()) {
+            var_dump($_FILES['picture']);
+            
+            $data = array_merge_recursive(
+                    $this->getRequest()->getPost()->toArray(), $this->getRequest()->getFiles()->toArray()
+            );
+            $formImg->setData($data);
+
+            if ($formImg->isValid()) {
+                $user = $this->userRepository->find($this->getAuthService()->getIdentity()->getId());
+                $img = $formImg->get('picture');
+                var_dump($img->getValue());
+                $user->setImg($img->getValue()['name']);
+                $this->getAuthService()->getIdentity()->setImg($img->getValue()['name']);
+                
+                $this->userRepository->saveUser($user);
+                
+                $this->flashMessenger()->addSuccessMessage('La imagen se actualizó correctamente.');
+            }else{
+                $this->flashMessenger()->addErrorMessage('No valida Imagen.');
+                foreach ($formImg->getMessages() as $message){
+                    $this->flashMessenger()->addErrorMessage($message);
+                }
+            }
+        }
 
         return new ViewModel([
-            'user' => $this->getAuthService()->getIdentity()
+            'user' => $this->getAuthService()->getIdentity(),
+            'formImg' => $formImg
         ]);
     }
 
-    public function resetPasswordAction()
-    {
+    public function resetPasswordAction() {
         if (!$this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
@@ -96,4 +118,5 @@ class ProfileController extends AbstractActionController
 
         return new ViewModel(["formManual" => $formManual, "user" => $user]);
     }
+
 }

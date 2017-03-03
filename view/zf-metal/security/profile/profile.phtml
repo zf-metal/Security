@@ -9,17 +9,48 @@ $this->notyFlash(true);
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 text-center">
-                        <img src="<?= $this->basePath('img/') . $user->getImg(); ?>" alt=""
+                        <img src="<?= $this->basePath('img/profile/') . $user->getImg(); ?>" alt=""
                              class="center-block img-circle img-responsive">
                         <br>
-<!--                        <div>-->
-<!--                            <a  class="btn btn-info btn-block"><span class="fa fa-gear"></span>-->
-<!--                                Update User data-->
-<!--                            </a>-->
-<!--                        </div>-->
+                        <!--                        <div>-->
+                        <!--                            <a  class="btn btn-info btn-block"><span class="fa fa-gear"></span>-->
+                        <!--                                Update User data-->
+                        <!--                            </a>-->
+                        <!--                        </div>-->
+
+<!--                        <form action="<?= $this->url('zf-metal.user/profile/update-img') ?>" method="post" enctype="multipart/form-data">
+                            <div class="btn btn-info btn-block">
+                                <input type="file" accept="image/png, image/jpeg, image/gif"/>
+                            </div>
+                            <input class="btn btn-success btn-block" type="submit" value="Upload Image" name="submit">
+                        </form>-->
+
+                        <?php echo $this->form()->openTag($formImg) ?>
+
+                        <div class="btn-block">
+                            <?php echo $this->formElement($formImg->get('picture')); ?>
+                            <?php if ($this->formElementErrors($formImg->get('picture'))) : ?>
+                                <?php
+                                echo $this->formElementErrors()
+                                        ->setMessageOpenFormat('<span class="help-block">')
+                                        ->setMessageSeparatorString('</span><span class="help-block">')
+                                        ->setMessageCloseString('</span>')
+                                        ->render($formImg->get('picture'));
+                                ?>
+
+                            <?php endif; ?>
+                        </div>
+                        <div class="btn-block">
+                            <?php echo $this->formElement($formImg->get('submitbtn')); ?>
+                        </div>
+
+
+                        <?php echo $this->form()->closeTag($formImg); ?>
+
                         <br>
+
                         <div>
-                            <a href="<?= $this->url('zf-metal.user/profile/password-update'); ?>" class="btn btn-success btn-block"><span class="fa fa-gear"></span>
+                            <a href="<?= $this->url('zf-metal.user/profile/password-update'); ?>" class="btn btn-warning btn-block"><span class="fa fa-gear"></span>
                                 Change Password
                             </a>
                         </div>
@@ -38,7 +69,7 @@ $this->notyFlash(true);
                             <?php foreach ($user->getRoles() as $rol) : ?>
                                 <?php foreach ($rol->getPermissions() as $permission) : ?>
 
-                                    <span class="label label-info tags"><?= $rol->getName(). ' - '. $permission->getName(); ?></span>
+                                    <span class="label label-info tags"><?= $rol->getName() . ' - ' . $permission->getName(); ?></span>
 
                                 <?php endforeach; ?>
                             <?php endforeach; ?>
