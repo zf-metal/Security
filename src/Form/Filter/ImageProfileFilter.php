@@ -13,20 +13,18 @@ class ImageProfileFilter extends InputFilter {
 
     function __construct() {
         $path = __DIR__ . '/../../../../../../public/img/profile/';
-        $path = "/home/afurgeri/Proyectos/zend3/public/img/profile/";
-       // $path = "/tmp";
         $this->add(array(
-            'name' => 'picture',
+            'name' => 'img',
             'required' => true,
             'filters' => array(
-                array('name' => \Zend\Filter\File\RenameUpload::class,
+                array('name' => \ZfMetal\Security\Filter\RenameUpload::class,
                     "options" =>
                         [
                         "target" => $path,
                         "randomize" => true,
                         "use_upload_extension" => true,
-                        "use_upload_name" => true,
-                        "overwrite" => true
+                        //"use_upload_name" => true,
+                        //"overwrite" => true
                     ]
                 ),
             ),

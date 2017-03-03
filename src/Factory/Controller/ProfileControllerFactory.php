@@ -12,7 +12,7 @@ class ProfileControllerFactory implements FactoryInterface {
         $moduleOptions = $container->get('zf-metal-security.options');
         $em = $container->get('doctrine.entitymanager.orm_default');
         $userRepository = $em->getRepository('ZfMetal\Security\Entity\User');
-        return new \ZfMetal\Security\Controller\ProfileController($authService, $moduleOptions, $userRepository);
+        return new \ZfMetal\Security\Controller\ProfileController($em,$authService, $moduleOptions, $userRepository);
     }
 
 }
