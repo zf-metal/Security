@@ -277,10 +277,16 @@ return [
                                         'controller' => Controller\ProfileController::class,
                                         'action' => 'reset-password'
                                     ],
-                                    'constraints' => [
-                                        'id' => '[0-9]+',
-                                        'token' => '[a-zA-Z0-9_-]+',
-                                    ]
+                                ]
+                            ],
+                            'update-img' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/update-img',
+                                    'defaults' => [
+                                        'controller' => Controller\ProfileController::class,
+                                        'action' => 'update-img'
+                                    ],
                                 ]
                             ]
                         ]
