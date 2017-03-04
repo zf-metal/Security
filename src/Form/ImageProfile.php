@@ -6,7 +6,7 @@ use Zend\Form\Form;
 
 class ImageProfile extends \Zend\Form\Form {
 
-    public function __construct() {
+    public function __construct($picturePath) {
         parent::__construct('image');
         $this->setAttribute('method', 'post');
         $this->setAttribute("enctype", "multipart/form-data");
@@ -36,7 +36,7 @@ class ImageProfile extends \Zend\Form\Form {
                 'label' => 'Upload',
             )
         ));          
-        $this->setInputFilter(new \ZfMetal\Security\Form\Filter\ImageProfileFilter());
+        $this->setInputFilter(new \ZfMetal\Security\Form\Filter\ImageProfileFilter($picturePath));
     }
     
     
