@@ -11,6 +11,7 @@ return [
     'view_helpers' => [
         'factories' => [
             'isAuthenticated' => Factory\Helper\View\IsAuthenticatedFactory::class,
+            'getModuleOptions' => Factory\Helper\View\GetModuleOptionsFactory::class,
         ],
         'invokables' => [
             'notyFlash' => Helper\View\NotyFlash::class,
