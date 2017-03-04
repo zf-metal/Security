@@ -47,6 +47,11 @@ class ModuleOptions extends AbstractOptions
     protected $emailConfirmationRequire;
 
     /**
+     * @var string
+     */
+    protected $profilePicturePath;
+
+    /**
      * Constructor
      */
     public function __construct($options = null)
@@ -138,6 +143,22 @@ class ModuleOptions extends AbstractOptions
     public function setBcryptCost($bcryptCost)
     {
         $this->bcryptCost = $bcryptCost;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfilePicturePath()
+    {
+        return $this->profilePicturePath;
+    }
+
+    /**
+     * @param mixed $profilePicturePath
+     */
+    public function setProfilePicturePath($profilePicturePath)
+    {
+        $this->profilePicturePath = $profilePicturePath;
     }
 
 

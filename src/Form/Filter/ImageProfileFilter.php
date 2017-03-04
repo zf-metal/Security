@@ -11,8 +11,8 @@ use Zend\InputFilter\InputFilter;
  */
 class ImageProfileFilter extends InputFilter {
 
-    function __construct() {
-        $path = __DIR__ . '/../../../../../../public/img/profile/';
+    function __construct($path) {
+
         $this->add(array(
             'name' => 'img',
             'required' => true,

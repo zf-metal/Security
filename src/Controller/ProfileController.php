@@ -55,7 +55,7 @@ class ProfileController extends AbstractActionController {
         if (!$this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
-        $formImg = new \ZfMetal\Security\Form\ImageProfile();
+        $formImg = new \ZfMetal\Security\Form\ImageProfile($this->getModuleOptions()->getProfilePicturePath());
         if ($this->request->isPost()) {
             $user = $this->userRepository->find($this->getAuthService()->getIdentity()->getId());
 
