@@ -52,6 +52,11 @@ class ModuleOptions extends AbstractOptions
     protected $profilePicturePath;
 
     /**
+     * @var string
+     */
+    protected $profilePicturePathRelative;
+
+    /**
      * Constructor
      */
     public function __construct($options = null)
@@ -159,6 +164,22 @@ class ModuleOptions extends AbstractOptions
     public function setProfilePicturePath($profilePicturePath)
     {
         $this->profilePicturePath = $profilePicturePath;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfilePicturePathRelative()
+    {
+        return $this->profilePicturePathRelative;
+    }
+
+    /**
+     * @param mixed $profilePicturePath
+     */
+    public function setProfilePicturePathRelative($profilePicturePathRelative)
+    {
+        $this->profilePicturePathRelative = $profilePicturePathRelative;
     }
 
 

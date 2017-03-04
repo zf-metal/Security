@@ -51,7 +51,7 @@ $this->notyFlash(true);
         </div>
 
         <?php echo $this->form()->closeTag($form); ?>
-        <?php if ($this->publicRegister): ?>
+        <?php if ($this->getModuleOptions()->getPublicRegister()): ?>
             <p class="col-xs-12 col-md-12 radio text-center"> or </p>
             <a href="<?php echo $this->basePath('/user/register'); ?>">
                 <div class="col-xs-12 col-md-12 radio btn btn-success">

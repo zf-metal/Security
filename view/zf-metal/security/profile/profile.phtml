@@ -9,7 +9,7 @@ $this->notyFlash(true);
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-12 col-sm-4 text-center">
-                        <img src="<?= $this->basePath('img/profile/') . $user->getImg(); ?>" alt=""
+                        <img src="<?= $this->basePath($this->getModuleOptions()->getProfilePicturePathRelative()) . $user->getImg(); ?>" alt=""
                              class="center-block img-circle img-responsive">
                         <br>
                         <!--                        <div>-->
