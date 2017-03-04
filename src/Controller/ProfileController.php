@@ -68,7 +68,6 @@ class ProfileController extends AbstractActionController {
             $formImg->setData($data);
 
             if ($formImg->isValid()) {
-     
                 $this->userRepository->saveUser($user);
                 $this->getAuthService()->getIdentity()->setImg($user->getImg());
                 $this->flashMessenger()->addSuccessMessage('La imagen se actualizó correctamente.');
