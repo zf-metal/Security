@@ -24,14 +24,14 @@ class BcryptEncoder extends AbstractPlugin{
     
     public function encode($string){
         if(!is_string($string)){
-            throw new Exception('La variable no es un String');
+            throw new \Exception('La variable no es un String');
         }
         return $this->getBcrypt()->create($string);
     }
     
     public function verify($string1, $string2){
         if(!is_string($string1)||!is_string($string2)){
-            throw new Exception('La variable no es un String');
+            throw new \Exception('La variable no es un String');
         }
         return $this->getBcrypt()->verify($string1, $string2);
     }

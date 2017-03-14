@@ -4,7 +4,6 @@ namespace ZfMetal\Security\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use ZfMetal\Security\Options\ModuleOptions;
 
 class LoginController extends AbstractActionController
 {
@@ -16,27 +15,12 @@ class LoginController extends AbstractActionController
     private $authService;
 
     /**
-     * @var ModuleOptions
-     */
-    private $options;
-
-    /**
-     * @return ModuleOptions
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
      * LoginController constructor.
      * @param \Zend\Authentication\AuthenticationService $authService
-     * @param ModuleOptions $options
      */
-    public function __construct(\Zend\Authentication\AuthenticationService $authService, ModuleOptions $options)
+    public function __construct(\Zend\Authentication\AuthenticationService $authService)
     {
         $this->authService = $authService;
-        $this->options = $options;
     }
 
     /**
@@ -75,8 +59,8 @@ class LoginController extends AbstractActionController
                 $result = $this->getAuthService()->authenticate();
 
                 if ($result->getCode() == 1) {
-                    if ($this->getOptions()->getRedirectStrategy()->getAppendPreviousUri()) {
-                        $uri = $this->getOptions()->getRedirectStrategy()->getPreviousUriQueryKey();
+                    if ($this->getSecurityOptions()->getRedirectStrategy()->getAppendPreviousUri()) {
+                        $uri = $this->getSecurityOptions()->getRedirectStrategy()->getPreviousUriQueryKey();
                         if ($this->sessionManager()->has($uri)) {
                             #return $this->redirect()->toUrl($this->sessionManager()->getFlash($uri));
                             $route = $this->sessionManager()->getFlash($uri);
