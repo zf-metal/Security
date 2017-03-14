@@ -19,19 +19,13 @@ class ProfileController extends AbstractActionController {
     private $authService;
 
     /**
-     * @var \ZfMetal\Security\Options\ModuleOptions
-     */
-    private $moduleOptions;
-
-    /**
      * @var \ZfMetal\Security\Repository\UserRepository
      */
     private $userRepository;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \Zend\Authentication\AuthenticationService $authService, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+    function __construct(\Doctrine\ORM\EntityManager $em, \Zend\Authentication\AuthenticationService $authService, \ZfMetal\Security\Repository\UserRepository $userRepository) {
         $this->em = $em;
         $this->authService = $authService;
-        $this->moduleOptions = $moduleOptions;
         $this->userRepository = $userRepository;
     }
 
@@ -43,19 +37,11 @@ class ProfileController extends AbstractActionController {
         return $this->authService;
     }
 
-    function getModuleOptions() {
-        return $this->moduleOptions;
-    }
-
-    function getUserRepository() {
-        return $this->userRepository;
-    }
-
     public function profileAction() {
         if (!$this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
-        $formImg = new \ZfMetal\Security\Form\ImageProfile($this->getModuleOptions()->getProfilePicturePath());
+        $formImg = new \ZfMetal\Security\Form\ImageProfile($this->getSecurityOptions()->getProfilePicturePath());
         if ($this->request->isPost()) {
             $user = $this->userRepository->find($this->getAuthService()->getIdentity()->getId());
 

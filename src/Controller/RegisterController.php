@@ -7,11 +7,6 @@ use Zend\View\Model\ViewModel;
 
 class RegisterController extends AbstractActionController {
 
-    /**
-     *
-     * @var \ZfMetal\Security\Options\ModuleOptions
-     */
-    protected $moduleOptions;
 
     /**
      *
@@ -25,15 +20,12 @@ class RegisterController extends AbstractActionController {
      */
     protected $em;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\Repository\UserRepository $userRepository) {
         $this->em = $em;
-        $this->moduleOptions = $moduleOptions;
         $this->userRepository = $userRepository;
     }
 
-    function setModuleOptions(\ZfMetal\Security\Options\ModuleOptions $moduleOptions) {
-        $this->moduleOptions = $moduleOptions;
-    }
+
 
     function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository) {
         $this->userRepository = $userRepository;
@@ -48,7 +40,7 @@ class RegisterController extends AbstractActionController {
     }
 
     public function registerAction() {
-        if (!$this->moduleOptions->getPublicRegister()) {
+        if (!$this->getSecurityOptions()->getPublicRegister()) {
             $this->redirect()->toRoute('home');
         }
 
@@ -67,7 +59,7 @@ class RegisterController extends AbstractActionController {
                 $user->setPassword($this->bcrypt()->encode($user->getPassword()));
 
                 $message = '';
-                if ($this->moduleOptions->getEmailConfirmationRequire()) {
+                if ($this->getSecurityOptions()->getEmailConfirmationRequire()) {
                     $user->setActive(0);
                     $this->userRepository->saveUser($user);
                     $this->flashMessenger()->addSuccessMessage('El usuario fue creado correctamente. Requiere activación via email.');
@@ -82,12 +74,12 @@ class RegisterController extends AbstractActionController {
                     
                     
                 } else {
-                    $user->setActive($this->moduleOptions->getUserStateDefault());
+                    $user->setActive($this->getSecurityOptions()->getUserStateDefault());
                     $this->userRepository->saveUser($user);
                     
                     $this->flashMessenger()->addSuccessMessage('El usuario fue creado correctamente.');
 
-                    if (!$this->moduleOptions->getUserStateDefault()) {
+                    if (!$this->getSecurityOptions()->getUserStateDefault()) {
                         $this->flashMessenger()->addWarningMessage('El usuario debe ser habilitado por un administrador.');
                     }
                 }
