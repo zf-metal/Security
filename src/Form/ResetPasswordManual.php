@@ -17,7 +17,7 @@ class ResetPasswordManual extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'password',
                 'placeholder' => 'Password',
-                'class' => 'form-control input-lg'
+                'class' => 'form-control '
             ),
             'options' => array(
                 'label' => 'Password',
@@ -30,7 +30,7 @@ class ResetPasswordManual extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'password',
                 'placeholder' => 'Verificar Password',
-                'class' => 'form-control input-lg'
+                'class' => 'form-control '
             ),
             'options' => array(
                 'label' => 'Verificar Password',
@@ -44,7 +44,7 @@ class ResetPasswordManual extends \Zend\Form\Form {
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
                 'value' => "Submit",
-                'class' => 'btn btn-lg btn-primary btn-block signup-btn',
+                'class' => 'btn btn-primary btn-block signup-btn',
             ),
             'options' => array(
                 'label' => 'Submit',

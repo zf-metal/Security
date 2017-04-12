@@ -18,7 +18,7 @@ class Recover extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'email',
                 'placeholder' => 'Email',
-                'class' => 'form-control input-lg',
+                'class' => 'form-control ',
                 'required' => 'required'
             ),
             'options' => array(
@@ -31,7 +31,7 @@ class Recover extends \Zend\Form\Form {
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
                 'value' => "Submit",
-                'class' => 'btn btn-lg btn-primary btn-block signup-btn',
+                'class' => 'btn btn-primary btn-block signup-btn',
             ),
             'options' => array(
                 'label' => 'Submit',

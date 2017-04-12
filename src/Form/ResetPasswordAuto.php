@@ -18,7 +18,7 @@ class ResetPasswordAuto extends \Zend\Form\Form {
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
                 'value' => "Generación automatica y envio por mail",
-                'class' => 'btn btn-lg btn-primary btn-block signup-btn',
+                'class' => 'btn btn-primary btn-block signup-btn',
             ),
             'options' => array(
                 'label' => 'Auto Reset & Send Email',

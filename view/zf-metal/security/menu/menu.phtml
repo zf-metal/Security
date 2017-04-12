@@ -1,3 +1,9 @@
+<style>
+    .navbar-profile-avatar{
+        width:20px;
+        height: 20px;
+    }
+</style>
     <?php if ($user = $this->isAuthenticated()): ?>
 
 
@@ -6,7 +12,7 @@
 
                 <!--Picture OR Icon-->
                 <?php if ($user->getImg()): ?>
-                    <img src="/media/users/<?php echo $user->getImg(); ?>" class="navbar-profile-avatar" alt="">
+                    <img src="<?php echo $this->getSecurityOptions()->getProfilePicturePathRelative(). $user->getImg(); ?>" class="img-circle  navbar-profile-avatar" alt="">
                 <?php else: ?>
                     <i class="glyphicon glyphicon-user"></i>
                 <?php endif; ?>
@@ -27,10 +33,7 @@
             <ul class="dropdown-menu">
                 <li><a href="/user/profile"><i class="glyphicon glyphicon-th-list"></i> <?php echo $this->translate('Perfil'); ?></a>
                 </li>    
-                <li class="divider"></li>
-                <li><a href="/user/settings"><i class="glyphicon glyphicon-cog"></i> <?php echo $this->translate('Opciones'); ?></a>
-                </li>    
-
+           
 
                 <li class="divider"></li>
                 <li><a href="/user/logout"><i class="glyphicon glyphicon-log-out"></i>  <?php echo $this->translate('Cerrar Sesión'); ?></a>

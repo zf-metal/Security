@@ -17,7 +17,7 @@ class EditRole extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'text',
                 'placeholder' => 'Name',
-                'class' => 'form-control input-lg',
+                'class' => 'form-control',
                 'required' => 'required'
             ),
             'options' => array(
@@ -28,9 +28,6 @@ class EditRole extends \Zend\Form\Form {
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'children',
-            'attributes' => array(
-                'class' => 'form-control'
-            ),
             'options' => [
                 'object_manager' => $em,
                 'target_class' => 'ZfMetal\Security\Entity\Role',
@@ -48,9 +45,6 @@ class EditRole extends \Zend\Form\Form {
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'permissions',
-            'attributes' => array(
-                'class' => 'form-control'
-            ),
             'options' => [
                 'object_manager' => $em,
                 'target_class' => 'ZfMetal\Security\Entity\Permission',

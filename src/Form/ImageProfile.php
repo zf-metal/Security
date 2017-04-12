@@ -17,7 +17,7 @@ class ImageProfile extends \Zend\Form\Form {
             'name' => 'img',
             'type' => 'Zend\Form\Element\File',
             'attributes' => array(
-                'class' => 'btn btn-info btn-block',
+                'class' => 'btn btn-default btn-block',
                 'accept' => "image/png, image/jpeg, image/gif",
             ),
             'options' => array(

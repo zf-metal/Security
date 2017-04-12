@@ -2,48 +2,17 @@
 <div class="clearfix"></div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <?php echo $this->form()->openTag($form) ?>
-        <legend>EDICION</legend>
-        <!--<h4>Por favor completa el siguiente formulario.</h4>-->
-        <div class="row">
-            <div class="col-xs-12 col-md-6">
-                <?php echo $this->partial('zf-metal/security/forms/element/default', ['element' => $form->get('name')]); ?>
+       <?php
+        $horizontalGroups = [
+            'User' => ['name','username','email','password'],
+            'Enable/Disable User' => ['active'],
+            'Roles' => ['roles'],
+            'Groups' => ['groups'],
+   
+        ];
 
-            </div>
-            <div class="col-xs-12 col-md-6">
-                <?php echo $this->partial('zf-metal/security/forms/element/default', ['element' => $form->get('username')]); ?>
-
-            </div>
-        </div>
-
-        <br>
-
-        <div class="row">
-            <div class="col-xs-12 col-md-12">
-                <?php echo $this->partial('zf-metal/security/forms/element/checkbox-legend', ['element' => $form->get('active')]); ?>
-
-            </div>
-
-        </div>
-
-        <legend>Roles:</legend>
-        <div class="row">
-
-            <div class="col-xs-12 col-md-12 ">
-                <?php echo $this->partial('zf-metal/security/forms/element/multi-checkbox', ['element' => $form->get('roles')]); ?>
-
-            </div>
-
-        </div>
-        
-        
-        <div class="row">
-            <div class="col-xs-12 col-md-12 radio">
-                <?php echo $this->formElement($form->get('submit')); ?>
-            </div>
-        </div>
-        <?php echo $this->form()->closeTag($form); ?>
-
+        echo $this->renderForm($this->form, \ZfMetal\Commons\Consts::STYLE_VERTICAL, \ZfMetal\Commons\Consts::COLUMNS_TWO, $horizontalGroups);
+        ?>
     </div>
 
 </div>

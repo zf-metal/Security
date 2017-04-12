@@ -17,7 +17,7 @@ class Login extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'text',
                 'placeholder' => 'Username',
-                'class' => 'form-control input-lg',
+                'class' => 'form-control ',
                 'required' => 'required'
             ),
             'options' => array(
@@ -29,7 +29,7 @@ class Login extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'password',
                 'placeholder' => 'Password',
-                'class' => 'form-control input-lg',
+                'class' => 'form-control ',
                 'required' => 'required'
             ),
             'options' => array(
@@ -43,7 +43,7 @@ class Login extends \Zend\Form\Form {
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
                 'value' => "Login",
-                'class' => 'btn btn-lg btn-primary btn-block signup-btn',
+                'class' => 'btn  btn-primary btn-block signup-btn',
             ),
             'options' => array(
                 'label' => 'Submit',

@@ -2,45 +2,18 @@
 <div class="clearfix"></div>
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
-        <?php echo $this->form()->openTag($form) ?>
-        <legend>EDICION</legend>
-        <!--<h4>Por favor completa el siguiente formulario.</h4>-->
-        <div class="row">
-            <?php echo $this->partial('zf-metal/security/forms/element/default', ['element' => $form->get('name')]); ?>
-        </div>
-
-        <legend>Children:</legend>
-        <div class="row">
-
-            <div class="col-xs-12 col-md-12 ">
-                <?php echo $this->partial('zf-metal/security/forms/element/multi-checkbox', ['element' => $form->get('children')]); ?>
-            </div>
-
-        </div>
-        <legend>Permisos:</legend>
-        <div class="row">
-
-            <div class="col-xs-12 col-md-12 ">
-                <?php echo $this->partial('zf-metal/security/forms/element/multi-checkbox', ['element' => $form->get('permissions')]); ?>
-            </div>
-
-        </div>
-        <div class="row">
-            <div class="col-xs-12 col-md-12 radio">
-                <?php echo $this->formElement($form->get('submit')); ?>
-            </div>
-        </div>
-        <?php echo $this->form()->closeTag($form); ?>
+          <?php
+        
+        $verticalGroups = [
+            'Role' =>['name'],
+            'Children roles' =>['children'],
+            'Permissions' =>['permissions'],
+        ];
+        
+        echo $this->renderForm($this->form,\ZfMetal\Commons\Consts::STYLE_VERTICAL,\ZfMetal\Commons\Consts::COLUMNS_ONE,null,$verticalGroups);
+        ?>
 
     </div>
 
 </div>
 
-
-<style>
-    .multi-check label {
-        padding: 10px ! important;
-        margin: 5px ! important;
-    }
-
-</style>

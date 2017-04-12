@@ -40,7 +40,7 @@ $this->notyFlash(true);
 
                         <p><strong>Roles: </strong>
                             <?php foreach ($user->getRoles() as $rol) : ?>
-                                <span class="label label-info tags"><?= $rol->getName(); ?></span>
+                                <span class="label label-default tags"><?= $rol->getName(); ?></span>
                             <?php endforeach; ?>
                         </p>
 
@@ -48,7 +48,7 @@ $this->notyFlash(true);
                             <?php foreach ($user->getRoles() as $rol) : ?>
                                 <?php foreach ($rol->getPermissions() as $permission) : ?>
 
-                                    <span class="label label-info tags"><?= $rol->getName() . ' - ' . $permission->getName(); ?></span>
+                                    <span class="label label-success tags"><?= $rol->getName() . ' - ' . $permission->getName(); ?></span>
 
                                 <?php endforeach; ?>
                             <?php endforeach; ?>

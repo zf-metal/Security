@@ -95,7 +95,7 @@ class Group {
         }
 
         $this->users[] = $user;
-       // $user->addGroup($this); //Pendiente: synchronously updating inverse side
+        $user->addGroup($this); //synchronously updating inverse side
     }
 
     public function removeUser(\ZfMetal\Security\Entity\User $user) {
@@ -103,8 +103,9 @@ class Group {
             return;
         }
 
-     //   $user->removeGroup($this); //Pendiente: synchronously updating inverse side
+        
         $this->users->removeElement($user);
+        $user->removeGroup($this); //synchronously updating inverse side
     }
 
     function getUsers() {
