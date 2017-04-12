@@ -36,6 +36,18 @@
                     </ul>
                 </td>
             </tr>
+            
+             <tr>
+                <th class="text-right">Groups:</th>
+                <td class="text-left"> 
+                    <ul>
+                        <?php foreach ($this->user->getGroups() as $group): ?>
+                            <li><?php echo $group->getName(); ?></li>
+
+                        <?php endforeach; ?>
+                    </ul>
+                </td>
+            </tr>
 
         </table>
     </div>

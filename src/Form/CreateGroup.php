@@ -17,7 +17,7 @@ class CreateGroup extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'text',
                 'placeholder' => 'Name',
-                'class' => 'form-control input-lg',
+                'class' => 'form-control',
                 'required' => 'required'
             ),
             'options' => array(
@@ -29,7 +29,7 @@ class CreateGroup extends \Zend\Form\Form {
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'users',
             'attributes' => array(
-                'class' => 'form-control'
+                'class' => ''
             ),
             'options' => [
                 'object_manager' => $em,

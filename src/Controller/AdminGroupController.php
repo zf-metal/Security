@@ -94,7 +94,6 @@ class AdminGroupController extends AbstractActionController {
                 if ($this->getRequest()->getPost('users') === null) {
                     $group->setUsers(null);
                 }
-                $group = $form->getData();
                 $this->groupRepository->saveGroup($group);
                 $this->redirect()->toRoute('zf-metal.admin/groups/view', array('id' => $group->getId()));
             } else {
@@ -109,7 +108,7 @@ class AdminGroupController extends AbstractActionController {
 
         $id = $this->params("id");
 
-        $group = $this->groupRepository->find($id);
+        $group = $this->getGroupRepository()->find($id);
 
         if (!$group) {
             throw new Exception("Group not found");

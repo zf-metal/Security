@@ -17,7 +17,7 @@ class CreateRole extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'text',
                 'placeholder' => 'Name',
-                'class' => 'form-control input-lg',
+                'class' => 'form-control',
                 'required' => 'required'
             ),
             'options' => array(

@@ -28,7 +28,12 @@ class ProfileController extends AbstractActionController {
         $this->authService = $authService;
         $this->userRepository = $userRepository;
     }
+    
+    function getUserRepository() {
+        return $this->userRepository;
+    }
 
+    
     function getEm() {
         return $this->em;
     }

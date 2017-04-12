@@ -88,16 +88,14 @@ class User implements IdentityInterface {
     /**
      * @return mixed
      */
-    public function getGroups()
-    {
+    public function getGroups() {
         return $this->groups;
     }
 
     /**
      * @param mixed $groups
      */
-    public function setGroups($groups)
-    {
+    public function setGroups($groups) {
         $this->groups = $groups;
     }
 
@@ -133,6 +131,35 @@ class User implements IdentityInterface {
             return;
         }
         $this->roles->removeElement($role);
+    }
+
+    public function addGroups(\Doctrine\Common\Collections\ArrayCollection $groups) {
+        foreach ($groups as $group) {
+            $this->addGroup($group);
+        }
+    }
+
+    public function removeGroups(\Doctrine\Common\Collections\ArrayCollection $groups) {
+        foreach ($groups as $group) {
+            $this->removeGroup($group);
+        }
+    }
+
+    public function addGroup(\ZfMetal\Security\Entity\Group $group) {
+        if ($this->groups->contains($group)) {
+            return;
+        }
+        $this->groups[] = $group;
+        $group->addUser($this); //synchronously updating inverse side
+    }
+
+    public function removeGroup(\ZfMetal\Security\Entity\Group $group) {
+        if (!$this->groups->contains($group)) {
+            return;
+        }
+
+        $this->groups->removeElement($group);
+        $group->removeUser($this); //synchronously updating inverse side
     }
 
     function getId() {
