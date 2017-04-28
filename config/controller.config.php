@@ -12,6 +12,7 @@ return [
             Controller\AdminRoleController::class => Factory\Controller\AdminRoleControllerFactory::class,
             Controller\AdminGroupController::class => Factory\Controller\AdminGroupControllerFactory::class,
             Controller\ProfileController::class => Factory\Controller\ProfileControllerFactory::class,
+            Controller\RememberMeController::class => Factory\Controller\RememberMeControllerFactory::class,
         ]
     ]
 ];

@@ -5,7 +5,7 @@ namespace ZfMetal\Security\Adapter;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Crypt\Password\Bcrypt;
 
-class Doctrine implements AdapterInterface {
+class RememberMe implements AdapterInterface {
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -16,28 +16,14 @@ class Doctrine implements AdapterInterface {
      * 
      * @var string
      */
-    private $identity;
+    private $token;
 
-    /**
-     *
-     * @var string
-     */
-    private $credential;
-
-    function getIdentity() {
-        return $this->identity;
+    function getToken() {
+        return $this->token;
     }
 
-    function getCredential() {
-        return $this->credential;
-    }
-
-    function setIdentity($identity) {
-        $this->identity = $identity;
-    }
-
-    function setCredential($credential) {
-        $this->credential = $credential;
+    function setToken($token) {
+        $this->token = $token;
     }
 
     function __construct(\Doctrine\ORM\EntityManager $em) {
@@ -65,13 +51,8 @@ class Doctrine implements AdapterInterface {
      */
     public function authenticate() {
 
-        $bcrypt = new Bcrypt;
-        $bcrypt->setCost(12);
+        $identity = $this->getEm()->getRepository('ZfMetal\Security\Entity\RememberMe')->getUserIdByToken($this->token);
 
-        $identity = $this->getEm()->getRepository('ZfMetal\Security\Entity\User')
-                ->getAuthenticateByEmailOrUsername($this->identity, $this->credential);
-
-        die(get_class($identity));
         $mensaje = array();
         $code = 0;
 
@@ -80,14 +61,11 @@ class Doctrine implements AdapterInterface {
             $identity->getRoles()->getValues();
             if (!$identity->isActive()) {
                 $mensaje = ['Falla al autenticar, usuario inactivo'];
-            } else if ($bcrypt->verify($this->credential, $identity->getPassword())) {
-                $mensaje = ['Usuario logueado exitosamente'];
-                $code = 1;
             } else {
-                $mensaje = ['Falla al autenticar, clave erronea'];
+                $code = 1;
             }
         } else {
-            $mensaje = ['Falla al autenticar, usuario o email erroneos'];
+            $mensaje = ['Token Inválido.'];
         }
 
         return new \Zend\Authentication\Result($code, $identity, $mensaje);
