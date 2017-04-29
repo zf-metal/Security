@@ -55,6 +55,11 @@ class ModuleOptions extends AbstractOptions
      * @var string
      */
     protected $profilePicturePathRelative;
+    
+    /**
+     * @var boolean
+     */
+    protected $rememberMe;
 
     /**
      * Constructor
@@ -181,6 +186,13 @@ class ModuleOptions extends AbstractOptions
     {
         $this->profilePicturePathRelative = $profilePicturePathRelative;
     }
+    
+    function getRememberMe() {
+        return $this->rememberMe;
+    }
 
+    function setRememberMe($rememberMe) {
+        $this->rememberMe = $rememberMe;
+    }
 
 }
