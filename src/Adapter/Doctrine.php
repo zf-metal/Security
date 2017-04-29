@@ -71,7 +71,6 @@ class Doctrine implements AdapterInterface {
         $identity = $this->getEm()->getRepository('ZfMetal\Security\Entity\User')
                 ->getAuthenticateByEmailOrUsername($this->identity, $this->credential);
 
-        die(get_class($identity));
         $mensaje = array();
         $code = 0;
 

@@ -18,6 +18,6 @@ return[
             'append_previous_uri' => true,
             'previous_uri_query_key' => 'redirect',
         ],
-        'remember_me' => true, 
+        'remember_me' => true
     ]
 ];

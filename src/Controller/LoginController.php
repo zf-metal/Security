@@ -70,7 +70,7 @@ class LoginController extends AbstractActionController {
 
                 // SI remember me está activado envío la cookie
 
-                if ($this->getSecurityOptions()->getRememberMe() && !isset($data['remember_me']) && !$data['remember_me']) {
+                if ($this->getSecurityOptions()->getRememberMe() && isset($data['_remember']) && $data['_remember']) {
                     $this->sendCookie($this->getAuthService()->getIdentity());
                 }
 
