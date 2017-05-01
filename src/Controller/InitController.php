@@ -95,6 +95,8 @@ class InitController extends AbstractActionController {
         $adminUser->setUsername("admin");
         $adminUser->setEmail("admin@zfmetal.com");
         $adminUser->addRole($role3);
+        $adminUser->setActive(true);
+         $adminUser->setName("admin");
         //admin.123
         $adminUser->setPassword('$2y$12$F/ogKP3Ggqkz/P3a6Iv5POkrKJNCbbVW8U/vDlbRCzR.ctRIV1pZ6');
 
