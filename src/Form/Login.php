@@ -6,7 +6,7 @@ use Zend\Form\Form;
 
 class Login extends \Zend\Form\Form {
 
-    public function __construct() {
+    public function __construct($rememberMe) {
         parent::__construct('login');
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', "form");
@@ -37,18 +37,22 @@ class Login extends \Zend\Form\Form {
             )
         ));
 
-        $this->add(array(
-            'name' => '_remember',
-            'type' => 'Zend\Form\Element\Checkbox',
-            'attributes' => array(
-                'type' => 'checkbox',
-                'placeholder' => 'Remember Me',
-                'class' => 'checkbox',
-            ),
-            'options' => array(
-                'label' => 'Remember Me'
-            )
-        ));
+        if ($rememberMe) {
+            $this->add(array(
+                'name' => '_remember',
+                'required' => false,
+                'allow_empty' => true,
+                'type' => 'Zend\Form\Element\Checkbox',
+                'attributes' => array(
+                    'type' => 'checkbox',
+                    'placeholder' => 'Remember Me',
+                    'class' => 'checkbox',
+                ),
+                'options' => array(
+                    'label' => 'Remember Me'
+                )
+            ));
+        }
 
         $this->add(array(
             'name' => 'submit',

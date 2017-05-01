@@ -8,6 +8,37 @@ use Zend\Router\Http\Segment;
 return [
     'router' => [
         'routes' => [
+            'zf-metal.init' => [
+                'type' => Literal::class,
+                'may_terminate' => false,
+                'options' => [
+                    'route' => '/zfmetal/security/user/init',
+                ],
+                'child_routes' => [
+                    'start' => [
+                        'type' => Literal::class,
+                        'may_terminate' => true,
+                        'options' => [
+                            'route' => '/start',
+                            'defaults' => [
+                                'controller' => Controller\InitController::class,
+                                'action' => 'start'
+                            ]
+                        ],
+                    ],
+                    'iniciar' => [
+                        'type' => Literal::class,
+                        'may_terminate' => true,
+                        'options' => [
+                            'route' => '/iniciar',
+                            'defaults' => [
+                                'controller' => Controller\InitController::class,
+                                'action' => 'iniciar'
+                            ]
+                        ],
+                    ]
+                ],
+            ],
             'zf-metal.admin' => [
                 'type' => Literal::class,
                 'options' => [
@@ -291,7 +322,6 @@ return [
                             ]
                         ]
                     ],
-
                 ]
             ]
         ]

@@ -5,7 +5,8 @@ return [
         'guest_role' => 'guest',
         'guards' => [
             'ZfcRbac\Guard\RouteGuard' => [
-                'zf-metal.admin*' => ['admin']
+                'zf-metal.admin*' => ['admin'],
+        //        'zf-metal.user/profile' => ['user','usuario']
             ]
         ],
         'role_provider' => [

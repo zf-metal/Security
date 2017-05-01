@@ -5,6 +5,7 @@ namespace ZfMetal\Security;
 return [
     'controllers' => [
         'factories' => [
+            Controller\InitController::class => Factory\Controller\InitControllerFactory::class,        
             Controller\LoginController::class => Factory\Controller\LoginControllerFactory::class,
             Controller\RegisterController::class => Factory\Controller\RegisterControllerFactory::class,
             Controller\RecoveryController::class => Factory\Controller\RecoveryControllerFactory::class,
