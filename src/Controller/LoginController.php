@@ -55,7 +55,7 @@ class LoginController extends AbstractActionController {
             $this->forward()->dispatch(\ZfMetal\Security\Controller\RememberMeController::class, ['action' => 'remember_me', 'token' => $token]);
         }
 
-        $form = new \ZfMetal\Security\Form\Login();
+        $form = new \ZfMetal\Security\Form\Login($this->getSecurityOptions()->getRememberMe());
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
@@ -75,6 +75,7 @@ class LoginController extends AbstractActionController {
                 }
 
                 if ($result->getCode() == 1) {
+                      echo "Code1".PHP_EOL;
                     if ($this->getSecurityOptions()->getRedirectStrategy()->getAppendPreviousUri()) {
                         $uri = $this->getSecurityOptions()->getRedirectStrategy()->getPreviousUriQueryKey();
                         if ($this->sessionManager()->has($uri)) {
