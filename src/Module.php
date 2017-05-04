@@ -18,6 +18,14 @@ class Module {
         $redirectStrategy = $e->getApplication()->getServiceManager()->get('zf-metal-security.session-redirect-stretegy');
 
         $redirectStrategy->attach($eventManager);
+
+        $sharedEventManager = $eventManager->getSharedManager();
+        
+        $rbacListener = $e->getApplication()->getServiceManager()->get(\ZfMetal\Security\Listener\RbacListener::class);
+
+        $sharedEventManager->attach(
+                'Zend\View\Helper\Navigation\AbstractHelper', 'isAllowed', array($rbacListener, 'accept')
+        );
     }
 
 }

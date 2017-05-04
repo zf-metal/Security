@@ -19,6 +19,7 @@ return [
             \ZfMetal\Security\Strategy\SessionRedirectStrategy::class => \ZfMetal\Security\Factory\Strategy\SessionRedirectStrategyFactory::class,
             \ZfMetal\Security\DataGrid\DataGrid::class => \ZfMetal\Security\Factory\DataGrid\DataGridFactory::class,
             'zf-metal-security.session.manager' => \ZfMetal\Security\Factory\Storage\SessionManagerFactory::class,
+            \ZfMetal\Security\Listener\RbacListener::class => \ZfMetal\Security\Factory\Listener\RbacListenerFactory::class,
         ],
         'aliases' => [
             \Zend\Authentication\AuthenticationService::class => 'zf-metal-security.authservice',
