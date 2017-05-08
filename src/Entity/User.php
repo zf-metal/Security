@@ -244,5 +244,10 @@ class User implements IdentityInterface {
     public function setActive($active) {
         $this->active = $active;
     }
+    
+    public function __toString() {
+        return $this->username;
+    }
+
 
 }
