@@ -84,7 +84,7 @@ class AdminUserController extends AbstractActionController {
         $form = new \ZfMetal\Security\Form\CreateUser($this->getEm());
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($user);
-
+        $form->getInputFilter()->get('groups')->setRequired(false);
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
@@ -121,7 +121,7 @@ class AdminUserController extends AbstractActionController {
         $form = new \ZfMetal\Security\Form\EditUser($this->getEm());
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($user);
-
+         $form->getInputFilter()->get('groups')->setRequired(false);
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
