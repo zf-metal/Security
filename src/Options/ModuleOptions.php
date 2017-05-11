@@ -4,10 +4,11 @@ namespace ZfMetal\Security\Options;
 
 use Zend\Stdlib\AbstractOptions;
 use ZfcRbac\Options\RedirectStrategyOptions;
+
 /**
  */
-class ModuleOptions extends AbstractOptions
-{
+class ModuleOptions extends AbstractOptions {
+
     /**
      * Enable Public Register
      *
@@ -23,11 +24,16 @@ class ModuleOptions extends AbstractOptions
     protected $passwordRecovery = true;
 
     /**
+     * mail from default
+     *
+     * @var boolean
+     */
+    protected $mailFrom = "info.zfmetal@gmail.com";
+
+    /**
      * @var int
      */
     protected $bcryptCost = 12;
-
-
 
     /**
      * Options for the redirect strategy
@@ -55,7 +61,7 @@ class ModuleOptions extends AbstractOptions
      * @var string
      */
     protected $profilePicturePathRelative;
-    
+
     /**
      * @var boolean
      */
@@ -64,35 +70,28 @@ class ModuleOptions extends AbstractOptions
     /**
      * Constructor
      */
-    public function __construct($options = null)
-    {
+    public function __construct($options = null) {
         $this->__strictMode__ = false;
         parent::__construct($options);
     }
 
-
-    function getPublicRegister()
-    {
+    function getPublicRegister() {
         return $this->publicRegister;
     }
 
-    function setPublicRegister($publicRegister)
-    {
+    function setPublicRegister($publicRegister) {
         $this->publicRegister = $publicRegister;
     }
 
-    function getPasswordRecovery()
-    {
+    function getPasswordRecovery() {
         return $this->passwordRecovery;
     }
 
-    function setPasswordRecovery($passwordRecovery)
-    {
+    function setPasswordRecovery($passwordRecovery) {
         $this->passwordRecovery = $passwordRecovery;
     }
 
-    public function setRedirectStrategy(array $redirectStrategy)
-    {
+    public function setRedirectStrategy(array $redirectStrategy) {
         $this->redirectStrategy = new RedirectStrategyOptions($redirectStrategy);
     }
 
@@ -101,8 +100,7 @@ class ModuleOptions extends AbstractOptions
      *
      * @return \ZfcRbac\Options\RedirectStrategyOptions
      */
-    public function getRedirectStrategy()
-    {
+    public function getRedirectStrategy() {
         if (null === $this->redirectStrategy) {
             $this->redirectStrategy = new RedirectStrategyOptions();
         }
@@ -113,86 +111,85 @@ class ModuleOptions extends AbstractOptions
     /**
      * @return bool
      */
-    public function getUserStateDefault()
-    {
+    public function getUserStateDefault() {
         return $this->userStateDefault;
     }
 
     /**
      * @param bool $userStateDefault
      */
-    public function setUserStateDefault($userStateDefault)
-    {
+    public function setUserStateDefault($userStateDefault) {
         $this->userStateDefault = $userStateDefault;
     }
 
     /**
      * @return bool
      */
-    public function getEmailConfirmationRequire()
-    {
+    public function getEmailConfirmationRequire() {
         return $this->emailConfirmationRequire;
     }
 
-    public function setEmailConfirmationRequire($emailConfirmationRequire)
-    {
+    public function setEmailConfirmationRequire($emailConfirmationRequire) {
         $this->emailConfirmationRequire = $emailConfirmationRequire;
     }
 
     /**
      * @return int
      */
-    public function getBcryptCost()
-    {
+    public function getBcryptCost() {
         return $this->bcryptCost;
     }
 
     /**
      * @param int $bcryptCost
      */
-    public function setBcryptCost($bcryptCost)
-    {
+    public function setBcryptCost($bcryptCost) {
         $this->bcryptCost = $bcryptCost;
     }
 
     /**
      * @return mixed
      */
-    public function getProfilePicturePath()
-    {
+    public function getProfilePicturePath() {
         return $this->profilePicturePath;
     }
 
     /**
      * @param mixed $profilePicturePath
      */
-    public function setProfilePicturePath($profilePicturePath)
-    {
+    public function setProfilePicturePath($profilePicturePath) {
         $this->profilePicturePath = $profilePicturePath;
     }
 
     /**
      * @return mixed
      */
-    public function getProfilePicturePathRelative()
-    {
+    public function getProfilePicturePathRelative() {
         return $this->profilePicturePathRelative;
     }
 
     /**
      * @param mixed $profilePicturePath
      */
-    public function setProfilePicturePathRelative($profilePicturePathRelative)
-    {
+    public function setProfilePicturePathRelative($profilePicturePathRelative) {
         $this->profilePicturePathRelative = $profilePicturePathRelative;
     }
-    
+
     function getRememberMe() {
         return $this->rememberMe;
     }
 
     function setRememberMe($rememberMe) {
         $this->rememberMe = $rememberMe;
+    }
+
+    function getMailFrom() {
+        return $this->mailFrom;
+    }
+
+    function setMailFrom($mailFrom) {
+        $this->mailFrom = $mailFrom;
+        return $this;
     }
 
 }

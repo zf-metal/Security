@@ -56,9 +56,9 @@ class RecoveryController extends AbstractActionController {
                 $user = $this->getUserRepository()->findOneByEmail($data['email']);
                 $result = $this->updatePasswordUserAndNotify($user);
                 if ($result) {
-                   return  $this->forward()->dispatch(\ZfMetal\Security\Controller\RecoveryController::class, array('action' => 'ok'));
+                    $this->redirect()->toRoute('zf-metal.user/login');
                 } else {
-                   return  $this->forward()->dispatch(\ZfMetal\Security\Controller\RecoveryController::class, array('action' => 'error')); 
+                    $this->redirect()->toRoute('zf-metal.user/recovery');
                 }
             } else {
                 $errors = $form->getMessages();
@@ -102,15 +102,15 @@ class RecoveryController extends AbstractActionController {
 
     public function notifyUser(\ZfMetal\Security\Entity\User $user, $newPassword) {
         $this->mailManager()->setTemplate('zf-metal/security/mail/reset', ["user" => $user, "newPassowrd" => $newPassword]);
-        $this->mailManager()->setFrom('ci.sys.virtual@gmail.com');
+        $this->mailManager()->setFrom($this->getSecurityOptions()->getMailFrom());
         $this->mailManager()->addTo($user->getEmail(), $user->getName());
         $this->mailManager()->setSubject('Recuperar Password');
 
         if ($this->mailManager()->send()) {
-            $this->flashMessenger()->addSuccessMessage('Envio de mail exitoso.');
+            $this->flashMessenger()->addSuccessMessage('Recuperación Exitosa. Se envio un mail a la cuenta registrada con nuevos datos de acceso.');
             return true;
         } else {
-            $this->flashMessenger()->addErrorMessage('Falla al enviar mail.');
+            $this->flashMessenger()->addErrorMessage('Recuperación Fallida. Hubo un problema al intentar recuperar su acceso. Contactar al administrador.');
             $this->logger()->info("Falla al enviar mail al resetear password.");
             return false;
         }

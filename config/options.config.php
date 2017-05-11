@@ -6,9 +6,10 @@ return[
     'zf-metal-security.options' => [
         'public_register' => true,
         'email_confirmation_require' => true,
+        'mail_from' => "info.zfmetal@gmail.com",
         'user_state_default' => true,
         'password_recovery' => true,
-        'bcrypt_cost'=> 12,
+        'bcrypt_cost' => 12,
         'profile_picture_path' => __DIR__ . '/../../../../public/img/profile/',
         'profile_picture_path_relative' => '/img/profile/',
         'redirect_strategy' => [
