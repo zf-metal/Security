@@ -18,7 +18,8 @@ class CreateUser extends \Zend\Form\Form {
                 'type' => 'text',
                 'placeholder' => 'Name',
                 'class' => 'form-control ',
-                'required' => 'required'
+                'required' => 'required',
+                'autocomplete' => false
             ),
             'options' => array(
                 'label' => 'Name',
@@ -31,7 +32,8 @@ class CreateUser extends \Zend\Form\Form {
                 'type' => 'mail',
                 'placeholder' => 'Email',
                 'class' => 'form-control ',
-                'required' => 'required'
+                'required' => 'required',
+                'autocomplete' => false
             ),
             'options' => array(
                 'label' => 'Email'
@@ -44,7 +46,8 @@ class CreateUser extends \Zend\Form\Form {
                 'type' => 'text',
                 'placeholder' => 'Username',
                 'class' => 'form-control ',
-                'required' => 'required'
+                'required' => 'required',
+                'autocomplete' => false
             ),
             'options' => array(
                 'label' => 'Username'
@@ -56,7 +59,8 @@ class CreateUser extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'password',
                 'placeholder' => 'Password',
-                'class' => 'form-control '
+                'class' => 'form-control ',
+                'autocomplete' => false
             ),
             'options' => array(
                 'label' => 'Password',
@@ -71,7 +75,8 @@ class CreateUser extends \Zend\Form\Form {
             'attributes' => array(
                 'type' => 'checkbox',
                 'placeholder' => 'Active',
-                'class' => ''
+                'class' => '',
+                   'autocomplete' => false
             ),
             'options' => array(
                 'label' => 'Active'
