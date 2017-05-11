@@ -128,8 +128,7 @@ class AdminUserController extends AbstractActionController {
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
-                $user->setPassword($this->bcrypt()->encode($user->getPassword()));
-
+              
                 try {
                     $this->userRepository->saveUser($user);
                     $this->flashMessenger()->addSuccessMessage('El usuario ' . $user->getUsername() . ' se edito correctamente');
