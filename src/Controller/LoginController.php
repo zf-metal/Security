@@ -79,9 +79,9 @@ class LoginController extends AbstractActionController {
                     if ($this->getSecurityOptions()->getRedirectStrategy()->getAppendPreviousUri()) {
                         $uri = $this->getSecurityOptions()->getRedirectStrategy()->getPreviousUriQueryKey();
                         if ($this->sessionManager()->has($uri)) {
-                            #return $this->redirect()->toUrl($this->sessionManager()->getFlash($uri));
-                            $route = $this->sessionManager()->getFlash($uri);
-                            return $this->redirect()->toRoute($route);
+                            return $this->redirect()->toUrl($this->sessionManager()->getFlash($uri));
+                            #$route = $this->sessionManager()->getFlash($uri);
+                            #return $this->redirect()->toRoute($route);
                         }
                     }
 

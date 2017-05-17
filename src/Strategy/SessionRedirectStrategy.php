@@ -85,8 +85,8 @@ class SessionRedirectStrategy extends AbstractStrategy
 
         if ($this->options->getAppendPreviousUri()) {
             $redirectKey = $this->options->getPreviousUriQueryKey();
-            #$previousUri = $event->getRequest()->getUriString();
-            $previousUri = $event->getRouteMatch()->getMatchedRouteName();
+            $previousUri = $event->getRequest()->getUriString();
+            #$previousUri = $event->getRouteMatch()->getMatchedRouteName();
             $this->getSessionManager()->write($redirectKey,$previousUri);
         }
 
