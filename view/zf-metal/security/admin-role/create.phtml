@@ -3,13 +3,34 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <?php
-        $verticalGroups = [
-            'Role' => ['name'],
-            'Children roles' => ['children'],
-            'Permissions' => ['permissions'],
+        $groups = [
+              [
+                'type' => \ZfMetal\Commons\Options\FormGroupConfig::TYPE_HORIZONTAL,
+                'id' => 'Role',
+                'title' => "Role",
+                'columns' => \ZfMetal\Commons\Consts::COLUMNS_ONE,
+                'style' => \ZfMetal\Commons\Consts::STYLE_VERTICAL,
+                'fields' => ['name']
+            ],
+               [
+                'type' => \ZfMetal\Commons\Options\FormGroupConfig::TYPE_HORIZONTAL,
+                'id' => 'ChildrenRoles',
+                'title' => "Children roles",
+                'columns' => \ZfMetal\Commons\Consts::COLUMNS_ONE,
+                'style' => \ZfMetal\Commons\Consts::STYLE_VERTICAL,
+                'fields' => ['children']
+            ],
+               [
+                'type' => \ZfMetal\Commons\Options\FormGroupConfig::TYPE_HORIZONTAL,
+                'id' => 'Permissions',
+                'title' => "Permissions",
+                'columns' => \ZfMetal\Commons\Consts::COLUMNS_ONE,
+                'style' => \ZfMetal\Commons\Consts::STYLE_VERTICAL,
+                'fields' => ['permissions']
+            ],
         ];
 
-        echo $this->renderForm($this->form, \ZfMetal\Commons\Consts::STYLE_VERTICAL, \ZfMetal\Commons\Consts::COLUMNS_ONE, null, $verticalGroups);
+        echo $this->renderForm($this->form, \ZfMetal\Commons\Consts::STYLE_VERTICAL, \ZfMetal\Commons\Consts::COLUMNS_ONE, $groups);
         ?>
 
     </div>

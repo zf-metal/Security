@@ -3,14 +3,42 @@
 <div class="row">
     <div class="col-md-8 col-md-offset-2">
         <?php
-        $horizontalGroups = [
-            'User' => ['name', 'username', 'email', 'password'],
-            'Enable/Disable User' => ['active'],
-            'Roles' => ['roles'],
-            'Groups' => ['groups'],
+        $groups = [
+            [
+                'type' => \ZfMetal\Commons\Options\FormGroupConfig::TYPE_HORIZONTAL,
+                'id' => 'User',
+                'title' => "User",
+                'columns' => \ZfMetal\Commons\Consts::COLUMNS_TWO,
+                'style' => \ZfMetal\Commons\Consts::STYLE_VERTICAL,
+                'fields' => ['name', 'username', 'email', 'password']
+            ],
+            [
+                'type' => \ZfMetal\Commons\Options\FormGroupConfig::TYPE_VERTICAL,
+                'id' => 'enableUser',
+                'title' => 'Enable/Disable User',
+                'columns' => \ZfMetal\Commons\Consts::COLUMNS_ONE,
+                'style' => \ZfMetal\Commons\Consts::STYLE_VERTICAL,
+                'fields' => ['active']
+            ],
+            [
+                'type' => \ZfMetal\Commons\Options\FormGroupConfig::TYPE_VERTICAL,
+                'id' => 'Roles',
+                'title' => 'Roles',
+                'columns' => \ZfMetal\Commons\Consts::COLUMNS_ONE,
+                'style' => \ZfMetal\Commons\Consts::STYLE_VERTICAL,
+                'fields' => ['roles']
+            ],
+            [
+                'type' => \ZfMetal\Commons\Options\FormGroupConfig::TYPE_VERTICAL,
+                'id' => 'Groups',
+                'title' => 'Groups',
+                'columns' => \ZfMetal\Commons\Consts::COLUMNS_ONE,
+                'style' => \ZfMetal\Commons\Consts::STYLE_VERTICAL,
+                'fields' => ['groups']
+            ],
         ];
 
-        echo $this->renderForm($this->form, \ZfMetal\Commons\Consts::STYLE_VERTICAL, \ZfMetal\Commons\Consts::COLUMNS_TWO, $horizontalGroups);
+        echo $this->renderForm($this->form, \ZfMetal\Commons\Consts::STYLE_VERTICAL, \ZfMetal\Commons\Consts::COLUMNS_TWO, $groups);
         ?>
     </div>
 
