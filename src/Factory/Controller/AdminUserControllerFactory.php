@@ -9,26 +9,16 @@ class AdminUserControllerFactory implements FactoryInterface {
 
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null) {
         
-        //ENTITY MANAGER
-        $em = $container->get('doctrine.entitymanager.orm_default');
-        //USER REPOSITORY
-        $userRepository = $em->getRepository('ZfMetal\Security\Entity\User');
-        $moduleConfig = $container->get('zf-metal-security.options');
-        
-        /* @var $dataGrid \ZfMetal\Security\DataGrid\DataGrid */
-        $dataGrid = $container->get(\ZfMetal\Security\DataGrid\DataGrid::class);
 
-        //QB
-        $qb = $em->createQueryBuilder()
-                ->select("u")
-                ->from("ZfMetal\Security\Entity\User", "u")
-                ->orderBy("u.id","asc");
-
-        $dataGrid->setQb($qb);
+         /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $container->get("doctrine.entitymanager.orm_default");
+        /* @var $grid \ZfMetal\Datagrid\Grid */
+        $grid = $container->build("zf-metal-datagrid", ["customKey" => "zf-metal-security-entity-usuario"]);
         
-        $dataGrid->setRecordPerPage(10);
+         $moduleConfig = $container->get('zf-metal-security.options');
         
-        return new \ZfMetal\Security\Controller\AdminUserController($em, $dataGrid, $moduleConfig, $userRepository);
+        
+        return new \ZfMetal\Security\Controller\AdminUserController($em, $grid, $moduleConfig, $em->getRepository(\ZfMetal\Security\Entity\User::class));
     }
 
 }

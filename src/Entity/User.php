@@ -249,5 +249,14 @@ class User implements IdentityInterface {
         return $this->username;
     }
 
+    function getCreatedAt() {
+        return $this->createdAt;
+    }
+
+    function getUpdatedAt() {
+        return $this->updatedAt;
+    }
+
+
 
 }
