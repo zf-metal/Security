@@ -1,0 +1,37 @@
+<div class="page-header">
+    <h3><?php echo $this->translate('Gestion de Usuarios'); ?> <small><?php echo $this->translate('Alta, baja y modiciación.'); ?></small></h3>
+</div>
+<?php $this->notyFlash(true); ?> 
+<table class="table table-bordered table-condensed">
+    <thead>
+    <th><a class="btn btn-primary btn-sm" href="/admin/users/create" ><?php echo $this->translate('Agregar'); ?></a></th>
+    <th>ID</th>
+    <th>USERNAME</th>
+    <th>EMAIL</th>
+    <th>ACTIVE</th>
+</thead>
+
+<tbody>
+    <?php foreach ($this->dataGrid->getCurrentItems() as $item): ?> 
+        <tr>
+            <td>
+                <a class="btn btn-success btn-sm glyphicon glyphicon-edit" href="/admin/users/edit/<?php echo $item->getId(); ?>"></a>
+                <a class="btn btn-warning btn-sm glyphicon glyphicon-list-alt" href="/admin/users/view/<?php echo $item->getId(); ?>" ></a>
+
+                <a class="btn btn-danger btn-sm glyphicon glyphicon-trash" href="/admin/users/del/<?php echo $item->getId(); ?>" ></a>
+                <a class="btn btn-default btn-sm glyphicon glyphicon-lock" href="/admin/users/reset-password/<?php echo $item->getId(); ?>" >
+            </td>
+            <td><?php echo $item->getId(); ?></td>
+            <td><?php echo $item->getUsername(); ?></td>
+            <td><?php echo $item->getEmail(); ?></td> 
+            <td><?php echo ($item->getActive()) ? "<i class='text-success glyphicon glyphicon-ok'></i>" : "<i class='text-danger glyphicon glyphicon-remove'></i>"; ?></td> 
+
+        </tr>
+    <?php endforeach; ?>
+</tbody>
+</table>
+
+
+<?php
+echo $this->paginationControl($this->dataGrid->getPaginator(), 'Sliding', 'zf-metal/security/data-grid/paginator', array("queryParams" => $this->dataGrid->getParamsArray(), 'route' => 'zf-metal.admin/users'));
+?>

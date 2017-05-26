@@ -13,7 +13,7 @@ class AdminUserController extends AbstractActionController {
     protected $em;
 
     /**
-     * @var \ZfMetal\Security\DataGrid\DataGrid
+     * @var \ZfMetal\DataGrid\Grid
      */
     protected $dataGrid;
 
@@ -29,7 +29,7 @@ class AdminUserController extends AbstractActionController {
      */
     protected $userRepository;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\DataGrid\DataGrid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\DataGrid\Grid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository) {
         $this->em = $em;
         $this->dataGrid = $dataGrid;
         $this->moduleOptions = $moduleOptions;
@@ -40,7 +40,7 @@ class AdminUserController extends AbstractActionController {
         return $this->dataGrid;
     }
 
-    function setDataGrid(\ZfMetal\Security\DataGrid\DataGrid $dataGrid) {
+    function setDataGrid(\ZfMetal\DataGrid\Grid $dataGrid) {
         $this->dataGrid = $dataGrid;
     }
 
@@ -69,11 +69,8 @@ class AdminUserController extends AbstractActionController {
     }
 
     public function abmAction() {
-        $params = $this->getRequest()->getQuery();
+
         $this->dataGrid->prepare();
-
-
-
 
         return ["dataGrid" => $this->dataGrid];
     }

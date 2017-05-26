@@ -176,4 +176,9 @@ class Role implements HierarchicalRoleInterface {
         return isset($this->permissions[(string) $permission]);
     }
 
+    public function __toString() {
+    return $this->name;    
+    }
+
+    
 }
