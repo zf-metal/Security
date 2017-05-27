@@ -246,7 +246,7 @@ class User implements IdentityInterface {
     }
     
     public function __toString() {
-        return $this->username;
+        return $this->getName();
     }
 
     function getCreatedAt() {
