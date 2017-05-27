@@ -82,6 +82,7 @@ class AdminUserController extends AbstractActionController {
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($user);
         $form->getInputFilter()->get('groups')->setRequired(false);
+        $form->setInputFilter(new \ZfMetal\Security\Form\Filter\User());
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
