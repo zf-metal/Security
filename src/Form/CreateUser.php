@@ -11,6 +11,7 @@ class CreateUser extends \Zend\Form\Form {
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', "form");
         $this->setAttribute('role', "form");
+        $this->setAttribute('autocomplete', "off");
 
         $this->add(array(
             'name' => 'name',
@@ -60,7 +61,7 @@ class CreateUser extends \Zend\Form\Form {
                 'type' => 'password',
                 'placeholder' => 'Password',
                 'class' => 'form-control ',
-                'autocomplete' => "off"
+                'autocomplete' => "new-password"
             ),
             'options' => array(
                 'label' => 'Password',
@@ -76,7 +77,7 @@ class CreateUser extends \Zend\Form\Form {
                 'type' => 'checkbox',
                 'placeholder' => 'Active',
                 'class' => '',
-                   'autocomplete' => "off"
+                'autocomplete' => "off"
             ),
             'options' => array(
                 'label' => 'Active'
@@ -87,7 +88,8 @@ class CreateUser extends \Zend\Form\Form {
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'roles',
             'attributes' => array(
-                'class' => 'form-control'
+                'class' => 'form-control',
+                'autocomplete' => "off"
             ),
             'options' => [
                 'object_manager' => $em,
@@ -100,7 +102,8 @@ class CreateUser extends \Zend\Form\Form {
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'groups',
             'attributes' => array(
-                'class' => 'form-control'
+                'class' => 'form-control',
+                'autocomplete' => "off"
             ),
             'options' => [
                 'object_manager' => $em,
