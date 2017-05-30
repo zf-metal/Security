@@ -5,6 +5,7 @@ namespace ZfMetal\Security;
 return[
     'zf-metal-security.options' => [
         'public_register' => true,
+        'role_default' => 'guest',
         'email_confirmation_require' => true,
         'mail_from' => "info.zfmetal@gmail.com",
         'user_state_default' => true,
@@ -19,6 +20,6 @@ return[
             'append_previous_uri' => true,
             'previous_uri_query_key' => 'redirect',
         ],
-        'remember_me' => true
-    ]
+        'remember_me' => true,
+    ],
 ];
