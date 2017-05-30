@@ -68,6 +68,11 @@ class ModuleOptions extends AbstractOptions {
     protected $rememberMe;
 
     /**
+     * @var string
+     */
+    protected $roleDefault;
+    
+    /**
      * Constructor
      */
     public function __construct($options = null) {
@@ -190,6 +195,13 @@ class ModuleOptions extends AbstractOptions {
     function setMailFrom($mailFrom) {
         $this->mailFrom = $mailFrom;
         return $this;
+    }
+    function getRoleDefault() {
+        return $this->roleDefault;
+    }
+
+    function setRoleDefault($roleDefault) {
+        $this->roleDefault = $roleDefault;
     }
 
 }

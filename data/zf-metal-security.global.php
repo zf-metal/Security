@@ -3,6 +3,7 @@
 return[
     'zf-metal-security.options' => [
         'public_register' => true,
+        'role_default' => 'guest',
         'email_confirmation_require' => true,
         'mail_from' => "info.zfmetal@gmail.com",
         'user_state_default' => true,
