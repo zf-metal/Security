@@ -6,7 +6,14 @@ use Zend\Form\Form;
 
 class EditUser extends \Zend\Form\Form {
 
+    protected $em;
+    
+    function getEm() {
+        return $this->em;
+    }
+    
     public function __construct(\Doctrine\ORM\EntityManager $em) {
+        $this->em = $em;
         parent::__construct('user');
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', "form");

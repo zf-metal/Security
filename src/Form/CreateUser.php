@@ -5,8 +5,15 @@ namespace ZfMetal\Security\Form;
 use Zend\Form\Form;
 
 class CreateUser extends \Zend\Form\Form {
+    
+    protected $em;
+    
+    function getEm() {
+        return $this->em;
+    }
 
     public function __construct(\Doctrine\ORM\EntityManager $em) {
+        $this->em = $em;
         parent::__construct('user');
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', "form");
@@ -97,7 +104,7 @@ class CreateUser extends \Zend\Form\Form {
                 'property' => 'name',
             ],
         ]);
-
+        
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'groups',
