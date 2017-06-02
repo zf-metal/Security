@@ -72,6 +72,12 @@ class ModuleOptions extends AbstractOptions {
      */
     protected $roleDefault;
     
+    
+      /**
+     * @var string
+     */
+    protected $savedUserRedirectRoute = 'zf-metal.admin/users/view';
+    
     /**
      * Constructor
      */
@@ -203,5 +209,15 @@ class ModuleOptions extends AbstractOptions {
     function setRoleDefault($roleDefault) {
         $this->roleDefault = $roleDefault;
     }
+
+    function getSavedUserRedirectRoute() {
+        return $this->savedUserRedirectRoute;
+    }
+
+    function setSavedUserRedirectRoute($savedUserRedirectRoute) {
+        $this->savedUserRedirectRoute = $savedUserRedirectRoute;
+        return $this;
+    }
+
 
 }

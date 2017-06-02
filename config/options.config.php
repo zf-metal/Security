@@ -13,6 +13,7 @@ return[
         'bcrypt_cost' => 12,
         'profile_picture_path' => __DIR__ . '/../../../../public/img/profile/',
         'profile_picture_path_relative' => '/img/profile/',
+        'saved_user_redirect_route' => 'zf-metal.admin/users/view',
         'redirect_strategy' => [
             'redirect_when_connected' => true,
             'redirect_to_route_connected' => 'home',

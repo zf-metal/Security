@@ -96,7 +96,7 @@ class AdminUserController extends AbstractActionController {
                 } catch (Exception $ex) {
                     $this->flashMessenger()->addErrorMessage('Error al crear el usuario');
                 }
-                $this->redirect()->toRoute('zf-metal.admin/users/view', array('id' => $user->getId()));
+                $this->redirect()->toRoute($this->getSecurityOptions()->getSavedUserRedirectRoute(), array('id' => $user->getId()));
             } else {
                 $errors = $form->getMessages();
             }
@@ -136,7 +136,7 @@ class AdminUserController extends AbstractActionController {
 
 
                 $this->userRepository->saveUser($user);
-                $this->redirect()->toRoute('zf-metal.admin/users/view', array('id' => $user->getId()));
+                $this->redirect()->toRoute($this->getSecurityOptions()->getSavedUserRedirectRoute(), array('id' => $user->getId()));
             } else {
                 $errors = $form->getMessages();
             }
