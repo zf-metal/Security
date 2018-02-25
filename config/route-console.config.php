@@ -16,7 +16,7 @@ return [
                         // add [ and ] if optional ( ex : [<doname>] )
                         'route' => 'initsec <lang>',
                         'defaults' => array(
-                            'controller' => \Security\Controller\InitController::class,
+                            'controller' => \ZfMetal\Security\Controller\InitController::class,
                             'action' => 'initsec'
                         ),
                     ),

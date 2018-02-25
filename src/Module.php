@@ -4,12 +4,18 @@ namespace ZfMetal\Security;
 
 use Zend\ModuleManager\ModuleManager;
 
-class Module
+use Zend\ModuleManager\Feature\ConsoleBannerProviderInterface;
+use Zend\ModuleManager\Feature\ConsoleUsageProviderInterface;
+use Zend\Console\Adapter\AdapterInterface as Console;
+
+class Module implements
+    ConsoleBannerProviderInterface,
+    ConsoleUsageProviderInterface
 {
 
     /**
- * @var \Zend\Mvc\Application
- */
+     * @var \Zend\Mvc\Application
+     */
     private $app;
 
     /**
@@ -31,6 +37,20 @@ class Module
         $this->setupRedirectStrategy();
     }
 
+    public function getConsoleBanner(Console $console)
+    {
+        return "Security Module";
+    }
+
+    /**
+     * This method is defined in ConsoleUsageProviderInterface
+     */
+    public function getConsoleUsage(Console $console)
+    {
+        return [
+            'initsec <lang>' => 'Initialize users and roles',
+        ];
+    }
 
 
     private function checkDb()
@@ -38,7 +58,7 @@ class Module
         if ($this->getSecurityOptions()->getCheckDb()) {
 
             if (php_sapi_name() == "cli") {
-                echo "Avoid checkDb from console".PHP_EOL;
+                //echo "Avoid checkDb from console".PHP_EOL;
                 return;
             }
 
@@ -48,7 +68,6 @@ class Module
                  * @var $doctrine \Doctrine\ORM\EntityManager
                  */
                 $doctrine = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
-
 
 
                 //Check Connection
@@ -64,10 +83,12 @@ class Module
 
                 //Check if 1 user exist
 
-                 if($doctrine->getRepository('ZfMetal\Security\Entity\User')->count() == 0){
+                if ($doctrine->getRepository('ZfMetal\Security\Entity\User')->count() == 0) {
                     throw new \Exception('Not user exist. Security module must be initialized');
                 }
-
+                echo "<h3>Security Module</h3>";
+                echo "<p>Everything is fine. Turn off checkDb from Security Options.</p>".PHP_EOL;
+                die;
 
             } catch (\Exception $e) {
                 echo '<h3>Method CheckDb in Security Module</h3>';
@@ -76,7 +97,7 @@ class Module
                 echo '<ul>';
                 echo '<li>Include and configure a doctrine.local.php file in "config/autoload/"</li>';
                 echo '<li>Update you schecma. Command console: <strong>vendor/bin/doctrine-module orm:schema-tool:update --force</strong></li>';
-                echo '<li>Initialize Security Module. Command console: <strong>initsec lang</strong> (ex: <strong>initsec spanish</strong> | <strong>initsec english</strong>) </li>';
+                echo '<li>Initialize Security Module. Command console: <strong>index.php initsec lang</strong> (ex: <strong>initsec spanish</strong> | <strong>initsec english</strong>) </li>';
                 echo '</ul>';
                 echo '<p>Disable checkDb in security config after setup DB and Users</p>';
                 echo '<h4>Message:</h4>';
