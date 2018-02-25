@@ -2,13 +2,21 @@
 
 namespace ZfMetal\Security;
 
+use Zend\ModuleManager\ModuleManager;
+
 class Module
 {
 
     /**
-     * @var \Zend\Mvc\Application
-     */
+ * @var \Zend\Mvc\Application
+ */
     private $app;
+
+    /**
+     * @var \Zend\Mvc\MvcEvent
+     */
+    private $mvcEvent;
+
 
     public function getConfig()
     {
@@ -17,25 +25,60 @@ class Module
 
     public function onBootstrap(\Zend\Mvc\MvcEvent $mvcEvent)
     {
+        $this->mvcEvent = $mvcEvent;
         $this->app = $mvcEvent->getApplication();
         $this->checkDb();
         $this->setupRedirectStrategy();
     }
 
+
+
     private function checkDb()
     {
         if ($this->getSecurityOptions()->getCheckDb()) {
+
+            if (php_sapi_name() == "cli") {
+                echo "Avoid checkDb from console".PHP_EOL;
+                return;
+            }
+
+
             try {
                 /**
                  * @var $doctrine \Doctrine\ORM\EntityManager
                  */
                 $doctrine = $this->getServiceManager()->get('doctrine.entitymanager.orm_default');
+
+
+
+                //Check Connection
                 $doctrine->getConnection()->connect();
+
+                //Check table exist
+                if ($this->app->getRequest() instanceof \Zend\Http\Request) {
+                    $schemaManager = $doctrine->getConnection()->getSchemaManager();
+                    if ($schemaManager->tablesExist(array('users')) == false) {
+                        throw new \Exception('Table "users" don\'t exists');
+                    }
+                }
+
+                //Check if 1 user exist
+
+                 if($doctrine->getRepository('ZfMetal\Security\Entity\User')->count() == 0){
+                    throw new \Exception('Not user exist. Security module must be initialized');
+                }
+
+
             } catch (\Exception $e) {
                 echo '<h3>Method CheckDb in Security Module</h3>';
                 echo '<p>An error occurred when SecurityModule checked the db</p>';
-                echo '<p>Please, check your doctrine db config. If not yet set, include and configure a doctrine.local.php file in "config/autoload/"</p>';
-                echo '<p>Disable checkDb in security config after configure DB</p>';
+                echo '<p>Check:</p>';
+                echo '<ul>';
+                echo '<li>Include and configure a doctrine.local.php file in "config/autoload/"</li>';
+                echo '<li>Update you schecma. Command console: <strong>vendor/bin/doctrine-module orm:schema-tool:update --force</strong></li>';
+                echo '<li>Initialize Security Module. Command console: <strong>initsec lang</strong> (ex: <strong>initsec spanish</strong> | <strong>initsec english</strong>) </li>';
+                echo '</ul>';
+                echo '<p>Disable checkDb in security config after setup DB and Users</p>';
                 echo '<h4>Message:</h4>';
                 echo "<pre>";
                 echo $e->getMessage() . PHP_EOL;
@@ -49,6 +92,7 @@ class Module
         }
 
     }
+
 
     private function setupRedirectStrategy()
     {
@@ -100,4 +144,11 @@ class Module
     }
 
 
+    /**
+     * @return \Zend\Mvc\Application
+     */
+    public function getApp()
+    {
+        return $this->app;
+    }
 }

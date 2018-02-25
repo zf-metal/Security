@@ -25,6 +25,18 @@ class InitController extends AbstractActionController {
         return $this->em;
     }
 
+    public function initsecAction(){
+        if ("spanish" == $this->params('lang')) {
+            $this->forward()->dispatch('\ZfMetal\Security\Controller\InitController', array(
+                'action' => 'iniciar'));
+        } else if ("english" == $this->params('lang')) {
+            $this->forward()->dispatch('\ZfMetal\Security\Controller\InitController', array(
+                'action' => 'start'));
+        }else{
+            echo "Parameter lang no set, must be 'spanish' or 'english'";
+        }
+    }
+
     public function startAction() {
         //Roles
         $role1 = new \ZfMetal\Security\Entity\Role();
