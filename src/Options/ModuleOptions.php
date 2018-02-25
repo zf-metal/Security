@@ -77,6 +77,12 @@ class ModuleOptions extends AbstractOptions {
      * @var string
      */
     protected $savedUserRedirectRoute = 'zf-metal.admin/users/view';
+
+    /**
+     * @var boolean
+     */
+
+    protected $checkDb = true;
     
     /**
      * Constructor
@@ -218,6 +224,23 @@ class ModuleOptions extends AbstractOptions {
         $this->savedUserRedirectRoute = $savedUserRedirectRoute;
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getCheckDb()
+    {
+        return $this->checkDb;
+    }
+
+    /**
+     * @param mixed $checkDb
+     */
+    public function setCheckDb($checkDb)
+    {
+        $this->checkDb = $checkDb;
+    }
+
 
 
 }

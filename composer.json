@@ -32,7 +32,7 @@
         "zendframework/zend-mail": "^2.7.1",
         "zendframework/zend-i18n": "^2.7",
         "doctrine/doctrine-orm-module": "^1.0",
-        "zf-commons/zfc-rbac": "dev-master",
+        "zf-commons/zfc-rbac": "^2.6.3",
         "cdi/cdidatagrid": "3.2.7",
         "gedmo/doctrine-extensions": "^2.4.24"
     },

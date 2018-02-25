@@ -1,7 +1,4 @@
 <?php
-
-namespace ZfMetal\Security;
-
 return[
     'zf-metal-security.options' => [
         'public_register' => true,
@@ -22,5 +19,6 @@ return[
             'previous_uri_query_key' => 'redirect',
         ],
         'remember_me' => true,
+        'check_db' => true, //Set false after initiate DB
     ],
 ];

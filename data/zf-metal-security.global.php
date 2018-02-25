@@ -20,5 +20,6 @@ return[
             'previous_uri_query_key' => 'redirect',
         ],
         'remember_me' => true,
+        'check_db' => true, //Set false after initiate DB
     ]
 ];
