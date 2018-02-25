@@ -36,7 +36,7 @@ class AdminRoleController extends AbstractActionController {
      * @param \ZfMetal\Security\Options\ModuleOptions $moduleOptions
      * @param \ZfMetal\Security\Repository\RoleRepository $roleRepository
      */
-    public function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\DataGrid\DataGrid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\RoleRepository $roleRepository) {
+    public function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\DataGrid\Grid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\RoleRepository $roleRepository) {
         $this->em = $em;
         $this->dataGrid = $dataGrid;
         $this->moduleOptions = $moduleOptions;

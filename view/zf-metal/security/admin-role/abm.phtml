@@ -2,33 +2,5 @@
     <h3><?php echo $this->translate('Gestion de Roles'); ?> <small><?php echo $this->translate('Alta, baja y modiciación.'); ?></small></h3>
 </div>
 <?php $this->notyFlash(true); ?>
-<table class="table table-bordered table-condensed">
-    <thead>
-    <th><a class="btn btn-primary btn-sm" href="/admin/roles/create"><?php echo $this->translate('Agregar'); ?></a></th>
-    <th>ID</th>
-    <th>NAME</th>
-    </thead>
+<?php echo $this->Grid($this->dataGrid); ?>
 
-    <tbody>
-    <?php foreach ($this->dataGrid->getCurrentItems() as $item): ?>
-        <tr>
-            <td>
-                <a class="btn btn-success btn-sm glyphicon glyphicon-edit" href="/admin/roles/edit/<?php echo $item->getId(); ?>"></a>
-                <a class="btn btn-warning btn-sm glyphicon glyphicon-list-alt" href="/admin/roles/view/<?php echo $item->getId(); ?>"></a>
-
-                <a class="btn btn-danger btn-sm glyphicon glyphicon-trash" href="/admin/roles/del/<?php echo $item->getId(); ?>"></a>
-
-            </td>
-            <td><?php echo $item->getId(); ?></td>
-            <td><?php echo $item->getName(); ?></td>
-
-        </tr>
-    <?php endforeach; ?>
-    </tbody>
-</table>
-
-
-<?php
-echo $this->paginationControl($this->dataGrid->getPaginator(), 'Sliding', 'zf-metal/security/data-grid/paginator',
-    array("queryParams" => $this->dataGrid->getParamsArray(), 'route' => 'zf-metal.admin/users'));
-?>

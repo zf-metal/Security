@@ -2,7 +2,7 @@
 
 return [
     'zf-metal-datagrid.exports' => [
-        'export-zf-metal-security-entity-usuario' => [
+        'export-zf-metal-security-entity-user' => [
             'fileName' => 'Usuarios',
             'columnsConfig' => [
                 'id' => [
@@ -58,7 +58,7 @@ return [
         ],
     ],
     'zf-metal-datagrid.custom' => [
-        'zf-metal-security-entity-usuario' => [
+        'zf-metal-security-entity-user' => [
             'gridId' => 'zfmdg_usuario',
             'title' => "Usuarios",
             'title_add' => "Nuevo Usuario",
@@ -66,7 +66,7 @@ return [
             'export_config' => [
                 'export_to_excel' => [
                     'enable' => true,
-                    'key' => 'export-zf-metal-security-entity-usuario',
+                    'key' => 'export-zf-metal-security-entity-user',
                     'btn_class' => 'btn btnCustom fa fa-file-excel-o',
                     'btn_value' => 'Excel',
                     'btn_tag' => 'button',
@@ -188,22 +188,22 @@ return [
                 'thClass' => 'action_column',
                 'add' => [
                     'enable' => true,
-                    'class' => ' glyphicon glyphicon-plus cursor-pointer',
+                    'class' => 'btn btn-primary btn-sm glyphicon glyphicon-plus cursor-pointer',
                     'value' => '',
                     'action' => 'href="/admin/users/create"'
                 ],
                 'edit' => [
                     'enable' => true,
-                    'class' => ' glyphicon glyphicon-edit cursor-pointer',
+                    'class' => 'btn btn-primary btn-sm  glyphicon glyphicon-edit cursor-pointer',
                     'action' => 'href="/admin/users/edit/{{id}}"'
                 ],
                 'del' => [
                     'enable' => true,
-                    'class' => ' glyphicon glyphicon-trash cursor-pointer',
+                    'class' => 'btn btn-danger btn-sm  glyphicon glyphicon-trash cursor-pointer',
                 ],
                 'view' => [
                     'enable' => true,
-                    'class' => ' glyphicon glyphicon-list-alt cursor-pointer',
+                    'class' => 'btn btn-success btn-sm  glyphicon glyphicon-list-alt cursor-pointer',
                     'value' => '',
                 ],
                 'manager' => [

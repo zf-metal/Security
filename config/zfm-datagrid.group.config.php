@@ -72,22 +72,22 @@ return [
                 'thClass' => 'action_column',
                 'add' => [
                     'enable' => true,
-                    'class' => ' glyphicon glyphicon-plus cursor-pointer',
+                    'class' => 'btn btn-primary btn-sm glyphicon glyphicon-plus cursor-pointer',
                     'value' => '',
                     'action' => 'href="/admin/groups/create"'
                 ],
                 'edit' => [
                     'enable' => true,
-                    'class' => ' glyphicon glyphicon-edit cursor-pointer',
+                    'class' => 'btn btn-primary btn-sm glyphicon glyphicon-edit cursor-pointer',
                     'action' => 'href="/admin/groups/edit/{{id}}"'
                 ],
                 'del' => [
                     'enable' => true,
-                    'class' => ' glyphicon glyphicon-trash cursor-pointer',
+                    'class' => 'btn btn-danger btn-sm glyphicon glyphicon-trash cursor-pointer',
                 ],
                 'view' => [
                     'enable' => true,
-                    'class' => ' glyphicon glyphicon-list-alt cursor-pointer',
+                    'class' => 'btn btn-success btn-sm glyphicon glyphicon-list-alt cursor-pointer',
                     'value' => '',
                 ],
                 'manager' => [

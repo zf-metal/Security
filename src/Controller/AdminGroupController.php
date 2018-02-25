@@ -29,7 +29,7 @@ class AdminGroupController extends AbstractActionController {
      */
     protected $groupRepository;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\DataGrid\DataGrid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\GroupRepository $groupRepository) {
+    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\DataGrid\Grid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\GroupRepository $groupRepository) {
         $this->em = $em;
         $this->dataGrid = $dataGrid;
         $this->moduleOptions = $moduleOptions;
@@ -71,10 +71,6 @@ class AdminGroupController extends AbstractActionController {
     public function abmAction() {
         $params = $this->getRequest()->getQuery();
         $this->dataGrid->prepare();
-
-
-
-
         return ["dataGrid" => $this->dataGrid];
     }
 
@@ -156,71 +152,7 @@ class AdminGroupController extends AbstractActionController {
         return ["group" => $group];
     }
 
-    public function resetPasswordAction() {
-        $id = $this->params("id");
-
-        $group = $this->groupRepository->find($id);
-
-        $formManual = new \ZfMetal\Security\Form\ResetPasswordManual();
-        $formAuto = new \ZfMetal\Security\Form\ResetPasswordAuto();
-        $formAuto->setAttribute("action", '/admin/groups/reset-password-auto/' . $id);
-
-        if ($this->getRequest()->isPost()) {
-            $data = $this->getRequest()->getPost();
-            $formManual->setData($data);
-            $formManual->setInputFilter($formManual->inputFilter());
-            if ($formManual->isValid()) {
-
-                $group->setPassword($this->bcrypt()->encode($data['password']));
-                $this->groupRepository->saveGroup($group);
-                $this->flashMessenger()->addSuccessMessage('Password reset exitoso.');
-                $this->redirect()->toRoute('zf-metal.admin/groups');
-            }
-        }
-
-        return ["formManual" => $formManual, "formAuto" => $formAuto, "group" => $group];
-    }
-
-    public function resetPasswordAutoAction() {
-        $id = $this->params("id");
-        $group = $this->groupRepository->find($id);
-
-        $newPassword = $this->stringGenerator()->generate();
-
-        if (!$newPassword) {
-            throw new \Exception('Falla al generar nueva clave');
-        }
-
-        $group->setPassword($this->bcrypt()->encode($newPassword));
-
-        try {
-            $this->groupRepository->saveGroup($group);
-            $this->flashMessenger()->addSuccessMessage('Password reset exitoso.');
-            $this->flashMessenger()->addSuccessMessage('Usuario: ' . $group->getGroupname() . " - Password: " . $newPassword);
-
-            //*** ENVIAR MAIL 
-            $this->mailManager()->setTemplate('zf-metal/mail/reset', ["group" => $group, "newPassowrd" => $newPassword]);
-            $this->mailManager()->setFrom('ci.sys.virtual@gmail.com');
-            $this->mailManager()->addTo($group->getEmail(), $group->getName());
-            $this->mailManager()->setSubject('Recuperar Password');
-
-            if ($this->mailManager()->send()) {
-                $this->flashMessenger()->addSuccessMessage('Envio de mail exitoso.');
-            } else {
-                $this->flashMessenger()->addErrorMessage('Falla al enviar mail.');
-                $this->logger()->info("Falla al enviar mail al resetear password.");
-            }
 
 
-
-
-            $this->redirect()->toRoute('zf-metal.admin/groups');
-        } catch (Exception $ex) {
-            $this->flashMessenger()->addErrorMessage('Falla al intentar hacer reset password');
-        }
-
-
-        return ["group" => $group];
-    }
 
 }

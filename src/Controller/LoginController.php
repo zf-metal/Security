@@ -60,28 +60,22 @@ class LoginController extends AbstractActionController {
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
             $form->setData($data);
-
             if ($form->isValid()) {
-
                 $this->getAuthService()->getAdapter()->setIdentity($data['_username']);
                 $this->getAuthService()->getAdapter()->setCredential($data['_password']);
 
                 $result = $this->getAuthService()->authenticate();
 
                 // SI remember me está activado envío la cookie
-
                 if ($this->getSecurityOptions()->getRememberMe() && isset($data['_remember']) && $data['_remember']) {
                     $this->sendCookie($this->getAuthService()->getIdentity());
                 }
 
                 if ($result->getCode() == 1) {
-                      echo "Code1".PHP_EOL;
                     if ($this->getSecurityOptions()->getRedirectStrategy()->getAppendPreviousUri()) {
                         $uri = $this->getSecurityOptions()->getRedirectStrategy()->getPreviousUriQueryKey();
                         if ($this->sessionManager()->has($uri)) {
                             return $this->redirect()->toUrl($this->sessionManager()->getFlash($uri));
-                            #$route = $this->sessionManager()->getFlash($uri);
-                            #return $this->redirect()->toRoute($route);
                         }
                     }
 
