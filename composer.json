@@ -2,7 +2,7 @@
     "name": "zf-metal/security",
     "description": "Modulo de autenticación y autorización Zend Framework 3",
     "type": "library",
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "version": "1.0.0",
     "homepage": "https://github.com/cincarnato",
     "keywords": [
