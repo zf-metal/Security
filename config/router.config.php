@@ -14,6 +14,17 @@ return [
                     'route' => '/admin'
                 ],
                 'child_routes' => [
+                    'panel' => [
+                        'type' => Literal::class,
+                        'may_terminate' => true,
+                        'options' => [
+                            'route' => '/panel',
+                            'defaults' => [
+                                'controller' => Controller\AdminController::class,
+                                'action' => 'panel'
+                            ]
+                        ],
+                    ],
                     'users' => [
                         'type' => Literal::class,
                         'may_terminate' => true,
