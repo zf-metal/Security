@@ -204,6 +204,7 @@ return [
                 'view' => [
                     'enable' => true,
                     'class' => 'btn btn-success btn-sm  glyphicon glyphicon-list-alt cursor-pointer',
+                    'action' => 'href="/admin/users/view/{{id}}"',
                     'value' => '',
                 ],
                 'manager' => [
