@@ -54,6 +54,12 @@ class User implements IdentityInterface {
 
     /**
      * @var string
+     * @ORM\Column(type="string", length=50, unique=true, nullable=false)
+     */
+    private $phone;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", length=128, unique=false, nullable=true)
      */
     private $img;
@@ -256,6 +262,24 @@ class User implements IdentityInterface {
     function getUpdatedAt() {
         return $this->updatedAt;
     }
+
+    /**
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+    }
+
+
 
 
 
