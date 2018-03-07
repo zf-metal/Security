@@ -66,14 +66,20 @@ class InitController extends AbstractActionController
             $role3->addChild($role2);
 
 
-            $permission1 = new \ZfMetal\Security\Entity\Permission("general-view");
-            $permission2 = new \ZfMetal\Security\Entity\Permission("general-edit");
+            $permission1 = new \ZfMetal\Security\Entity\Permission("general-guest");
+            $permission2 = new \ZfMetal\Security\Entity\Permission("general-user");
             $permission3 = new \ZfMetal\Security\Entity\Permission("general-admin");
 
 
+            //invitado
             $role1->addPermission($permission1);
+            //Usuario
             $role2->addPermission($permission2);
+            $role2->addPermission($permission1);
+            //Admin
             $role3->addPermission($permission3);
+            $role3->addPermission($permission2);
+            $role3->addPermission($permission1);
 
             $adminUser = new \ZfMetal\Security\Entity\User();
             $adminUser->setUsername("admin");
@@ -114,14 +120,19 @@ class InitController extends AbstractActionController
             $role3->addChild($role2);
 
 
-            $permission1 = new \ZfMetal\Security\Entity\Permission("general-ver");
-            $permission2 = new \ZfMetal\Security\Entity\Permission("general-editar");
+            $permission1 = new \ZfMetal\Security\Entity\Permission("general-invitado");
+            $permission2 = new \ZfMetal\Security\Entity\Permission("general-usuario");
             $permission3 = new \ZfMetal\Security\Entity\Permission("general-admin");
 
-
+            //invitado
             $role1->addPermission($permission1);
+            //Usuario
             $role2->addPermission($permission2);
+            $role2->addPermission($permission1);
+            //Admin
             $role3->addPermission($permission3);
+            $role3->addPermission($permission2);
+            $role3->addPermission($permission1);
 
             $adminUser = new \ZfMetal\Security\Entity\User();
             $adminUser->setUsername("admin");
