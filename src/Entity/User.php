@@ -54,7 +54,7 @@ class User implements IdentityInterface {
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=50, unique=true, nullable=false)
+     * @ORM\Column(type="string", length=50, unique=false, nullable=true)
      */
     private $phone;
 
