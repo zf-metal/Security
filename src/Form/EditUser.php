@@ -44,6 +44,18 @@ class EditUser extends \Zend\Form\Form {
                 'label' => 'Username'
             )
         ));
+
+        $this->add(array(
+            'name' => 'phone',
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => 'Phone',
+                'class' => 'form-control ',
+            ),
+            'options' => array(
+                'label' => 'Phone'
+            )
+        ));
         
             $this->add(array(
             'name' => 'active',

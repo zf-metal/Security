@@ -63,6 +63,18 @@ class CreateUser extends \Zend\Form\Form {
         ));
 
         $this->add(array(
+            'name' => 'phone',
+            'attributes' => array(
+                'type' => 'text',
+                'placeholder' => 'Phone',
+                'class' => 'form-control ',
+            ),
+            'options' => array(
+                'label' => 'Phone'
+            )
+        ));
+
+        $this->add(array(
             'name' => 'password',
             'attributes' => array(
                 'type' => 'password',
