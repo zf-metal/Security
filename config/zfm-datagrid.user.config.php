@@ -78,7 +78,7 @@ return [
             ],
             "multi_search_config" => [
                 "enable" => true,
-                "properties_enabled" => ['name', 'username', 'email', 'roles', 'groups']
+                "properties_enabled" => []
             ],
             'sourceConfig' => [
                 'type' => 'doctrine',
