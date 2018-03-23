@@ -3,10 +3,12 @@
 namespace ZfMetal\Security\Form\Filter;
 
 use Zend\InputFilter\InputFilter;
+use ZfMetal\Security\Validator\UniqueEmail;
+use ZfMetal\Security\Validator\UniqueUsername;
 
 class User extends InputFilter {
 
-    function __construct() {
+    function __construct(\Doctrine\ORM\EntityManager $em) {
 
         $this->add(array(
             'name' => 'email',
@@ -21,6 +23,15 @@ class User extends InputFilter {
                         ]
                     ]
                 ),
+                new UniqueEmail($em)
+            ),
+        ));
+
+        $this->add(array(
+            'name' => 'username',
+            'required' => true,
+            'validators' => array(
+                new UniqueUsername($em)
             ),
         ));
 
