@@ -9,7 +9,6 @@ use ZfMetal\Security\Validator\UniqueUsername;
 class User extends InputFilter {
 
     function __construct(\Doctrine\ORM\EntityManager $em) {
-        $userRepository = $em->getRepository(\ZfMetal\Security\Entity\User::class);
 
         $this->add(array(
             'name' => 'email',
@@ -24,7 +23,7 @@ class User extends InputFilter {
                         ]
                     ]
                 ),
-                new UniqueEmail($userRepository)
+                new UniqueEmail($em)
             ),
         ));
 
@@ -32,7 +31,7 @@ class User extends InputFilter {
             'name' => 'username',
             'required' => true,
             'validators' => array(
-                new UniqueUsername($userRepository)
+                new UniqueUsername($em)
             ),
         ));
 

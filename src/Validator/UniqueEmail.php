@@ -8,28 +8,38 @@
 
 namespace ZfMetal\Security\Validator;
 
-
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
+use ZfMetal\Security\Entity\User;
 
 class UniqueEmail extends AbstractValidator
 {
-    /**
-     * @var \ZfMetal\Security\Repository\UserRepository
-     */
-    protected $userRepository;
 
-    function getUserRepository()
+    /**
+     * Error constants
+     */
+    const ERROR_EMAIL_EXIST = 'errorEmailExist';
+
+    protected $messageTemplates = array(
+        self::ERROR_EMAIL_EXIST => "El email ya existe en otro registro",
+    );
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
+    function getEm()
     {
-        if (!$this->userRepository) {
-            throw new \Exception("UserRepository not was set.");
+        if (!$this->em) {
+            throw new \Exception("Entity Manager not was set.");
         }
-        return $this->userRepository;
+        return $this->em;
     }
 
-    function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository)
+    function setEm(\Doctrine\ORM\EntityManager $em)
     {
-        $this->userRepository = $userRepository;
+        $this->em = $em;
     }
 
     /**
@@ -45,18 +55,18 @@ class UniqueEmail extends AbstractValidator
      */
     public function isValid($value)
     {
-        $result = $this->getUserRepository()->findOneBy(array('email' => $value));
-        if($result) {
-            $this->error("Email duplicado");
+        $result = $this->getEm()->getRepository(User::class)->findOneBy(array('email' => $value));
+        if ($result) {
+            $this->error(self::ERROR_EMAIL_EXIST);
             return false;
         }
 
         return true;
     }
 
-    public function __construct(\ZfMetal\Security\Repository\UserRepository $userRepository)
+    public function __construct(\Doctrine\ORM\EntityManager $em)
     {
         parent::__construct();
-        $this->setUserRepository($userRepository);
+        $this->em = $em;
     }
 }

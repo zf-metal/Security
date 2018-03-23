@@ -11,25 +11,37 @@ namespace ZfMetal\Security\Validator;
 
 use Zend\Validator\AbstractValidator;
 use Zend\Validator\Exception;
+use ZfMetal\Security\Entity\User;
 
 class UniqueUsername extends AbstractValidator
 {
     /**
-     * @var \ZfMetal\Security\Repository\UserRepository
+     * Error constants
      */
-    protected $userRepository;
+    const ERROR_USERNAME_EXIST = 'errorUsernameExist';
 
-    function getUserRepository()
+    protected $messageTemplates = array(
+        self::ERROR_USERNAME_EXIST => "El usuario ya existe en otro registro",
+    );
+
+    protected $id;
+
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
+    function getEm()
     {
-        if (!$this->userRepository) {
-            throw new \Exception("UserRepository not was set.");
+        if (!$this->em) {
+            throw new \Exception("Entity Manager not was set.");
         }
-        return $this->userRepository;
+        return $this->em;
     }
 
-    function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository)
+    function setEm(\Doctrine\ORM\EntityManager $em)
     {
-        $this->userRepository = $userRepository;
+        $this->em = $em;
     }
 
     /**
@@ -45,20 +57,30 @@ class UniqueUsername extends AbstractValidator
      */
     public function isValid($value)
     {
+        $query = $this->getEm()->createQueryBuilder()
+            ->select('count(u.id)')
+            ->from(User::class, 'u')
+            ->where('u.username = :username')
+            ->setParameter('username', $value);
 
-        $result = $this->getUserRepository()->findOneBy(array('username' => $value));
+        if ($this->id != null)
+            $query->andWhere('u.id <> :id')
+                ->setParameter('id', $this->id);
 
-        if($result){
-            $this->error("Usuario duplicado");
+        $result = $query->getQuery()->getSingleResult()[1];
+
+        if ($result > 0) {
+            $this->error(self::ERROR_USERNAME_EXIST);
             return false;
         }
 
         return true;
     }
 
-    public function __construct(\ZfMetal\Security\Repository\UserRepository $userRepository)
+    public function __construct(\Doctrine\ORM\EntityManager $em, $id = null)
     {
         parent::__construct();
-        $this->setUserRepository($userRepository);
+        $this->em = $em;
+        $this->id = $id;
     }
 }
