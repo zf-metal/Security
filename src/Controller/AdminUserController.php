@@ -69,6 +69,8 @@ class AdminUserController extends AbstractActionController {
     }
 
     public function abmAction() {
+        $this->dataGrid->getCrudForm()->add(new \Zend\Form\Element\Hidden("id"));
+        $this->dataGrid->getCrudForm()->get('id')->setValue($this->dataGrid->getCrudForm()->getObject()->getId());
 
         $this->dataGrid->prepare();
 
@@ -82,7 +84,7 @@ class AdminUserController extends AbstractActionController {
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($user);
         $form->getInputFilter()->get('groups')->setRequired(false);
-        $form->setInputFilter(new \ZfMetal\Security\Form\Filter\User());
+        $form->setInputFilter(new \ZfMetal\Security\Form\Filter\User($this->getEm()));
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
