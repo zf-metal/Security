@@ -280,7 +280,15 @@ class User implements IdentityInterface {
     }
 
 
-
+    public function hasRole($name)
+    {
+       foreach($this->roles as $role) {
+           if ($role->getName() == $name) {
+               return true;
+           }
+       }
+       return false;
+    }
 
 
 }

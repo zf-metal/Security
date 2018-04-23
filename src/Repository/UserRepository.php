@@ -27,7 +27,7 @@ class UserRepository extends EntityRepository {
         return $user;
     }
 
-    public function count()
+    public function countAll()
     {
         $qb = $this->getEntityManager()->createQueryBuilder('t')->from('ZfMetal\Security\Entity\User', 't');
         return $qb
