@@ -83,7 +83,7 @@ class Module implements
 
                 //Check if 1 user exist
 
-                if ($doctrine->getRepository('ZfMetal\Security\Entity\User')->count() == 0) {
+                if ($doctrine->getRepository('ZfMetal\Security\Entity\User')->countAll() == 0) {
                     throw new \Exception('Not user exist. Security module must be initialized');
                 }
                 echo "<h3>Security Module</h3>";
