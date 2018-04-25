@@ -20,5 +20,6 @@ return[
         ],
         'remember_me' => true,
         'check_db' => true, //Set false after initiate DB
+        'edit_email_user' => false,
     ],
 ];

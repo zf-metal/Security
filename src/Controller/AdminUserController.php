@@ -30,12 +30,18 @@ class AdminUserController extends AbstractActionController
      */
     protected $userRepository;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\DataGrid\Grid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository)
+    /**
+     * @var \ZfcRbac\Options\ModuleOptions
+     */
+    protected $ZfcRbacOptions;
+
+    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\DataGrid\Grid $dataGrid, \ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Repository\UserRepository $userRepository, $ZfcRbacOptions)
     {
         $this->em = $em;
         $this->dataGrid = $dataGrid;
         $this->moduleOptions = $moduleOptions;
         $this->userRepository = $userRepository;
+        $this->ZfcRbacOptions = $ZfcRbacOptions;
     }
 
     function getDataGrid()
@@ -57,6 +63,15 @@ class AdminUserController extends AbstractActionController
     {
         return $this->moduleOptions;
     }
+
+    /**
+     * @return \ZfcRbac\Options\ModuleOptions
+     */
+    public function getZfcRbacOptions()
+    {
+        return $this->ZfcRbacOptions;
+    }
+
 
     function getUserRepository()
     {
@@ -92,12 +107,12 @@ class AdminUserController extends AbstractActionController
     {
         $user = new \ZfMetal\Security\Entity\User();
 
-        $form = new \ZfMetal\Security\Form\CreateUser($this->getEm());
+        $form = new \ZfMetal\Security\Form\CreateUser($this->getEm(), $this->getZfcRbacOptions()->getGuestRole());
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($user);
         $form->getInputFilter()->get('groups')->setRequired(false);
         $form->setInputFilter(new \ZfMetal\Security\Form\Filter\User($this->getEm()));
-        $errors = '';
+
 
         if ($this->getRequest()->isPost()) {
             $form->setData($this->getRequest()->getPost());
@@ -130,7 +145,7 @@ class AdminUserController extends AbstractActionController
             throw new Exception("User not found");
         }
 
-        $form = new \ZfMetal\Security\Form\EditUser($this->getEm());
+        $form = new \ZfMetal\Security\Form\EditUser($this->getEm(), $this->getZfcRbacOptions()->getGuestRole(), $this->getModuleOptions()->getEditEmailUser());
         $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
         $form->bind($user);
         $form->getInputFilter()->get('groups')->setRequired(false);

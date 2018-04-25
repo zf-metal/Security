@@ -83,6 +83,14 @@ class ModuleOptions extends AbstractOptions {
      */
 
     protected $checkDb = true;
+
+
+    /**
+     * @var boolean
+     */
+
+    protected $editEmailUser = false;
+
     
     /**
      * Constructor
@@ -240,6 +248,31 @@ class ModuleOptions extends AbstractOptions {
     {
         $this->checkDb = $checkDb;
     }
+
+    /**
+     * @return bool
+     */
+    public function getEditEmailUser()
+    {
+        return $this->editEmailUser;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEditEmailUser()
+    {
+        return $this->editEmailUser;
+    }
+
+    /**
+     * @param bool $editEmailUser
+     */
+    public function setEditEmailUser($editEmailUser)
+    {
+        $this->editEmailUser = $editEmailUser;
+    }
+
 
 
 

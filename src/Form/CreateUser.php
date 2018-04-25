@@ -4,15 +4,18 @@ namespace ZfMetal\Security\Form;
 
 use Zend\Form\Form;
 
-class CreateUser extends \Zend\Form\Form {
-    
+class CreateUser extends \Zend\Form\Form
+{
+
     protected $em;
-    
-    function getEm() {
+
+    function getEm()
+    {
         return $this->em;
     }
 
-    public function __construct(\Doctrine\ORM\EntityManager $em) {
+    public function __construct(\Doctrine\ORM\EntityManager $em, $guestRole = "")
+    {
         $this->em = $em;
         parent::__construct('user');
         $this->setAttribute('method', 'post');
@@ -115,8 +118,14 @@ class CreateUser extends \Zend\Form\Form {
                 'target_class' => 'ZfMetal\Security\Entity\Role',
                 'property' => 'name',
             ],
+            'find_method' => [
+                'name' => 'getAssignableRoles',
+                'params' => [
+                    'name' => $guestRole,
+                ],
+            ],
         ]);
-        
+
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'groups',

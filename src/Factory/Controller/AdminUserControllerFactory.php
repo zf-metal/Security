@@ -19,8 +19,10 @@ class AdminUserControllerFactory implements FactoryInterface
 
         $moduleConfig = $container->get('zf-metal-security.options');
 
+        $ZfcRbacOptions = $container->get('ZfcRbac\Options\ModuleOptions');
 
-        return new \ZfMetal\Security\Controller\AdminUserController($em, $grid, $moduleConfig, $em->getRepository(\ZfMetal\Security\Entity\User::class));
+
+        return new \ZfMetal\Security\Controller\AdminUserController($em, $grid, $moduleConfig, $em->getRepository(\ZfMetal\Security\Entity\User::class),$ZfcRbacOptions);
     }
 
 }

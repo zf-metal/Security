@@ -4,15 +4,18 @@ namespace ZfMetal\Security\Form;
 
 use Zend\Form\Form;
 
-class EditUser extends \Zend\Form\Form {
+class EditUser extends \Zend\Form\Form
+{
 
     protected $em;
-    
-    function getEm() {
+
+    function getEm()
+    {
         return $this->em;
     }
-    
-    public function __construct(\Doctrine\ORM\EntityManager $em) {
+
+    public function __construct(\Doctrine\ORM\EntityManager $em, $guestRole = "", $editEmailUser = false)
+    {
         $this->em = $em;
         parent::__construct('user');
         $this->setAttribute('method', 'post');
@@ -31,6 +34,22 @@ class EditUser extends \Zend\Form\Form {
                 'label' => 'Name',
             )
         ));
+
+        if ($editEmailUser) {
+            $this->add(array(
+                'name' => 'email',
+                'attributes' => array(
+                    'type' => 'mail',
+                    'placeholder' => 'Email',
+                    'class' => 'form-control ',
+                    'required' => 'required',
+                    'autocomplete' => "off"
+                ),
+                'options' => array(
+                    'label' => 'Email'
+                )
+            ));
+        }
 
         $this->add(array(
             'name' => 'username',
@@ -56,8 +75,8 @@ class EditUser extends \Zend\Form\Form {
                 'label' => 'Phone'
             )
         ));
-        
-            $this->add(array(
+
+        $this->add(array(
             'name' => 'active',
             'type' => 'Zend\Form\Element\Checkbox',
             'attributes' => array(
@@ -72,7 +91,7 @@ class EditUser extends \Zend\Form\Form {
         $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'roles',
-             'attributes' => array(
+            'attributes' => array(
                 'class' => 'form-control'
             ),
             'options' => [
@@ -80,12 +99,18 @@ class EditUser extends \Zend\Form\Form {
                 'target_class' => 'ZfMetal\Security\Entity\Role',
                 'property' => 'name',
             ],
+            'find_method' => [
+                'name' => 'getAssignableRoles',
+                'params' => [
+                    'name' => $guestRole,
+                ],
+            ],
         ]);
-        
-         $this->add([
+
+        $this->add([
             'type' => 'DoctrineModule\Form\Element\ObjectMultiCheckbox',
             'name' => 'groups',
-             'attributes' => array(
+            'attributes' => array(
                 'class' => 'form-control'
             ),
             'options' => [
@@ -93,6 +118,7 @@ class EditUser extends \Zend\Form\Form {
                 'target_class' => 'ZfMetal\Security\Entity\Group',
                 'property' => 'name',
             ],
+
         ]);
 
         $this->add(array(
