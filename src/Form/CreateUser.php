@@ -117,11 +117,11 @@ class CreateUser extends \Zend\Form\Form
                 'object_manager' => $em,
                 'target_class' => 'ZfMetal\Security\Entity\Role',
                 'property' => 'name',
-            ],
-            'find_method' => [
-                'name' => 'getAssignableRoles',
-                'params' => [
-                    'name' => $guestRole,
+                'find_method' => [
+                    'name' => 'getAssignableRoles',
+                    'params' => [
+                        'name' => $guestRole,
+                    ],
                 ],
             ],
         ]);
