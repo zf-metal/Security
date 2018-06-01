@@ -35,4 +35,16 @@ class UserRepository extends EntityRepository {
             ->getQuery()
             ->getSingleScalarResult();
     }
+
+
+    public function findByRoleName($roleName) {
+        return $this->getEntityManager()
+            ->createQueryBuilder()->select('u')->from('ZfMetal\Security\Entity\User', 'u')
+            ->leftJoin("u.roles","r")
+            ->where('r.name = :roleName')
+            ->setParameter("roleName", $roleName)
+            ->getQuery()
+            ->getResult();
+    }
+
 }
