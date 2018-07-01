@@ -149,9 +149,6 @@ class Role implements HierarchicalRoleInterface {
     }
 
     public function addPermission(\ZfMetal\Security\Entity\Permission $permission) {
-//        if (is_string($permission)) {
-//            $permission = new Permission($permission);
-//        }
         if ($this->permissions->contains($permission)) {
             return;
         }

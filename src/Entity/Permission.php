@@ -60,4 +60,22 @@ class Permission implements PermissionInterface
     {
         return $this->name;
     }
+
+    /**
+     * @param int|null $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param null|string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+
 }
