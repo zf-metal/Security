@@ -7,6 +7,8 @@ return[
         'mail_from' => "info.zfmetal@gmail.com",
         'user_state_default' => true,
         'password_recovery' => true,
+        'password_column_reset' => true,
+        'password_column_value' => "<a href='/admin/users/reset-password/{{id}}'>password</a>",
         'bcrypt_cost' => 12,
         'profile_picture_path' => __DIR__ . '/../../../../public/img/profile/',
         'profile_picture_path_relative' => '/img/profile/',

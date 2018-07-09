@@ -24,6 +24,20 @@ class ModuleOptions extends AbstractOptions {
     protected $passwordRecovery = true;
 
     /**
+     * Enable Password Column Reset
+     *
+     * @var boolean
+     */
+    protected $passwordColumnReset = true;
+
+    /**
+     * Enable Password Column Value
+     *
+     * @var string
+     */
+    protected $passwordColumnValue= "<a href='/admin/users/reset-password/{{id}}'>password</a>";
+
+    /**
      * mail from default
      *
      * @var boolean
@@ -272,6 +286,49 @@ class ModuleOptions extends AbstractOptions {
     {
         $this->editEmailUser = $editEmailUser;
     }
+
+
+    /**
+     * @return bool
+     */
+    public function getPasswordColumnReset()
+    {
+        return $this->passwordColumnReset;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isPasswordColumnReset()
+    {
+        return $this->passwordColumnReset;
+    }
+
+    /**
+     * @param bool $passwordColumnReset
+     */
+    public function setPasswordColumnReset($passwordColumnReset)
+    {
+        $this->passwordColumnReset = $passwordColumnReset;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPasswordColumnValue()
+    {
+        return $this->passwordColumnValue;
+    }
+
+    /**
+     * @param string $passwordColumnValue
+     */
+    public function setPasswordColumnValue($passwordColumnValue)
+    {
+        $this->passwordColumnValue = $passwordColumnValue;
+    }
+
 
 
 

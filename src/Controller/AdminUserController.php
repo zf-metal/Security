@@ -98,6 +98,10 @@ class AdminUserController extends AbstractActionController
         $this->dataGrid->getCrudForm()->add(new \Zend\Form\Element\Hidden("id"));
         $this->dataGrid->getCrudForm()->get('id')->setValue($this->dataGrid->getCrudForm()->getObject()->getId());
 
+        if($this->getModuleOptions()->getPasswordColumnReset()){
+            $this->dataGrid->addExtraColumn("Password",$this->getModuleOptions()->getPasswordColumnValue(),"right");
+        }
+
         $this->dataGrid->prepare();
 
         return ["dataGrid" => $this->dataGrid];
