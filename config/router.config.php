@@ -8,6 +8,28 @@ use Zend\Router\Http\Segment;
 return [
     'router' => [
         'routes' => [
+            'impersonate' => [
+                'type' => Segment::class,
+                'may_terminate' => true,
+                'options' => [
+                    'route' => '/impersonate/:userId',
+                    'defaults' => [
+                        'controller' => Controller\ImpersonateController::class,
+                        'action' => 'impersonate'
+                    ]
+                ],
+            ],
+            'unimpersonate' => [
+                'type' => Literal::class,
+                'may_terminate' => true,
+                'options' => [
+                    'route' => '/unimpersonate',
+                    'defaults' => [
+                        'controller' => Controller\ImpersonateController::class,
+                        'action' => 'unimpersonate'
+                    ]
+                ],
+            ],
             'zf-metal.admin' => [
                 'type' => Literal::class,
                 'options' => [

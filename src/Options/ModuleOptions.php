@@ -105,6 +105,28 @@ class ModuleOptions extends AbstractOptions {
 
     protected $editEmailUser = false;
 
+    /**
+     * @var boolean
+     */
+
+    protected $impsersonateUserAsObject = true;
+
+    /**
+     * @var string
+     */
+    protected $impersonateRedirectRoute = 'home';
+
+    /**
+     * @var string
+     */
+    protected $unImpersonateRedirectRoute = 'home';
+
+    /**
+     * Enable Impersonate Column on User List
+     *
+     * @var boolean
+     */
+    protected $impersonateColumn = true;
     
     /**
      * Constructor
@@ -328,6 +350,81 @@ class ModuleOptions extends AbstractOptions {
     {
         $this->passwordColumnValue = $passwordColumnValue;
     }
+
+
+    /**
+     * @return bool
+     */
+    public function getImpsersonateUserAsObject()
+    {
+        return $this->impsersonateUserAsObject;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isImpsersonateUserAsObject()
+    {
+        return $this->impsersonateUserAsObject;
+    }
+
+    /**
+     * @param bool $impsersonateUserAsObject
+     */
+    public function setImpsersonateUserAsObject($impsersonateUserAsObject)
+    {
+        $this->impsersonateUserAsObject = $impsersonateUserAsObject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImpersonateRedirectRoute()
+    {
+        return $this->impersonateRedirectRoute;
+    }
+
+    /**
+     * @param string $impersonateRedirectRoute
+     */
+    public function setImpersonateRedirectRoute($impersonateRedirectRoute)
+    {
+        $this->impersonateRedirectRoute = $impersonateRedirectRoute;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isImpersonateColumn()
+    {
+        return $this->impersonateColumn;
+    }
+
+    /**
+     * @param bool $impersonateColumn
+     */
+    public function setImpersonateColumn($impersonateColumn)
+    {
+        $this->impersonateColumn = $impersonateColumn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnImpersonateRedirectRoute()
+    {
+        return $this->unImpersonateRedirectRoute;
+    }
+
+    /**
+     * @param string $unImpersonateRedirectRoute
+     */
+    public function setUnImpersonateRedirectRoute($unImpersonateRedirectRoute)
+    {
+        $this->unImpersonateRedirectRoute = $unImpersonateRedirectRoute;
+    }
+
+
 
 
 

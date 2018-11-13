@@ -4,10 +4,14 @@ namespace ZfMetal\Security;
 
 use Gedmo\Tree\Strategy;
 use Prophecy\Comparator\Factory;
+use ZfMetal\Security\Factory\Services\ImpersonateFactory;
+use ZfMetal\Security\Services\Impersonate;
 
 return [
     'service_manager' => [
         'factories' => [
+            //Impersonate
+            Impersonate::class => ImpersonateFactory::class,
             //Adapters
             \ZfMetal\Security\Adapter\Doctrine::class => \ZfMetal\Security\Factory\Adapter\DoctrineAdapterFactory::class,
             \ZfMetal\Security\Adapter\RememberMe::class => \ZfMetal\Security\Factory\Adapter\RememberMeFactory::class,
