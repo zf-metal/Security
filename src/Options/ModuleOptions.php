@@ -109,12 +109,17 @@ class ModuleOptions extends AbstractOptions {
      * @var boolean
      */
 
-    protected $impsersonateUserAsObject = false;
+    protected $impsersonateUserAsObject = true;
 
     /**
      * @var string
      */
     protected $impersonateRedirectRoute = 'home';
+
+    /**
+     * @var string
+     */
+    protected $unImpersonateRedirectRoute = 'home';
 
     /**
      * Enable Impersonate Column on User List
@@ -401,6 +406,22 @@ class ModuleOptions extends AbstractOptions {
     public function setImpersonateColumn($impersonateColumn)
     {
         $this->impersonateColumn = $impersonateColumn;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnImpersonateRedirectRoute()
+    {
+        return $this->unImpersonateRedirectRoute;
+    }
+
+    /**
+     * @param string $unImpersonateRedirectRoute
+     */
+    public function setUnImpersonateRedirectRoute($unImpersonateRedirectRoute)
+    {
+        $this->unImpersonateRedirectRoute = $unImpersonateRedirectRoute;
     }
 
 

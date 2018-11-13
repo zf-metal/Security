@@ -83,6 +83,8 @@ class Impersonate
         if (!$userToImpersonate instanceof User) {
             // User not found.
             throw new \Exception("UserNotFoundException");
+        }else{
+            $userToImpersonate->getRoles()->getValues();
         }
 
         // Store the 'impersonator' (real user) in storage to allow later unimpersonation.

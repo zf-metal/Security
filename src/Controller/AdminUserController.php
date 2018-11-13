@@ -103,7 +103,7 @@ class AdminUserController extends AbstractActionController
         }
 
         if($this->getModuleOptions()->isImpersonateColumn()){
-            $this->dataGrid->addExtraColumn("Impersonar","<a href='/admin/impersonate/{{id}}'>Impersonar</a>","right");
+            $this->dataGrid->addExtraColumn("Impersonar","<a href='/impersonate/{{id}}'>Impersonar</a>","right");
         }
 
         $this->dataGrid->prepare();
