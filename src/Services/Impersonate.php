@@ -226,6 +226,22 @@ class Impersonate
         $this->userRepository = $userRepository;
     }
 
+    /**
+     * @return \Zend\Authentication\AuthenticationService
+     */
+    public function getAuthService()
+    {
+        return $this->authService;
+    }
+
+    /**
+     * @param \Zend\Authentication\AuthenticationService $authService
+     */
+    public function setAuthService($authService)
+    {
+        $this->authService = $authService;
+    }
+
 
 
 
