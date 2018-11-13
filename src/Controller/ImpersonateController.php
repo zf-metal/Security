@@ -27,7 +27,7 @@ class ImpersonateController extends AbstractActionController {
     }
 
 
-    public function impersonateUserAction() {
+    public function impersonateAction() {
         // Start impersonating the user specified by the user id route parameter specified in config.
         $this->getImpersonateService()->impersonate($this->params()->fromRoute('userId'));
 
@@ -38,7 +38,7 @@ class ImpersonateController extends AbstractActionController {
         }
     }
 
-    public function unimpersonateUserAction() {
+    public function unimpersonateAction() {
         // Stop impersonating the currently impersonated user.
         $this->getImpersonateService()->unimpersonate();
 

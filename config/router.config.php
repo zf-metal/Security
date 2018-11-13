@@ -15,7 +15,7 @@ return [
                 ],
                 'child_routes' => [
                     'impersonate' => [
-                        'type' => Literal::class,
+                        'type' => Segment::class,
                         'may_terminate' => true,
                         'options' => [
                             'route' => '/impersonate/:userId',
