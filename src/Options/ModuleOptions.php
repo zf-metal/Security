@@ -105,6 +105,18 @@ class ModuleOptions extends AbstractOptions {
 
     protected $editEmailUser = false;
 
+
+
+    /**
+     * @var boolean
+     */
+
+    protected $impsersonateUserAsObject = false;
+
+    /**
+     * @var string
+     */
+    protected $impersonateRedirectRoute = 'home';
     
     /**
      * Constructor
@@ -327,6 +339,47 @@ class ModuleOptions extends AbstractOptions {
     public function setPasswordColumnValue($passwordColumnValue)
     {
         $this->passwordColumnValue = $passwordColumnValue;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function getImpsersonateUserAsObject()
+    {
+        return $this->impsersonateUserAsObject;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isImpsersonateUserAsObject()
+    {
+        return $this->impsersonateUserAsObject;
+    }
+
+    /**
+     * @param bool $impsersonateUserAsObject
+     */
+    public function setImpsersonateUserAsObject($impsersonateUserAsObject)
+    {
+        $this->impsersonateUserAsObject = $impsersonateUserAsObject;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImpersonateRedirectRoute()
+    {
+        return $this->impersonateRedirectRoute;
+    }
+
+    /**
+     * @param string $impersonateRedirectRoute
+     */
+    public function setImpersonateRedirectRoute($impersonateRedirectRoute)
+    {
+        $this->impersonateRedirectRoute = $impersonateRedirectRoute;
     }
 
 
