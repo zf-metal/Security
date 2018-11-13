@@ -24,5 +24,9 @@ return[
         'remember_me' => true,
         'check_db' => true, //Set false after initiate DB
         'edit_email_user' => false,
+        //IMPERSONATE OPTIONS
+        'impsersonate_user_as_object' => false,
+        'impersonate_redirect_route' => 'home',
+        'impersonate_column' => true
     ]
 ];

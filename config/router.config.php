@@ -29,7 +29,7 @@ return [
                         'type' => Literal::class,
                         'may_terminate' => true,
                         'options' => [
-                            'route' => '/unimpersonate/:userId',
+                            'route' => '/unimpersonate',
                             'defaults' => [
                                 'controller' => Controller\ImpersonateController::class,
                                 'action' => 'unimpersonate'

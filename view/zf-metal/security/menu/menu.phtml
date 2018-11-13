@@ -32,8 +32,13 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a href="/user/profile"><i class="glyphicon glyphicon-th-list"></i> <?php echo $this->translate('Perfil'); ?></a>
-                </li>    
-           
+                </li>
+
+                <?php if ($this->isImpersonated()): ?>
+                    <li class="divider"></li>
+                    <li><a href="/admin/unimpersonate"><i class="glyphicon glyphicon-log-out"></i>  <?php echo $this->translate('Desimpersonar'); ?></a>
+                    </li>
+                <?php endif; ?>
 
                 <li class="divider"></li>
                 <li><a href="/user/logout"><i class="glyphicon glyphicon-log-out"></i>  <?php echo $this->translate('Cerrar Sesión'); ?></a>

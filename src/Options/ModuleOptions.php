@@ -105,8 +105,6 @@ class ModuleOptions extends AbstractOptions {
 
     protected $editEmailUser = false;
 
-
-
     /**
      * @var boolean
      */
@@ -117,6 +115,13 @@ class ModuleOptions extends AbstractOptions {
      * @var string
      */
     protected $impersonateRedirectRoute = 'home';
+
+    /**
+     * Enable Impersonate Column on User List
+     *
+     * @var boolean
+     */
+    protected $impersonateColumn = true;
     
     /**
      * Constructor
@@ -381,6 +386,24 @@ class ModuleOptions extends AbstractOptions {
     {
         $this->impersonateRedirectRoute = $impersonateRedirectRoute;
     }
+
+    /**
+     * @return bool
+     */
+    public function isImpersonateColumn()
+    {
+        return $this->impersonateColumn;
+    }
+
+    /**
+     * @param bool $impersonateColumn
+     */
+    public function setImpersonateColumn($impersonateColumn)
+    {
+        $this->impersonateColumn = $impersonateColumn;
+    }
+
+
 
 
 

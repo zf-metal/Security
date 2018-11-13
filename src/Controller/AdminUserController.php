@@ -102,6 +102,10 @@ class AdminUserController extends AbstractActionController
             $this->dataGrid->addExtraColumn("Password",$this->getModuleOptions()->getPasswordColumnValue(),"right");
         }
 
+        if($this->getModuleOptions()->isImpersonateColumn()){
+            $this->dataGrid->addExtraColumn("Impersonar","<a href='/admin/impersonate/{{id}}'>Impersonar</a>","right");
+        }
+
         $this->dataGrid->prepare();
 
         return ["dataGrid" => $this->dataGrid];

@@ -11,6 +11,7 @@ return [
     'view_helpers' => [
         'factories' => [
             'isAuthenticated' => Factory\Helper\View\IsAuthenticatedFactory::class,
+            'IsImpersonted' => Factory\Helper\View\IsImpersontedFactory::class,
             'identity' => Factory\Helper\View\IsAuthenticatedFactory::class,
             'getSecurityOptions' => Factory\Helper\View\GetModuleOptionsFactory::class,
         ],
