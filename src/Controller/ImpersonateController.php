@@ -18,6 +18,19 @@ class ImpersonateController extends AbstractActionController {
      */
     protected $impersonateService;
 
+    /**
+     * ImpersonateController constructor.
+     *
+     * @param \ZfMetal\Security\Options\ModuleOptions $moduleOptions
+     * @param \ZfMetal\Security\Services\Impersonate $impersonateService
+     */
+    public function __construct(\ZfMetal\Security\Options\ModuleOptions $moduleOptions, \ZfMetal\Security\Services\Impersonate $impersonateService)
+    {
+        $this->moduleOptions = $moduleOptions;
+        $this->impersonateService = $impersonateService;
+    }
+
+
     function getImpersonateService() {
         return $this->impersonateService;
     }
