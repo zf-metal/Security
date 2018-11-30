@@ -6,7 +6,7 @@ return [
         'guards' => [
             'ZfcRbac\Guard\RouteGuard' => [
                 'impersonate' => ['admin'],
-                'unimpersonate' => ['guest','invitado'],
+                'unimpersonate' => ['*'],
                 'zf-metal.admin*' => ['admin'],
         //        'zf-metal.user/profile' => ['user','usuario']
             ]
