@@ -4,7 +4,7 @@ namespace ZfMetal\Security\Helper\View;
 
 use Zend\View\Helper\AbstractHelper;
 
-class IsImpersonted extends AbstractHelper {
+class IsImpersonated extends AbstractHelper {
 
     /**
      *
