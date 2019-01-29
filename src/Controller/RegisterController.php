@@ -4,6 +4,7 @@ namespace ZfMetal\Security\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use ZfMetal\Security\Entity\User;
 use ZfMetal\Security\Form\Register;
 
 class RegisterController extends AbstractActionController {
@@ -52,7 +53,7 @@ class RegisterController extends AbstractActionController {
         $user = new \ZfMetal\Security\Entity\User();
 
 
-        $this->form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
+        $this->form->setHydrator(new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($this->getEm()));
         $this->form->bind($user);
 
         $errors = '';
