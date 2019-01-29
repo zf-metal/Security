@@ -1,9 +1,13 @@
-<strong>RESET PASSWORD</strong>
+<h3>Recuperación de Contraseña</h3>
 
+<p>Hemos recibido tu pedido de recuperación de contraseña, a continuacion te brindamos una contraseña provisoria, sugerimos que luego de iniciar sesión, modifiques la contraseña provisoria por una propia desde la configuración de tu perfil.</p>
 
 <ul>
     <li>
-        PASSWORD: <?php echo $this->newPassowrd; ?>
+        Nueva Contraseña: <?php echo $this->newPassowrd; ?>
     </li>
-    
+
+    <li>
+        Acceso a la plataforma: <a href="<?php echo $this->getSecurityOptions()->getHttpHost(); ?>"><?php echo $this->getSecurityOptions()->getHttpHost(); ?></a>
+    </li>
 </ul>

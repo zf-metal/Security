@@ -104,7 +104,7 @@ class RecoveryController extends AbstractActionController {
         $this->mailManager()->setTemplate('zf-metal/security/mail/reset', ["user" => $user, "newPassowrd" => $newPassword]);
         $this->mailManager()->setFrom($this->getSecurityOptions()->getMailFrom());
         $this->mailManager()->addTo($user->getEmail(), $user->getName());
-        $this->mailManager()->setSubject('Recuperar Password');
+        $this->mailManager()->setSubject('Recuperación de contraseña de '. $this->getSecurityOptions()->getHttpHost());
 
         if ($this->mailManager()->send()) {
             $this->flashMessenger()->addSuccessMessage('Recuperación Exitosa. Se envio un mail a la cuenta registrada con nuevos datos de acceso.');

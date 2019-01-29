@@ -109,7 +109,7 @@ class RegisterController extends AbstractActionController {
     public function notifyUser(\ZfMetal\Security\Entity\User $user) {
         $token = $this->stringGenerator()->generate();
 
-        $link = $this->url()->fromRoute('zf-metal.user/register/validate', ['id' => $user->getId(), 'token' => $token], ['force_canonical' => true]);
+        $link = $this->getSecurityOptions()->getHttpHost() . $this->url()->fromRoute('zf-metal.user/register/validate', ['id' => $user->getId(), 'token' => $token], ['force_canonical' => false]);
 
         $tokenObj = new \ZfMetal\Security\Entity\Token();
 
@@ -123,7 +123,7 @@ class RegisterController extends AbstractActionController {
         $this->mailManager()->setTemplate('zf-metal/security/mail/validate', ["user" => $user, "link" => $link]);
         $this->mailManager()->setFrom('noreply@sondeos.com.ar');
         $this->mailManager()->addTo($user->getEmail(), $user->getName());
-        $this->mailManager()->setSubject('Validar Usuario - SYSTU');
+        $this->mailManager()->setSubject('Validación y activación de cuenta de '.$this->getSecurityOptions()->getHttpHost());
 
         if ($this->mailManager()->send()) {
             return true;

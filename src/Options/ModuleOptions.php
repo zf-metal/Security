@@ -9,6 +9,14 @@ use ZfcRbac\Options\RedirectStrategyOptions;
  */
 class ModuleOptions extends AbstractOptions {
 
+
+    /**
+     * Enable Public Register
+     *
+     * @var boolean
+     */
+    protected $httpHost = '';
+
     /**
      * Enable Public Register
      *
@@ -422,6 +430,22 @@ class ModuleOptions extends AbstractOptions {
     public function setUnImpersonateRedirectRoute($unImpersonateRedirectRoute)
     {
         $this->unImpersonateRedirectRoute = $unImpersonateRedirectRoute;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isHttpHost()
+    {
+        return $this->httpHost;
+    }
+
+    /**
+     * @param bool $httpHost
+     */
+    public function setHttpHost($httpHost)
+    {
+        $this->httpHost = $httpHost;
     }
 
 
