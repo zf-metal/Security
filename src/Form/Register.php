@@ -2,6 +2,7 @@
 
 namespace ZfMetal\Security\Form;
 
+use Doctrine\Common\Persistence\ObjectManager;
 use Zend\Form\Form;
 use ZfMetal\Security\Entity\User;
 use ZfMetal\Security\Validator\UniqueEmail;
@@ -9,6 +10,27 @@ use ZfMetal\Security\Validator\UniqueUsername;
 
 class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\ObjectManagerAwareInterface, \Zend\InputFilter\InputFilterProviderInterface
 {
+
+    /**
+     * @var ObjectManager
+     */
+    public $objectManager = null;
+
+    /**
+     * @return ObjectManager
+     */
+    public function getObjectManager()
+    {
+        return $this->objectManager;
+    }
+
+    /**
+     * @param ObjectManager $objectManager
+     */
+    public function setObjectManager(\Doctrine\Common\Persistence\ObjectManager $objectManager)
+    {
+        $this->objectManager = $objectManager;
+    }
 
     public function __construct()
     {
