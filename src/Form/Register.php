@@ -7,9 +7,11 @@ use ZfMetal\Security\Entity\User;
 use ZfMetal\Security\Validator\UniqueEmail;
 use ZfMetal\Security\Validator\UniqueUsername;
 
-class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\ObjectManagerAwareInterface,\Zend\InputFilter\InputFilterProviderInterface {
+class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\ObjectManagerAwareInterface, \Zend\InputFilter\InputFilterProviderInterface
+{
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct('user');
         $this->setAttribute('method', 'post');
         $this->setAttribute('class', "form");
@@ -21,14 +23,14 @@ class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\Ob
                 'type' => 'text',
                 'placeholder' => 'Name',
                 'class' => 'form-control input-lg',
-                                'required' => 'required'
+                'required' => 'required'
 
             ),
             'options' => array(
                 'label' => 'Name',
             )
         ));
-        
+
         $this->add(array(
             'name' => 'email',
             'attributes' => array(
@@ -41,7 +43,7 @@ class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\Ob
                 'label' => 'Email'
             )
         ));
-        
+
         $this->add(array(
             'name' => 'username',
             'attributes' => array(
@@ -54,7 +56,7 @@ class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\Ob
                 'label' => 'Username'
             )
         ));
-        
+
         $this->add(array(
             'name' => 'password',
             'attributes' => array(
@@ -83,7 +85,7 @@ class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\Ob
 
 
     /**
-     * Should return an array specification compatible with 
+     * Should return an array specification compatible with
      * {@link Zend\InputFilter\Factory::createInputFilter()}.
      *
      * @return array
@@ -95,13 +97,12 @@ class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\Ob
                 'required' => true,
                 "validators" => [
                     [
-                        'name' => UniqueUsername::class,
+                        'name' => 'NoObjectExists',
                         'options' => [
                             'fields' => 'username',
-                            'use_context' => true,
                             'object_repository' => User::class,
                             'messages' => [
-                                'objectNotUnique' => 'El nombre de usuario ya existe.'
+                                'objectFound' => 'El nombre de usuario ya existe.'
                             ]
                         ]
 
@@ -112,13 +113,12 @@ class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\Ob
                 'required' => true,
                 "validators" => [
                     [
-                        'name' => UniqueEmail::class,
+                        'name' => 'NoObjectExists',
                         'options' => [
-                            'fields' => 'username',
-                            'use_context' => true,
+                            'fields' => 'email',
                             'object_repository' => User::class,
                             'messages' => [
-                                'objectNotUnique' => 'El email ya existe.'
+                                'objectFound' => 'El email ya existe.'
                             ]
                         ]
 
@@ -127,5 +127,5 @@ class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\Ob
             ]
         ];
     }
-    
+
 }

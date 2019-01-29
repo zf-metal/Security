@@ -4,14 +4,10 @@ namespace ZfMetal\Security\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use ZfMetal\Security\Form\Register;
 
 class RegisterController extends AbstractActionController {
 
-    /**
-     *
-     * @var \ZfMetal\Security\Repository\UserRepository
-     */
-    protected $userRepository;
 
     /**
      *
@@ -19,14 +15,26 @@ class RegisterController extends AbstractActionController {
      */
     protected $em;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+
+    /**
+     *
+     * @var Register
+     */
+    protected $form;
+
+    function __construct(\Doctrine\ORM\EntityManager $em, Register $form) {
         $this->em = $em;
-        $this->userRepository = $userRepository;
+        $this->form = $form;
     }
 
-    function setUserRepository(\ZfMetal\Security\Repository\UserRepository $userRepository) {
-        $this->userRepository = $userRepository;
+    /**
+     * @return \ZfMetal\Security\Repository\UserRepository
+     */
+    public function getUserRepository()
+    {
+        return $this->getEm()->getRepository(User::class);
     }
+
 
     function getEm() {
         return $this->em;
@@ -43,16 +51,16 @@ class RegisterController extends AbstractActionController {
 
         $user = new \ZfMetal\Security\Entity\User();
 
-        $form = new \ZfMetal\Security\Form\Register();
-        $form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
-        $form->bind($user);
+
+        $this->form->setHydrator(new \DoctrineORMModule\Stdlib\Hydrator\DoctrineEntity($this->getEm()));
+        $this->form->bind($user);
 
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
-            $form->setData($this->getRequest()->getPost());
+            $this->form->setData($this->getRequest()->getPost());
 
-            if ($form->isValid()) {
+            if ( $this->form->isValid()) {
                 $user->setPassword($this->bcrypt()->encode($user->getPassword()));
 
                 $message = '';
@@ -63,7 +71,7 @@ class RegisterController extends AbstractActionController {
                         throw new \Exception('The role '. $this->getSecurityOptions()->getRoleDefault() . ' no exist!');
                     }
                     $user->addRole($role);
-                    $this->userRepository->saveUser($user);
+                    $this->getUserRepository()->saveUser($user);
                     $this->flashMessenger()->addSuccessMessage('El usuario fue creado correctamente. Requiere activación via email.');
 
                     if ($this->notifyUser($user)) {
@@ -78,7 +86,7 @@ class RegisterController extends AbstractActionController {
                     }
                     $user->addRole($role);
                     $user->setActive($this->getSecurityOptions()->getUserStateDefault());
-                    $this->userRepository->saveUser($user);
+                    $this->getUserRepository()->saveUser($user);
 
                     $this->flashMessenger()->addSuccessMessage('El usuario fue creado correctamente.');
 
@@ -88,13 +96,13 @@ class RegisterController extends AbstractActionController {
                 }
                 $this->redirect()->toRoute('zf-metal.user/login');
             } else {
-                $errors = $form->getMessages();
+                $errors =  $this->form->getMessages();
             }
         }
 
         return new ViewModel([
             'errors' => $errors,
-            'form' => $form
+            'form' =>  $this->form
         ]);
     }
 
@@ -106,7 +114,7 @@ class RegisterController extends AbstractActionController {
         $tokenObj = new \ZfMetal\Security\Entity\Token();
 
         $tokenObj->setUser($user)
-                ->settoken($token);
+            ->settoken($token);
 
         $tokenRepository = $this->em->getRepository(\ZfMetal\Security\Entity\Token::class);
 
@@ -137,11 +145,11 @@ class RegisterController extends AbstractActionController {
             return $this->forward()->dispatch(\ZfMetal\Security\Controller\RegisterController::class, array('action' => 'errorToken'));
         }
 
-        $user = $this->userRepository->find($id);
+        $user = $this->getUserRepository()->find($id);
 
         if ($user) {
             $user->setActive(true);
-            $this->userRepository->saveUser($user);
+            $this->getUserRepository()->saveUser($user);
             $tokenRepository->removeToken($tokenObj);
             $this->flashMessenger()->addSuccessMessage('Token validado exitosamente.');
         }
@@ -151,7 +159,7 @@ class RegisterController extends AbstractActionController {
 
     public function errorTokenAction() {
         return new ViewModel(
-                'ZfMetal\Security\Register\error-token'
+            'ZfMetal\Security\Register\error-token'
         );
     }
 
