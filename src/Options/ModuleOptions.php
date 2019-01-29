@@ -432,6 +432,16 @@ class ModuleOptions extends AbstractOptions {
         $this->unImpersonateRedirectRoute = $unImpersonateRedirectRoute;
     }
 
+
+    /**
+     * @return bool
+     */
+    public function getHttpHost()
+    {
+        return $this->httpHost;
+    }
+
+
     /**
      * @return bool
      */
