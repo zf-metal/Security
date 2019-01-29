@@ -3,8 +3,11 @@
 namespace ZfMetal\Security\Form;
 
 use Zend\Form\Form;
+use ZfMetal\Security\Entity\User;
+use ZfMetal\Security\Validator\UniqueEmail;
+use ZfMetal\Security\Validator\UniqueUsername;
 
-class Register extends \Zend\Form\Form {
+class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\ObjectManagerAwareInterface,\Zend\InputFilter\InputFilterProviderInterface {
 
     public function __construct() {
         parent::__construct('user');
@@ -78,4 +81,51 @@ class Register extends \Zend\Form\Form {
         ));
     }
 
+
+    /**
+     * Should return an array specification compatible with 
+     * {@link Zend\InputFilter\Factory::createInputFilter()}.
+     *
+     * @return array
+     */
+    public function getInputFilterSpecification()
+    {
+        return [
+            'username' => [
+                'required' => true,
+                "validators" => [
+                    [
+                        'name' => UniqueUsername::class,
+                        'options' => [
+                            'fields' => 'username',
+                            'use_context' => true,
+                            'object_repository' => User::class,
+                            'messages' => [
+                                'objectNotUnique' => 'El nombre de usuario ya existe.'
+                            ]
+                        ]
+
+                    ]
+                ],
+            ],
+            'email' => [
+                'required' => true,
+                "validators" => [
+                    [
+                        'name' => UniqueEmail::class,
+                        'options' => [
+                            'fields' => 'username',
+                            'use_context' => true,
+                            'object_repository' => User::class,
+                            'messages' => [
+                                'objectNotUnique' => 'El email ya existe.'
+                            ]
+                        ]
+
+                    ]
+                ],
+            ]
+        ];
+    }
+    
 }
