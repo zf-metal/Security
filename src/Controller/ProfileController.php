@@ -4,6 +4,7 @@ namespace ZfMetal\Security\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use ZfMetal\Security\Entity\User;
 
 class ProfileController extends AbstractActionController {
 

@@ -42,7 +42,9 @@ class ImageChangeController extends AbstractActionController {
     {
         if(!$this->user){
             $user = $this->Identity();
-            $this->user = $this->getUserRepository()->find($user->getId());
+            if($user && is_a($user,User::class)) {
+                $this->user = $this->getUserRepository()->find($user->getId());
+            }
         }
 
         return $this->user;
@@ -88,7 +90,9 @@ class ImageChangeController extends AbstractActionController {
             if ($this->form->isValid()) {
 
                 $this->getUserRepository()->saveUser($this->getIdentityUser());
-                $this->getAuthService()->getIdentity()->setImg($this->getIdentityUser()->getImg());
+
+                //@TODO To Review this mess. WTF
+                $this->Identity()->setImg($this->getIdentityUser()->getImg());
 
                 $this->flashMessenger()->addSuccessMessage('La imagen se actualizó correctamente.');
 

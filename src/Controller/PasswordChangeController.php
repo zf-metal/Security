@@ -65,7 +65,9 @@ class PasswordChangeController extends AbstractActionController
     {
         if(!$this->user){
             $user = $this->Identity();
-            $this->user = $this->getUserRepository()->find($user->getId());
+            if($user && is_a($user,User::class)) {
+                $this->user = $this->getUserRepository()->find($user->getId());
+            }
         }
 
         return $this->user;
