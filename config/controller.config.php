@@ -2,6 +2,8 @@
 
 namespace ZfMetal\Security;
 
+
+
 return [
     'controllers' => [
         'invokables' => [
@@ -18,6 +20,7 @@ return [
             Controller\ProfileController::class => Factory\Controller\ProfileControllerFactory::class,
             Controller\RememberMeController::class => Factory\Controller\RememberMeControllerFactory::class,
             Controller\ImpersonateController::class => Factory\Controller\ImpersonateControllerFactory::class,
+            Controller\PasswordChangeController::class => Factory\Controller\PasswordChangeControllerFactory::class
         ]
     ]
 ];

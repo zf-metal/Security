@@ -18,19 +18,18 @@ class ProfileController extends AbstractActionController {
      */
     private $authService;
 
-    /**
-     * @var \ZfMetal\Security\Repository\UserRepository
-     */
-    private $userRepository;
 
-    function __construct(\Doctrine\ORM\EntityManager $em, \Zend\Authentication\AuthenticationService $authService, \ZfMetal\Security\Repository\UserRepository $userRepository) {
+    /**
+     * @return \ZfMetal\Security\Repository\UserRepository
+     */
+    public function getUserRepository()
+    {
+        return $this->getEm()->getRepository(User::class);
+    }
+
+    function __construct(\Doctrine\ORM\EntityManager $em, \Zend\Authentication\AuthenticationService $authService) {
         $this->em = $em;
         $this->authService = $authService;
-        $this->userRepository = $userRepository;
-    }
-    
-    function getUserRepository() {
-        return $this->userRepository;
     }
 
     
@@ -48,7 +47,7 @@ class ProfileController extends AbstractActionController {
         }
         $formImg = new \ZfMetal\Security\Form\ImageProfile($this->getSecurityOptions()->getProfilePicturePath());
         if ($this->request->isPost()) {
-            $user = $this->userRepository->find($this->getAuthService()->getIdentity()->getId());
+            $user = $this->getUserRepository()->find($this->getAuthService()->getIdentity()->getId());
 
             $data = array_merge_recursive(
                     $this->getRequest()->getPost()->toArray(), $this->getRequest()->getFiles()->toArray()
@@ -59,7 +58,7 @@ class ProfileController extends AbstractActionController {
             $formImg->setData($data);
 
             if ($formImg->isValid()) {
-                $this->userRepository->saveUser($user);
+                $this->getUserRepository()->saveUser($user);
                 $this->getAuthService()->getIdentity()->setImg($user->getImg());
                 $this->flashMessenger()->addSuccessMessage('La imagen se actualizó correctamente.');
             } else {
@@ -75,13 +74,17 @@ class ProfileController extends AbstractActionController {
         ]);
     }
 
+    /**
+     * @deprecated move to PasswordChangeController
+     * @return \Zend\Http\Response|ViewModel
+     */
     public function resetPasswordAction() {
         if (!$this->getAuthService()->hasIdentity()) {
             return $this->redirect()->toRoute('home');
         }
         $user = $this->authService->getIdentity();
 
-        $formManual = new \ZfMetal\Security\Form\ResetPasswordManual();
+        $formManual = new \ZfMetal\Security\Form\PasswordChangeForm();
 
         if ($this->getRequest()->isPost()) {
             $data = $this->getRequest()->getPost();
@@ -90,7 +93,7 @@ class ProfileController extends AbstractActionController {
             if ($formManual->isValid()) {
                 $user = $this->getUserRepository()->find($this->getAuthService()->getIdentity()->getId());
                 $user->setPassword($this->bcrypt()->encode($data['password']));
-                $this->userRepository->saveUser($user);
+                $this->getUserRepository()->saveUser($user);
                 $this->flashMessenger()->addSuccessMessage('Password Update exitoso.');
                 $this->redirect()->toRoute('zf-metal.user/profile');
             }

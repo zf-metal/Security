@@ -217,7 +217,7 @@ class AdminUserController extends AbstractActionController
 
         $user = $this->userRepository->find($id);
 
-        $formManual = new \ZfMetal\Security\Form\ResetPasswordManual();
+        $formManual = new \ZfMetal\Security\Form\PasswordChangeForm();
         $formAuto = new \ZfMetal\Security\Form\ResetPasswordAuto();
         $formAuto->setAttribute("action", '/admin/users/reset-password-auto/' . $id);
 

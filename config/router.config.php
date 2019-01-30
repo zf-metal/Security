@@ -302,13 +302,24 @@ return [
                             ]
                         ],
                         'child_routes' => [
+                            //@deprecated
                             'password-update' => [
                                 'type' => Segment::class,
                                 'options' => [
                                     'route' => '/password-update',
                                     'defaults' => [
-                                        'controller' => Controller\ProfileController::class,
-                                        'action' => 'reset-password'
+                                        'controller' => Controller\PasswordChangeController::class,
+                                        'action' => 'password-change'
+                                    ],
+                                ]
+                            ],
+                            'password-change' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/password-change',
+                                    'defaults' => [
+                                        'controller' => Controller\PasswordChangeController::class,
+                                        'action' => 'password-change'
                                     ],
                                 ]
                             ],
