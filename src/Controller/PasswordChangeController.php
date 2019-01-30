@@ -7,7 +7,8 @@ use Zend\View\Model\ViewModel;
 use ZfMetal\Security\Entity\User;
 use ZfMetal\Security\Form\PasswordChangeForm;
 
-class PasswordChangeController extends AbstractActionController {
+class PasswordChangeController extends AbstractActionController
+{
 
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -19,6 +20,11 @@ class PasswordChangeController extends AbstractActionController {
      * @var PasswordChangeForm
      */
     private $form;
+
+    /**
+     * @var User
+     */
+    private $user;
 
     /**
      * PasswordChangeController constructor.
@@ -41,8 +47,8 @@ class PasswordChangeController extends AbstractActionController {
     }
 
 
-    
-    function getEm() {
+    function getEm()
+    {
         return $this->em;
     }
 
@@ -55,12 +61,22 @@ class PasswordChangeController extends AbstractActionController {
     }
 
 
+    public function getIdentityUser()
+    {
+        if(!$this->user){
+            $user = $this->Identity();
+            $this->user = $this->getUserRepository()->find($user->getId());
+        }
 
-    public function passwordChangeAction() {
+        return $this->user;
+    }
 
-        $user = $this->Identity();
-        
-        if (!$user) {
+
+    public function passwordChangeAction()
+    {
+
+
+        if (!$this->getIdentityUser()) {
             return $this->redirect()->toRoute('home');
         }
 
@@ -72,8 +88,8 @@ class PasswordChangeController extends AbstractActionController {
             if ($this->form->isValid()) {
 
 
-                $user->setPassword($this->bcrypt()->encode($data['password']));
-                $this->getUserRepository()->saveUser($user);
+                $this->getIdentityUser()->setPassword($this->bcrypt()->encode($data['password']));
+                $this->getUserRepository()->saveUser($this->getIdentityUser());
 
                 $this->flashMessenger()->addSuccessMessage('Contraseña actualizada con exito.');
 
@@ -81,7 +97,7 @@ class PasswordChangeController extends AbstractActionController {
             }
         }
 
-        return new ViewModel(["form" => $this->form, "user" => $user]);
+        return new ViewModel(["form" => $this->form, "user" => $this->getIdentityUser()]);
     }
 
 }

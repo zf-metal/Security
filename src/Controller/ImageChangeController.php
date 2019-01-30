@@ -20,6 +20,12 @@ class ImageChangeController extends AbstractActionController {
      */
     private $form;
 
+
+    /**
+     * @var User
+     */
+    private $user;
+
     function getEm() {
         return $this->em;
     }
@@ -30,6 +36,16 @@ class ImageChangeController extends AbstractActionController {
     public function getUserRepository()
     {
         return $this->getEm()->getRepository(User::class);
+    }
+
+    public function getIdentityUser()
+    {
+        if(!$this->user){
+            $user = $this->Identity();
+            $this->user = $this->getUserRepository()->find($user->getId());
+        }
+
+        return $this->user;
     }
 
 
@@ -49,9 +65,9 @@ class ImageChangeController extends AbstractActionController {
 
     public function imageChangeAction() {
 
-        $user = $this->Identity();
 
-        if (!$user) {
+
+        if (!$this->getIdentityUser()) {
             return $this->redirect()->toRoute('home');
         }
         
@@ -66,13 +82,13 @@ class ImageChangeController extends AbstractActionController {
 
             $this->form->setHydrator(new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($this->getEm()));
 
-            $this->form->bind($user);
+            $this->form->bind($this->getIdentityUser());
             $this->form->setData($data);
 
             if ($this->form->isValid()) {
 
-                $this->getUserRepository()->saveUser($user);
-                $this->getAuthService()->getIdentity()->setImg($user->getImg());
+                $this->getUserRepository()->saveUser($this->getIdentityUser());
+                $this->getAuthService()->getIdentity()->setImg($this->getIdentityUser()->getImg());
 
                 $this->flashMessenger()->addSuccessMessage('La imagen se actualizó correctamente.');
 
@@ -86,7 +102,7 @@ class ImageChangeController extends AbstractActionController {
         }
 
         return new ViewModel([
-            'user' => $user,
+            'user' => $this->getIdentityUser(),
             'formImg' => $this->form
         ]);
     }
