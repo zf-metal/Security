@@ -17,10 +17,13 @@ return [
             Controller\AdminUserController::class => Factory\Controller\AdminUserControllerFactory::class,
             Controller\AdminRoleController::class => Factory\Controller\AdminRoleControllerFactory::class,
             Controller\AdminGroupController::class => Factory\Controller\AdminGroupControllerFactory::class,
-            Controller\ProfileController::class => Factory\Controller\ProfileControllerFactory::class,
             Controller\RememberMeController::class => Factory\Controller\RememberMeControllerFactory::class,
             Controller\ImpersonateController::class => Factory\Controller\ImpersonateControllerFactory::class,
-            Controller\PasswordChangeController::class => Factory\Controller\PasswordChangeControllerFactory::class
+            //@deprecated =>
+            Controller\ProfileController::class => Factory\Controller\ProfileControllerFactory::class,
+            //New Refactor =>
+            Controller\PasswordChangeController::class => Factory\Controller\PasswordChangeControllerFactory::class,
+            Controller\ImageChangeController::class =>  Factory\Controller\ImageChangeControllerFactory::class
         ]
     ]
 ];

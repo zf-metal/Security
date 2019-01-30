@@ -302,6 +302,26 @@ return [
                             ]
                         ],
                         'child_routes' => [
+                            'password-change' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/password-change',
+                                    'defaults' => [
+                                        'controller' => Controller\PasswordChangeController::class,
+                                        'action' => 'password-change'
+                                    ],
+                                ]
+                            ],
+                            'image-change' => [
+                                'type' => Segment::class,
+                                'options' => [
+                                    'route' => '/image-change',
+                                    'defaults' => [
+                                        'controller' => Controller\ImageChangeController::class,
+                                        'action' => 'image-change'
+                                    ],
+                                ]
+                            ],
                             //@deprecated
                             'password-update' => [
                                 'type' => Segment::class,
@@ -313,23 +333,13 @@ return [
                                     ],
                                 ]
                             ],
-                            'password-change' => [
-                                'type' => Segment::class,
-                                'options' => [
-                                    'route' => '/password-change',
-                                    'defaults' => [
-                                        'controller' => Controller\PasswordChangeController::class,
-                                        'action' => 'password-change'
-                                    ],
-                                ]
-                            ],
                             'update-img' => [
                                 'type' => Segment::class,
                                 'options' => [
                                     'route' => '/update-img',
                                     'defaults' => [
-                                        'controller' => Controller\ProfileController::class,
-                                        'action' => 'update-img'
+                                        'controller' => Controller\ImageChangeController::class,
+                                        'action' => 'image-change'
                                     ],
                                 ]
                             ]

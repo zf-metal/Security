@@ -4,6 +4,7 @@ namespace ZfMetal\Security\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use ZfMetal\Security\Entity\User;
 use ZfMetal\Security\Form\PasswordChangeForm;
 
 class PasswordChangeController extends AbstractActionController {

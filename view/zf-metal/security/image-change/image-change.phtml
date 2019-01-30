@@ -1,0 +1,44 @@
+<?php
+$this->flashCurrent();
+?>
+
+<div class="row">
+    <div class="col-xs-12 col-md-12">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+
+                <div class="row">
+                    <div class="col-xs-12 col-md-4 text-center">
+
+                        <img
+                                src="<?= $this->basePath(\ZfMetal\Security\Constants::IMG_PATH) . $user->getImg(); ?>"
+                                alt=""
+                                class="center-block img-circle img-responsive"
+                        />
+
+                        <br>
+
+                        <?php echo $this->form()->openTag($formImg) ?>
+
+                        <div class="btn-block">
+                            <?php echo $this->formElement($formImg->get('img')); ?>
+
+                        </div>
+
+                        <div class="btn-block">
+                            <?php echo $this->formElement($formImg->get('submit')); ?>
+                        </div>
+
+
+                        <?php echo $this->form()->closeTag($formImg); ?>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

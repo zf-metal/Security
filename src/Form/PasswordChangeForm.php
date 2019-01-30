@@ -46,16 +46,17 @@ class PasswordChangeForm extends \Zend\Form\Form implements \Zend\InputFilter\In
             'name' => 'submit',
             'type' => 'Zend\Form\Element\Submit',
             'attributes' => array(
-                'value' => "Submit",
-                'class' => 'btn btn-primary btn-block signup-btn',
+                'value' => "Cambiar",
+                'class' => 'btn btn-primary btn-block',
             ),
             'options' => array(
-                'label' => 'Submit',
+                'label' => 'Cambiar',
             )
         ));
     }
 
-    public function inputFilter() {
+    public function inputFilter()
+    {
 
         $inputFilter = new \Zend\InputFilter\InputFilter();
         $factory = new \Zend\InputFilter\Factory();
@@ -66,7 +67,7 @@ class PasswordChangeForm extends \Zend\Form\Form implements \Zend\InputFilter\In
             'validators' => array(
                 [
                     'name' => 'Zend\Validator\Identical',
-                    'options' => ['token' =>  'password_verify'],
+                    'options' => ['token' => 'password_verify'],
                 ],
             ),
         )));
@@ -88,7 +89,13 @@ class PasswordChangeForm extends \Zend\Form\Form implements \Zend\InputFilter\In
                 'validators' => [
                     [
                         'name' => Identical::class,
-                        'options' => ['token' => 'password_verify'],
+                        'options' => [
+                            'token' => 'password_verify',
+                            'messages' => [
+                                'notSame' => 'Las claves ingresadas no coinciden. Deben ser iguales.',
+                                'missingToken' => 'Token no detectado. Debe completar ambos campos.'
+                            ]
+                        ],
                     ],
                 ]
             ]
