@@ -2,7 +2,7 @@
 
 return[
     'zf-metal-security.options' => [
-        'http_host' => $_SERVER['HTTP_HOST'],
+        'http_host' =>(isset($_SERVER['HTTP_HOST']))?$_SERVER['HTTP_HOST']:"",
         'public_register' => true,
         'role_default' => 'guest',
         'email_confirmation_require' => true,
