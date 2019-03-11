@@ -26,11 +26,11 @@ class RoleRepository extends EntityRepository {
                 ->getQuery()
                 ->getResult();        
     }
-    public function getAssignableRoles($name = null){
+    public function getAssignableRoles($guestRoleName = null){
         return $this->getEntityManager()
                 ->createQueryBuilder()->select('u')->from('ZfMetal\Security\Entity\Role', 'u')
                 ->where('u.name != :name')
-                ->setParameter("name", $name)
+                ->setParameter("name", $guestRoleName)
                 ->getQuery()
                 ->getResult();        
     }
