@@ -160,6 +160,9 @@ class User extends \Zend\Form\Form
             'roles' => [
                 'required' => true,
             ],
+            'password' => [
+                'required' => false,
+            ],
             'groups' => [
                 'required' => false,
             ],
