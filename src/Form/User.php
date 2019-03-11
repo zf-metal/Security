@@ -176,6 +176,9 @@ class User extends \Zend\Form\Form
             'groups' => [
                 'required' => false,
             ],
+            'active' => [
+                'required' => false,
+            ],
             'username' => [
                 'required' => true,
                 "validators" => [
