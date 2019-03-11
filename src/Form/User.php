@@ -157,6 +157,12 @@ class User extends \Zend\Form\Form
     public function getInputFilterSpecification()
     {
         return [
+            'roles' => [
+                'required' => true,
+            ],
+            'groups' => [
+                'required' => false,
+            ],
             'username' => [
                 'required' => true,
                 "validators" => [
