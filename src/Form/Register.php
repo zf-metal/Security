@@ -8,7 +8,10 @@ use ZfMetal\Security\Entity\User;
 use ZfMetal\Security\Validator\UniqueEmail;
 use ZfMetal\Security\Validator\UniqueUsername;
 
-class Register extends \Zend\Form\Form implements \DoctrineModule\Persistence\ObjectManagerAwareInterface, \Zend\InputFilter\InputFilterProviderInterface
+class Register extends \Zend\Form\Form
+    implements
+    \DoctrineModule\Persistence\ObjectManagerAwareInterface,
+    \Zend\InputFilter\InputFilterProviderInterface
 {
 
     /**

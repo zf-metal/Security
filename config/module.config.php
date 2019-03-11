@@ -11,6 +11,8 @@ return array_merge_recursive(
     include 'plugins.config.php',
     include 'view.config.php',
     include 'services.config.php',
+    include 'validators.config.php',
+    include 'form.config.php',
     include 'options.config.php',
     include 'zfm-datagrid.user.config.php',
     include 'zfm-datagrid.role.config.php',

@@ -3,12 +3,13 @@
 namespace ZfMetal\Security\Form;
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Zend\Form\Form;
-use Zend\InputFilter\InputFilterAwareInterface;
 use ZfMetal\Security\Entity\Group;
 use ZfMetal\Security\Entity\Role;
 
-class User extends \Zend\Form\Form implements \DoctrineModule\Persistence\ObjectManagerAwareInterface, \Zend\InputFilter\InputFilterProviderInterface
+class User extends \Zend\Form\Form
+    implements
+    \DoctrineModule\Persistence\ObjectManagerAwareInterface,
+    \Zend\InputFilter\InputFilterProviderInterface
 {
 
 
@@ -23,6 +24,10 @@ class User extends \Zend\Form\Form implements \DoctrineModule\Persistence\Object
         parent::__construct('user');
         $this->setAttribute('method', 'post');
 
+
+    }
+
+    public function init(){
         $this->add(array(
             'name' => 'name',
             'attributes' => array(
@@ -143,12 +148,6 @@ class User extends \Zend\Form\Form implements \DoctrineModule\Persistence\Object
         ));
     }
 
-    /**
-     * Should return an array specification compatible with
-     * {@link Zend\InputFilter\Factory::createInputFilter()}.
-     *
-     * @return array
-     */
     /**
      * Should return an array specification compatible with
      * {@link Zend\InputFilter\Factory::createInputFilter()}.
