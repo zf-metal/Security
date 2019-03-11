@@ -27,7 +27,17 @@ class User extends \Zend\Form\Form
 
     }
 
-    public function init(){
+    public function init()
+    {
+
+
+        $this->add(array(
+            'name' => 'id',
+            'attributes' => array(
+                'type' => 'hidden',
+            ),
+        ));
+
         $this->add(array(
             'name' => 'name',
             'attributes' => array(
@@ -170,12 +180,14 @@ class User extends \Zend\Form\Form
                 'required' => true,
                 "validators" => [
                     [
-                        'name' => 'NoObjectExists',
+                        'name' => 'UniqueObject',
                         'options' => [
+                            'use_context' => true,
                             'fields' => 'username',
                             'object_repository' => \ZfMetal\Security\Entity\User::class,
                             'messages' => [
-                                'objectFound' => 'El nombre de usuario ya existe.'
+                                'objectNotUnique' => 'El nombre de usuario ya existe.'
+                                // 'objectFound' => 'El nombre de usuario ya existe.'
                             ]
                         ]
 
@@ -186,12 +198,14 @@ class User extends \Zend\Form\Form
                 'required' => true,
                 "validators" => [
                     [
-                        'name' => 'NoObjectExists',
+                        'name' => 'UniqueObject',
                         'options' => [
+                            'use_context' => true,
                             'fields' => 'email',
                             'object_repository' => \ZfMetal\Security\Entity\User::class,
                             'messages' => [
-                                'objectFound' => 'El email ya existe.'
+                                'objectNotUnique' => 'El email ya existe.'
+                                //'objectFound' => 'El email ya existe.'
                             ]
                         ]
 
@@ -200,6 +214,7 @@ class User extends \Zend\Form\Form
             ]
         ];
     }
+
     /**
      * @return ObjectManager
      */
