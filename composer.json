@@ -40,9 +40,18 @@
     "zf-metal/mail": "^1.0.0",
     "gedmo/doctrine-extensions": "^2.4.24"
   },
+  "require-dev": {
+    "zendframework/zend-test": "3.2.0",
+    "zendframework/zend-http": "^2.8@dev"
+  },
   "autoload": {
     "psr-4": {
       "ZfMetal\\Security\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Test\\": "test/"
     }
   }
 }
