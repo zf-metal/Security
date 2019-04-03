@@ -135,7 +135,7 @@ class AdminUserController extends AbstractActionController
                 }
                 $this->redirect()->toRoute($this->getSecurityOptions()->getSavedUserRedirectRoute(), array('id' => $user->getId()));
             } else {
-                $errors = $form->getMessages();
+                $errors = $form->getMessages(z);
             }
         }
 

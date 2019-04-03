@@ -52,7 +52,6 @@ class RegisterController extends AbstractActionController {
 
         $user = new \ZfMetal\Security\Entity\User();
 
-
         $this->form->setHydrator(new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($this->getEm()));
         $this->form->bind($user);
 

@@ -120,7 +120,7 @@ class CreateUser extends \Zend\Form\Form
                 'find_method' => [
                     'name' => 'getAssignableRoles',
                     'params' => [
-                        'name' => $guestRole,
+                        'guestRoleName' => $guestRole,
                     ],
                 ],
             ],

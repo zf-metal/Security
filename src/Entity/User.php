@@ -11,6 +11,12 @@ use ZfcRbac\Identity\IdentityInterface;
  * @ORM\Entity
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="ZfMetal\Security\Repository\UserRepository")
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="entity", type="string")
+ * @ORM\DiscriminatorMap({
+ *     "User" = "\ZfMetal\Security\Entity\User",
+ *     "UsuarioCurso" = "\Cursos\Entity\UsuarioCurso",
+ * })
  */
 class User implements IdentityInterface {
 

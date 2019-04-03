@@ -32,6 +32,6 @@ class RoleRepository extends EntityRepository {
                 ->where('u.name != :name')
                 ->setParameter("name", $guestRoleName)
                 ->getQuery()
-                ->getResult();        
+                ->getResult();
     }
 }
