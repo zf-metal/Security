@@ -3,6 +3,7 @@
 namespace ZfMetal\Security\Entity;
 
 //use Zend\Form\Annotation;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use ZfcRbac\Identity\IdentityInterface;
@@ -18,11 +19,12 @@ use ZfcRbac\Identity\IdentityInterface;
  *     "UsuarioCurso" = "\Cursos\Entity\UsuarioCurso",
  * })
  */
-class User implements IdentityInterface {
+class User implements IdentityInterface
+{
 
     /**
      * @var integer
-     * @ORM\Column(type="integer") 
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue
      */
@@ -85,10 +87,10 @@ class User implements IdentityInterface {
     private $updatedAt;
 
     /**
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     * @ORM\ManyToMany(targetEntity="ZfMetal\Security\Entity\Role")
+     * @var \ZfMetal\Security\Entity\Role
+     * @ORM\ManyToOne(targetEntity="ZfMetal\Security\Entity\Role", fetch="EAGER")
      */
-    private $roles;
+    private $rol;
 
     /**
      * Many Users have Many Groups.
@@ -100,64 +102,72 @@ class User implements IdentityInterface {
     /**
      * @return mixed
      */
-    public function getGroups() {
+    public function getGroups()
+    {
         return $this->groups;
     }
 
     /**
      * @param mixed $groups
      */
-    public function setGroups($groups) {
+    public function setGroups($groups)
+    {
         $this->groups = $groups;
     }
 
-    function setUpdatedAt(\DateTime $updatedAt) {
+    function setUpdatedAt(\DateTime $updatedAt)
+    {
         $this->updatedAt = $updatedAt;
     }
 
-    public function __construct() {
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    public function __construct()
+    {
+        //$this->roles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-    public function addRoles(\Doctrine\Common\Collections\ArrayCollection $roles) {
+    public function addRoles(\Doctrine\Common\Collections\ArrayCollection $roles)
+    {
         foreach ($roles as $role) {
-            $this->addRole($role);
+            $this->setRol($role);
         }
     }
 
-    public function removeRoles(\Doctrine\Common\Collections\ArrayCollection $roles) {
+    public function removeRoles(\Doctrine\Common\Collections\ArrayCollection $roles)
+    {
         foreach ($roles as $role) {
             $this->removeRole($role);
         }
     }
 
-    public function addRole(\ZfMetal\Security\Entity\Role $role) {
-        if ($this->roles->contains($role)) {
-            return;
-        }
-        $this->roles[] = $role;
+    public function addRole(\ZfMetal\Security\Entity\Role $role)
+    {
+        $this->setRol($role);
     }
 
-    public function removeRole(\ZfMetal\Security\Entity\Role $role) {
+    public function removeRole(\ZfMetal\Security\Entity\Role $role)
+    {
         if (!$this->roles->contains($role)) {
             return;
         }
         $this->roles->removeElement($role);
     }
 
-    public function addGroups(\Doctrine\Common\Collections\ArrayCollection $groups) {
+    public function addGroups(\Doctrine\Common\Collections\ArrayCollection $groups)
+    {
         foreach ($groups as $group) {
             $this->addGroup($group);
         }
     }
 
-    public function removeGroups(\Doctrine\Common\Collections\ArrayCollection $groups) {
+    public function removeGroups(\Doctrine\Common\Collections\ArrayCollection $groups)
+    {
         foreach ($groups as $group) {
             $this->removeGroup($group);
         }
     }
 
-    public function addGroup(\ZfMetal\Security\Entity\Group $group) {
+    public function addGroup(\ZfMetal\Security\Entity\Group $group)
+    {
         if ($this->groups->contains($group)) {
             return;
         }
@@ -165,7 +175,8 @@ class User implements IdentityInterface {
         $group->addUser($this); //synchronously updating inverse side
     }
 
-    public function removeGroup(\ZfMetal\Security\Entity\Group $group) {
+    public function removeGroup(\ZfMetal\Security\Entity\Group $group)
+    {
         if (!$this->groups->contains($group)) {
             return;
         }
@@ -174,98 +185,140 @@ class User implements IdentityInterface {
         $group->removeUser($this); //synchronously updating inverse side
     }
 
-    function getId() {
+    function getId()
+    {
         return $this->id;
     }
 
-    function getName() {
+    function getName()
+    {
         return $this->name;
     }
 
-    function getUsername() {
+    function getUsername()
+    {
         return $this->username;
     }
 
-    function getPassword() {
+    function getPassword()
+    {
         return $this->password;
     }
 
-    function getEmail() {
+    function getEmail()
+    {
         return $this->email;
     }
 
-    function getImg() {
+    function getImg()
+    {
         return $this->img;
     }
 
-    function getCreateAt() {
+    function getCreateAt()
+    {
         return $this->createdAt;
     }
 
-    function getRoles() {
-        #var_dump($this->roles->toArray());die;
-        return $this->roles;
+    /**
+     * @return Role
+     */
+    public function getRol()
+    {
+        return $this->rol;
     }
 
-    function setId($id) {
+    /**
+     * @param Role $rol
+     */
+    public function setRol($rol)
+    {
+        $this->rol = $rol;
+    }
+
+    
+    function getRoles()
+    {
+        #var_dump($this->roles->toArray());die;
+        $array = new ArrayCollection();
+        $array->add($this->getRol());
+
+        return $array;
+    }
+
+    function setId($id)
+    {
         $this->id = $id;
     }
 
-    function setName($name) {
+    function setName($name)
+    {
         $this->name = $name;
     }
 
-    function setUsername($username) {
+    function setUsername($username)
+    {
         $this->username = $username;
     }
 
-    function setPassword($password) {
+    function setPassword($password)
+    {
         $this->password = $password;
     }
 
-    function setEmail($email) {
+    function setEmail($email)
+    {
         $this->email = $email;
     }
 
-    function setImg($img) {
+    function setImg($img)
+    {
         $this->img = $img;
     }
 
-    function setCreatedAt(\DateTime $createAt) {
+    function setCreatedAt(\DateTime $createAt)
+    {
         $this->createdAt = $createAt;
     }
 
-    function setRoles(\Doctrine\Common\Collections\ArrayCollection $roles) {
+    function setRoles(\Doctrine\Common\Collections\ArrayCollection $roles)
+    {
         $this->roles = $roles;
     }
 
-    function getActive() {
+    function getActive()
+    {
         return $this->active;
     }
 
     /**
      * @return bool
      */
-    public function isActive() {
+    public function isActive()
+    {
         return $this->active;
     }
 
     /**
      * @param bool $active
      */
-    public function setActive($active) {
+    public function setActive($active)
+    {
         $this->active = $active;
     }
-    
-    public function __toString() {
+
+    public function __toString()
+    {
         return $this->getName();
     }
 
-    function getCreatedAt() {
+    function getCreatedAt()
+    {
         return $this->createdAt;
     }
 
-    function getUpdatedAt() {
+    function getUpdatedAt()
+    {
         return $this->updatedAt;
     }
 
@@ -288,12 +341,12 @@ class User implements IdentityInterface {
 
     public function hasRole($name)
     {
-       foreach($this->roles as $role) {
-           if ($role->getName() == $name) {
-               return true;
-           }
-       }
-       return false;
+        foreach ($this->roles as $role) {
+            if ($role->getName() == $name) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

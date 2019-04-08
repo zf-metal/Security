@@ -5,6 +5,7 @@ namespace ZfMetal\Security\Adapter;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Crypt\Password\Bcrypt;
 
+
 class Doctrine implements AdapterInterface {
 
     /**
@@ -25,6 +26,7 @@ class Doctrine implements AdapterInterface {
     private $credential;
 
     function getIdentity() {
+        var_dump($this->identity);die;
         return $this->identity;
     }
 
@@ -71,12 +73,14 @@ class Doctrine implements AdapterInterface {
         $identity = $this->getEm()->getRepository('ZfMetal\Security\Entity\User')
                 ->getAuthenticateByEmailOrUsername($this->identity, $this->credential);
 
+
         $mensaje = array();
         $code = 0;
 
         if ($identity) {
             //Forzamos la obtencion de Roles.
             $identity->getRoles()->getValues();
+
             if (!$identity->isActive()) {
                 $mensaje = ['Falla al autenticar, usuario inactivo'];
             } else if ($bcrypt->verify($this->credential, $identity->getPassword())) {
