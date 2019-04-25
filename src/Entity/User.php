@@ -16,7 +16,7 @@ use ZfcRbac\Identity\IdentityInterface;
  * @ORM\DiscriminatorColumn(name="entity", type="string")
  * @ORM\DiscriminatorMap({
  *     "User" = "\ZfMetal\Security\Entity\User",
- *     "UsuarioCurso" = "\Cursos\Entity\UsuarioCurso",
+ *     "UsuarioCurso" = "\Application\Entity\Usuario",
  * })
  */
 class User implements IdentityInterface
