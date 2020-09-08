@@ -38,7 +38,7 @@ class Module implements
 
 
         /* @var $em \Doctrine\ORM\EntityManager */
-        $em = $e->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
+        $em = $mvcEvent->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
         $em->getFilters()->enable('soft-deletable');
 
     }

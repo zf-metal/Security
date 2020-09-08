@@ -6,6 +6,7 @@ namespace ZfMetal\Security\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use ZfcRbac\Identity\IdentityInterface;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
 
 /**
  * @ORM\Entity
