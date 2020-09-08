@@ -11,8 +11,10 @@ use ZfcRbac\Identity\IdentityInterface;
  * @ORM\Entity
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="ZfMetal\Security\Repository\UserRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  */
 class User implements IdentityInterface {
+    use SoftDeleteableEntity;
 
     /**
      * @var integer

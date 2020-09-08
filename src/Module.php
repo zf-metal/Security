@@ -35,6 +35,12 @@ class Module implements
         $this->app = $mvcEvent->getApplication();
         $this->checkDb();
         $this->setupRedirectStrategy();
+
+
+        /* @var $em \Doctrine\ORM\EntityManager */
+        $em = $e->getApplication()->getServiceManager()->get('doctrine.entitymanager.orm_default');
+        $em->getFilters()->enable('soft-deletable');
+
     }
 
     public function getConsoleBanner(Console $console)
