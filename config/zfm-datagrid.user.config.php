@@ -54,6 +54,11 @@ return [
                     'type' => "datetime",
                     'format' => 'Y-m-d H:i:s',
                 ],
+                'deletedAt' => [
+                    'displayName' => 'Eliminado en Fecha',
+                    'type' => "datetime",
+                    'format' => 'Y-m-d H:i:s',
+                ],
             ],
         ],
     ],
@@ -175,6 +180,12 @@ return [
                 ],
                 'updatedAt' => [
                     'displayName' => 'Ultima Actualización',
+                    'type' => "datetime",
+                    'format' => 'Y-m-d H:i:s',
+                    'hidden' => true,
+                ],
+                'deletedAt' => [
+                    'displayName' => 'Eliminado en Fecha',
                     'type' => "datetime",
                     'format' => 'Y-m-d H:i:s',
                     'hidden' => true,
