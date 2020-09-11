@@ -123,6 +123,7 @@ class AdminUserController extends AbstractActionController
 
 
         if ($this->getRequest()->isPost()) {
+            $this->getEm()->getFilters()->disable('soft-deletable');
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {
@@ -161,6 +162,7 @@ class AdminUserController extends AbstractActionController
         $errors = '';
 
         if ($this->getRequest()->isPost()) {
+            $this->getEm()->getFilters()->disable('soft-deletable');
             $form->setData($this->getRequest()->getPost());
 
             if ($form->isValid()) {

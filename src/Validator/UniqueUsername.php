@@ -28,7 +28,7 @@ class UniqueUsername extends AbstractValidator
     const ERROR_USERNAME_EXIST = 'errorUsernameExist';
 
     protected $messageTemplates = array(
-        self::ERROR_USERNAME_EXIST => "El usuario ya existe en otro registro",
+        self::ERROR_USERNAME_EXIST => "El usuario ya existe en otro registro, posiblemente borrado lógicamente.",
     );
 
     protected $id;
