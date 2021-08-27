@@ -258,7 +258,7 @@ class AdminUserController extends AbstractActionController
             //*** ENVIAR MAIL
             try{
                 $this->mailManager()->setTemplate('zf-metal/mail/reset', ["user" => $user, "newPassowrd" => $newPassword]);
-                $this->mailManager()->setFrom('ci.sys.virtual@gmail.com');
+                $this->mailManager()->setFrom($this->getModuleOptions()->getMailFrom());
                 $this->mailManager()->addTo($user->getEmail(), $user->getName());
                 $this->mailManager()->setSubject('Recuperar Password');
 
